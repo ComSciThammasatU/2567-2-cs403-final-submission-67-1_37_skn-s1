@@ -78,7 +78,61 @@ Manual / Instructions for your projects starts here !
    
 
 # ขั้นตอนการโหลดไฟล์มี 2 วิธี
+      วิธีที่ 1: Download ZIP
+      1.ไปที่หน้า GitHub Repository
+      2.คลิกปุ่ม "สีเขียว" ที่เขียนว่า Code
+      3.เลือก Download ZIP
+      4.แตกไฟล์ .zip ที่ดาวน์โหลดมา
+      5.เปิดโฟลเดอร์ใน Visual Studio Code
+   
+      วิธีที่ 2: Clone Code จาก GitHub
+      สร้างโฟลเดอร์ที่ต้องการเก็บโปรเจกต์
+      1.เปิดโปรแกรม Visual Studio Code และ Command Prompt
+      2.พิมพ์คำสั่งต่อไปนี้ใน Command Prompt เพื่อ clone โปรเจกต์จาก GitHub:
+      3.git clone https://github.com/ComSciThammasatU/2567-2-cs403-final-submission-67-1_37_skn-s1.git
 # ชุดโปรแกรมที่จำเป็นต้องติดตั้ง
+      1.	XAMPP
+	•	ใช้สำหรับรัน Apache Web Server และ MySQL Database
+	•	ดาวน์โหลดได้ที่: https://www.apachefriends.org/
+      2.	Web Browser (Chrome, Firefox, Edge ฯลฯ)
+	•	ใช้ในการเปิดเว็บไซต์ผ่าน http://localhost/...
+      3.	Code Editor (แนะนำ)
+	•	เช่น Visual Studio Code, Sublime Text หรือ Notepad++
+	•	สำหรับแก้ไขโค้ด HTML, PHP, JavaScript
+      4.	Git (ถ้าดาวน์โหลดผ่าน GitHub ด้วยคำสั่ง git clone)
+	•	ดาวน์โหลดได้ที่: https://git-scm.com/
+      5.	(ถ้ามีไฟล์ .sql) phpMyAdmin (มากับ XAMPP อยู่แล้ว)
+	•	ใช้ในการ import ฐานข้อมูลเข้า MySQL
+
 # วิธีการติดตั้งระบบ
+      1. XAMPP
+      สำหรับรัน Apache Server และ MySQL (จำเป็นสำหรับโครงงานของคุณ)
+
+       วิธีติดตั้ง:
+	      1.	เข้าเว็บไซต์ https://www.apachefriends.org
+	      2.	คลิกปุ่ม Download XAMPP (แนะนำเวอร์ชัน PHP 8.x)
+	      3.	ติดตั้ง XAMPP โดยกด Next ทุกขั้นตอน
+	      4.	เมื่อเสร็จ เปิดโปรแกรม “XAMPP Control Panel”
+	      5.	กด Start ที่ Apache และ MySQL
+         (ถ้าไฟสีเขียวขึ้นแปลว่าทำงานแล้ว)
+      2. Web Browser (Chrome / Firefox / Edge)
+         สำหรับเปิดเว็บไซต์ http://localhost/yourproject
+          ไม่ต้องติดตั้งเพิ่มหากมีอยู่แล้ว
+      3. Code Editor (แนะนำ Visual Studio Code)
+         สำหรับดูและแก้ไขโค้ด HTML / PHP / JS
+         วิธีติดตั้ง:
+	      1.	เข้า https://code.visualstudio.com/
+	      2.	ดาวน์โหลดและติดตั้ง
+	      3.	เปิดโฟลเดอร์โปรเจกต์ด้วย VS Code
+      4. ขั้นตอนติดตั้งโครงการจาก GitHub
+         ดาวน์โหลดเป็น .zip แล้วแตกไฟล์
+      5.	วางไว้ที่: C:\xampp\htdocs\ชื่อโปรเจกต์\
+      6.	นำเข้าไฟล์ฐานข้อมูล
+	      เปิด: http://localhost/phpmyadmin
+	      กด “สร้างฐานข้อมูล” (ตั้งชื่อให้ตรงกับ config)
+	      กด “นำเข้า” > เลือกไฟล์ .sql
+      7.เปิดเว็บไซต์ผ่านเบราว์เซอร์
+         http://localhost/ชื่อโปรเจกต์/
+       
 # วิธีการใช้งานเว็บแอปพลิเคชัน
 
