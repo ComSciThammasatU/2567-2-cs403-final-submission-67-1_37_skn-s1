@@ -13,7 +13,6 @@ Project Title (Eng): TRASH HAS VALUE
 1. นายพีรวิชญ์ บุตรสา  6209650586  peerawit.boo@dome.tu.ac.th
 
    
-Manual / Instructions for your projects starts here !
 # Table of Contents
    Directory Tree
    ขั้นตอนการโหลดไฟล์มี 2 วิธี
