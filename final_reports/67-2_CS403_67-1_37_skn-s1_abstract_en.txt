@@ -1,0 +1,10 @@
+หัวข้อโครงงานพิเศษ         ช่องทางใหม่ในการจัดการขยะให้เป็นมิตรต่อสิ่งแวดล้อม
+Thesis Title                              TRASH HAS VALUE
+ 
+ 
+ 
+ 
+Abstract
+This project aims to develop a centralized website for the trading of recyclable materials, supporting sustainable resource management and promoting a circular economy. The website is designed to connect buyers and sellers of recyclable materials through a user-friendly system that encourages community engagement. Key features include real-time transaction status updates, a point accumulation system to incentivize user participation, and a price comparison tool that allows buyers to choose the most cost-effective offers from various sellers.
+ 
+	In addition, the platform features a discussion board where users can exchange information, knowledge, and experiences related to recycling. This aims to enhance public understanding of effective waste management. The platform is designed to meet the needs of both buyers and sellers, not only improving the efficiency of recycling transactions but also fostering an environmentally conscious community.
