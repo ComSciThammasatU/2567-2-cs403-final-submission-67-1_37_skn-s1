@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>รายการรับซื้อทั้งหมด</title>
+    <!-- Include Bootstrap CSS (ตัวอย่าง) -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Include Font Awesome (ถ้าใช้ icon) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body { background-color: #f8f9fa; }
+        .buy-request-card {
+            border: 1px solid #dee2e6; margin-bottom: 1rem; padding: 1.25rem;
+            border-radius: 0.375rem; background-color: #ffffff;
+            box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+            transition: transform 0.2s ease-in-out;
+        }
+        .buy-request-card:hover { transform: translateY(-3px); box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15); }
+        .buy-request-card h5 { color: #0d6efd; margin-bottom: 0.5rem; font-weight: 600; }
+        .meta-info { font-size: 0.875em; color: #6c757d; margin-bottom: 0.75rem; }
+        .meta-info i { margin-right: 0.3rem; }
+        .details p { margin-bottom: 0.5rem; line-height: 1.5; }
+        .loading-message, .error-message, .no-data-message { text-align: center; padding: 2rem; font-size: 1.1rem; color: #6c757d; }
+        .error-message { color: #dc3545; }
+        .category-header {
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #0d6efd;
+            font-size: 1.5rem;
+            font-weight: 500;
+            color: #0d6efd;
+        }
+        /* ซ่อนส่วน "รายการของฉัน" ถ้ายังไม่ได้ login หรือไม่ใช่ org */
+        #my-posts-tab { display: none; }
+    </style>
+</head>
+<body>
+
+    
+
+    <div class="container mt-4 mb-5">
+        <h1 class="mb-4"><i class="fas fa-list-alt me-2"></i>รายการรับซื้อพลาสติก</h1>
+
+        <!-- *** เพิ่ม: Tabs สำหรับกรอง *** -->
+        <ul class="nav nav-tabs mb-3" id="buyRequestTabs" role="tablist">
+            <li class="nav-item" role="presentation">
+                <button class="nav-link active" id="all-posts-tab" data-bs-toggle="tab" data-bs-target="#all-posts" type="button" role="tab" aria-controls="all-posts" aria-selected="true">
+                    <i class="fas fa-globe me-1"></i> ทั้งหมด
+                </button>
+            </li>
+            <li class="nav-item" role="presentation" id="my-posts-tab"> {/* ID สำหรับซ่อน/แสดง */}
+                <button class="nav-link" id="my-posts-filter-tab" data-bs-toggle="tab" data-bs-target="#my-posts" type="button" role="tab" aria-controls="my-posts" aria-selected="false">
+                    <i class="fas fa-user-tag me-1"></i> รายการของฉัน
+                </button>
+            </li>
+        </ul>
+        <hr class="mt-0 mb-4">
+
+        <!-- ส่วนแสดงผลรายการรับซื้อ -->
+        <div id="buy-requests-list">
+            <!-- สถานะเริ่มต้น: กำลังโหลด -->
+            <div class="loading-message">
+                <div class="spinner-border text-primary" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+                <p class="mt-2">กำลังโหลดข้อมูล...</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- *** เพิ่ม: Bootstrap Modal สำหรับแสดง Destination Info *** -->
+    <div class="modal fade" id="destinationModal" tabindex="-1" aria-labelledby="destinationModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="destinationModalLabel"><i class="fas fa-recycle me-2"></i>รายละเอียดการนำไปรีไซเคิล</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" id="destinationInfoBody">
+                    {/* เนื้อหาจะถูกใส่ที่นี่ด้วย JavaScript */}
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">ปิด</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Include Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Include Navigation Bar Loader JS (ถ้าใช้) -->
+    <script src="js/navigationBar.js"></script> {/* ตรวจสอบ path */}
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // --- โหลด Navigation Bar ---
+            if (typeof loadNavigationBar === 'function') {
+                loadNavigationBar(); // เรียกฟังก์ชันโหลด Navbar
+            }
+
+            const buyRequestsListDiv = document.getElementById('buy-requests-list');
+            const destinationModalElement = document.getElementById('destinationModal');
+            const destinationModal = new bootstrap.Modal(destinationModalElement); // สร้าง instance ของ Modal
+            const destinationInfoBody = document.getElementById('destinationInfoBody');
+            const allPostsTab = document.getElementById('all-posts-tab');
+            const myPostsFilterTab = document.getElementById('my-posts-filter-tab');
+            const myPostsTabContainer = document.getElementById('my-posts-tab'); // ตัว li ที่ครอบปุ่ม "รายการของฉัน"
+
+            let currentUserId = null; // เก็บ ID ผู้ใช้ที่ล็อกอิน
+            let currentUserType = null; // เก็บประเภทผู้ใช้
+
+            // --- ตรวจสอบสถานะ Login และ User Type (จาก sessionStorage ที่ Navbar น่าจะเซ็ตไว้) ---
+            const token = sessionStorage.getItem('token');
+            if (token) {
+                try {
+                    const parsedToken = JSON.parse(token);
+                    if (parsedToken && parsedToken.length > 0) {
+                        currentUserId = parsedToken[0].user_id;
+                        currentUserType = parsedToken[0].user_type;
+
+                        // แสดง Tab "รายการของฉัน" ถ้าเป็น organization
+                        if (currentUserType === 'organization') {
+                            myPostsTabContainer.style.display = 'block';
+                        }
+                    }
+                } catch (e) {
+                    console.error("Error parsing token from sessionStorage:", e);
+                }
+            }
+
+            // --- ฟังก์ชันสำหรับแสดงข้อความสถานะ ---
+            function showMessage(type, text) {
+                // ... (โค้ดเดิม ไม่เปลี่ยนแปลง) ...
+                 let messageClass = '';
+                let iconClass = '';
+                switch (type) {
+                    case 'loading':
+                        messageClass = 'loading-message';
+                        iconClass = 'spinner-border text-primary';
+                        break;
+                    case 'error':
+                        messageClass = 'error-message';
+                        iconClass = 'fas fa-exclamation-triangle';
+                        break;
+                    case 'no-data':
+                        messageClass = 'no-data-message';
+                        iconClass = 'fas fa-info-circle';
+                        break;
+                }
+                buyRequestsListDiv.innerHTML = `
+                    <div class="${messageClass}">
+                        ${type === 'loading' ? '<div class="' + iconClass + '" role="status"><span class="visually-hidden">Loading...</span></div>' : '<i class="' + iconClass + ' fa-2x mb-3"></i>'}
+                        <p class="mt-2">${text}</p>
+                    </div>`;
+            }
+
+            // --- ฟังก์ชันสำหรับสร้าง Card แสดงรายการ ---
+            function createRequestCard(request) {
+                const card = document.createElement('div');
+                card.className = 'buy-request-card';
+
+                // *** แก้ไข: ลบ destination_info ออก, เพิ่มปุ่มดูรายละเอียด ***
+                card.innerHTML = `
+                    <h5><i class="fas fa-store me-2"></i>${request.organization_name || 'ไม่ระบุชื่อ'}</h5>
+                    <div class="meta-info">
+                        <div><i class="fas fa-map-marker-alt"></i>พื้นที่: ${request.location || 'ไม่ระบุ'}</div>
+                        <div><i class="fas fa-calendar-alt"></i>โพสต์เมื่อ: ${request.created_at_formatted || 'N/A'}</div>
+                    </div>
+                    <div class="details">
+                        <p><strong>น้ำหนักขั้นต่ำ:</strong> ${request.min_kg || '-'} กก.</p>
+                        <p><strong>ราคาต่อ กก.:</strong> ${request.price_per_kg || '-'} บาท</p>
+                        </div>
+                    <button class="btn btn-sm btn-outline-info mt-2 btn-show-details" data-destination="${escapeHtml(request.destination_info || 'ไม่มีข้อมูล')}">
+                        <i class="fas fa-info-circle me-1"></i> ดูรายละเอียดรีไซเคิล
+                    </button>
+                `;
+                return card;
+            }
+
+             // --- ฟังก์ชันสำหรับ Escape HTML ป้องกัน XSS ตอนแสดงใน Modal ---
+            function escapeHtml(unsafe) {
+                if (!unsafe) return '';
+                return unsafe
+                     .replace(/&/g, "&amp;")
+                     .replace(/</g, "&lt;")
+                     .replace(/>/g, "&gt;")
+                     .replace(/"/g, "&quot;")
+                     .replace(/'/g, "&#039;");
+            }
+
+            // --- ฟังก์ชันสำหรับจัดกลุ่มและแสดงผล ---
+            function displayGroupedRequests(requests) {
+                buyRequestsListDiv.innerHTML = ''; // เคลียร์เนื้อหาก่อน
+
+                if (!requests || requests.length === 0) {
+                    showMessage('no-data', 'ไม่พบรายการรับซื้อ');
+                    return;
+                }
+
+                // จัดกลุ่มข้อมูลตาม plastic_type
+                const groupedData = requests.reduce((acc, request) => {
+                    const type = request.plastic_type || 'ไม่ระบุประเภท';
+                    if (!acc[type]) {
+                        acc[type] = [];
+                    }
+                    acc[type].push(request);
+                    return acc;
+                }, {});
+
+                // แสดงผลตามกลุ่ม
+                Object.keys(groupedData).sort().forEach(plasticType => { // Sort ประเภทพลาสติกตามตัวอักษร
+                    // สร้าง Header ของกลุ่ม
+                    const header = document.createElement('h2');
+                    header.className = 'category-header';
+                    header.innerHTML = `<i class="fas fa-recycle me-2"></i> ${escapeHtml(plasticType)}`;
+                    buyRequestsListDiv.appendChild(header);
+
+                    // สร้าง Card สำหรับแต่ละรายการในกลุ่ม
+                    groupedData[plasticType].forEach(request => {
+                        const card = createRequestCard(request);
+                        buyRequestsListDiv.appendChild(card);
+                    });
+                });
+            }
+
+
+            // --- ฟังก์ชันหลักในการดึงและแสดงข้อมูล ---
+            async function fetchAndDisplayBuyRequests(filterUserId = null) {
+                showMessage('loading', 'กำลังโหลดข้อมูล...');
+                let fetchUrl = 'get_buy_requests.php';
+
+                // *** เพิ่ม: ต่อท้าย URL ด้วย user_id ถ้ามีการกรอง ***
+                if (filterUserId !== null) {
+                    fetchUrl += `?user_id=${filterUserId}`;
+                }
+
+                try {
+                    const response = await fetch(fetchUrl);
+
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status} ${response.statusText}`);
+                    }
+
+                    const result = await response.json();
+
+                    if (result.status === 'success') {
+                        // *** เรียกใช้ฟังก์ชันแสดงผลแบบจัดกลุ่ม ***
+                        displayGroupedRequests(result.data);
+                    } else {
+                        console.error('Server-side error:', result.message);
+                        showMessage('error', `เกิดข้อผิดพลาดจากเซิร์ฟเวอร์: ${result.message || 'ไม่ทราบสาเหตุ'}`);
+                    }
+
+                } catch (error) {
+                    console.error('Fetch error:', error);
+                    let errorMessage = 'เกิดข้อผิดพลาดในการเชื่อมต่อกับเซิร์ฟเวอร์';
+                    if (error instanceof SyntaxError) {
+                        errorMessage = 'เกิดข้อผิดพลาดในการอ่านข้อมูลจากเซิร์ฟเวอร์ (รูปแบบไม่ถูกต้อง)';
+                    } else if (error.message.includes('HTTP error')) {
+                         errorMessage = `เกิดข้อผิดพลาดในการร้องขอข้อมูล (${error.message})`;
+                    }
+                    showMessage('error', errorMessage);
+                }
+            }
+
+            // --- Event Listener สำหรับ Tabs ---
+            allPostsTab.addEventListener('click', function() {
+                fetchAndDisplayBuyRequests(); // โหลดข้อมูลทั้งหมด
+            });
+
+            myPostsFilterTab.addEventListener('click', function() {
+                if (currentUserId && currentUserType === 'organization') {
+                    fetchAndDisplayBuyRequests(currentUserId); // โหลดข้อมูลเฉพาะของผู้ใช้ที่ล็อกอิน
+                } else {
+                     showMessage('error', 'คุณต้องเข้าสู่ระบบในฐานะองค์กรเพื่อดูรายการของคุณ');
+                }
+            });
+
+            // --- Event Listener สำหรับปุ่ม "ดูรายละเอียดรีไซเคิล" (ใช้ Event Delegation) ---
+            buyRequestsListDiv.addEventListener('click', function(event) {
+                if (event.target.classList.contains('btn-show-details') || event.target.closest('.btn-show-details')) {
+                    const button = event.target.closest('.btn-show-details');
+                    const destinationInfo = button.dataset.destination; // ดึงข้อมูลจาก data attribute
+                    destinationInfoBody.innerHTML = destinationInfo.replace(/\n/g, '<br>'); // แสดงผลใน modal (แทน \n ด้วย <br>)
+                    destinationModal.show(); // แสดง Modal
+                }
+            });
+
+            // --- เรียกฟังก์ชันเพื่อเริ่มโหลดข้อมูลทั้งหมดเมื่อหน้าเว็บพร้อม ---
+            fetchAndDisplayBuyRequests();
+        });
+    </script>
+
+</body>
+</html>

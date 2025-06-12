@@ -1,0 +1,70 @@
+<div class="container">
+    <a href="index.html" class="logo">
+        <p>TRASH HAS VALUE</p>
+    </a>
+    <div class="rightBx">
+        <ul class="navBx">
+            <li class="navlink"><a href="index.html">หน้าแรก</a></li>
+            <li class="navlink"><a href="web1.html">เว็บบอร์ด</a></li>
+            <li class="navlink"><a href="service.html">กิจกรรม</a></li>
+            <li class="navlink"><a href="index.html#garbageType" class="typeLink">ประเภท</a></li>
+            <li class="navlink dropdownClick">
+                <p class="page">เลือก<i class='bx bxs-down-arrow'></i></p>
+                <div class="dropdownBox">
+                    <ul>
+                        <li><a href="address.html">เพิ่มที่อยู่</a></li>
+                        <li><a href="testimonial.html">ความคิดเห็นยอดนิยม</a></li>
+                    </ul>
+                </div>
+            </li>
+            <li class="navlink"><a href="contact.html">ติดต่อ</a></li>
+        </ul>
+        <div class="burgerBar burgetBarClick" onclick="controlAllBtnNavigation('navBurger')">
+            <i class='bx bx-menu'></i>
+            <i class='bx bx-x'></i>
+        </div>
+        <div class="signup_And_login_BtnBx">
+            <a href="signup.html" class="btn signUpBtn">ลงทะเบียน</a>
+            <a href="login.html" class="btn loginBtn">ล็อกอิน</a>
+        </div>
+        <div class="user_Greeting">
+            <p id="userGreeting" class="user-greeting-text"></p>
+            <a href="#" class="btn logoutBtn" onclick="logout()">ออกจากระบบ</a>
+        </div>
+        <div class="authentication_uer_box">
+            <div class="cart_Bx">
+                <span class="cartNum">0</span>
+                
+                <a href="status.html" id="cartIcon">
+                    <i class='bx bxs-cart-alt cartIcon'></i>
+                </a>
+               
+                <div class="closeSlideBtn"><i class='bx bx-x'></i></div>
+            </div>
+            <div class="wishlist_Bx" onclick="controlAllBtnNavigation('wishlist')">
+                <span class="wishlistNum">0</span>
+                <i class='bx bxs-heart wishlistIcon'></i>
+                <div class="closeSlideBtn"><i class='bx bx-x'></i></div>
+            </div>
+            <div class="userAcc_Bx"></div>
+        </div>
+        <div class="cart_slide">
+            <div class="cart_Details"></div>
+            <div class="showTotalMenu">
+                <p class="tx">สถานะการขาย</p>
+                <p class="price">0.00$</p>
+            </div>
+            <div class="btnBox">
+                <a href="viewcart.html">ขาย</a>
+                <a href="checkout.html">ยกเลิก</a>
+            </div>
+        </div>
+        <div class="wishlist_slide">
+            <div class="showTotalMenu">
+                <p class="tx">คะแนนรวม</p>
+                <p class="price">1000 คะ</p>
+            </div>
+            <a href="wishlist.html" class="viewWishlistBtn">คะแนนการขาย</a>
+        </div>
+    </div>
+</div>

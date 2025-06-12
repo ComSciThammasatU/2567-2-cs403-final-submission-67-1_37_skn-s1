@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>เว็บบอร์ด</title>
+    <link rel="icon" href="image/user1.png" type="image/x-icon">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="css/preloader.css">
+    <link rel="stylesheet" href="css/index.css">
+    <link rel="stylesheet" href="css/navigationbar.css">
+    <link rel="stylesheet" href="css/footer.css">
+    <link rel="stylesheet" href="css/pageStyle/service.css">
+    <link rel="stylesheet" href="css/pageStyle/home.css">
+    <link rel="stylesheet" href="css/pageStyle/webboard.css">
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        /* Global Styles */
+        body {
+            font-family: 'Kanit', sans-serif;
+            background-color: #f8f8f8;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        h2 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        /* Activity Form Styles */
+        .activity-form {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+        }
+
+        .activity-form label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .activity-form input[type="text"],
+        .activity-form textarea,
+        .activity-form select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-sizing: border-box;
+            transition: border-color 0.3s;
+        }
+
+        .activity-form input[type="text"]:focus,
+        .activity-form textarea:focus,
+        .activity-form select:focus {
+            border-color: #3498db;
+            outline: none;
+        }
+
+        .activity-form textarea {
+            height: 120px;
+        }
+
+        .activity-form button {
+            background-color: #27ae60;
+            color: white;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            font-weight: 600;
+        }
+
+        .activity-form button:hover {
+            background-color: #219653;
+        }
+
+        /* Activity Box Styles */
+        #activities {
+            /*display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;*/
+            display: block; /* แก้ไขตรงนี้ */
+        }
+
+        .activity-box {
+            background-color: #fff;
+            border: 1px solid #eee;
+            padding: 20px;
+            border-radius: 10px;
+            width: 100%; /* แก้ไขตรงนี้ */
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+            position: relative;
+            overflow: hidden;
+            margin-bottom: 20px; /* เพิ่มระยะห่างระหว่าง post box */
+        }
+
+        .activity-box:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .activity-box h3 {
+            color: #3498db;
+            margin-bottom: 10px;
+            font-size: 1.2em;
+        }
+
+        .activity-box img {
+            max-width: 100%;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+
+        .activity-box .activity-detail {
+            margin-top: 10px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 2; /* จำกัด 2 บรรทัด */
+            -webkit-box-orient: vertical;
+        }
+
+        .activity-box .activity-detail p {
+            margin-bottom: 5px;
+        }
+
+        /* Popup Styles */
+        .popup {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .popup-content {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            max-width: 700px;
+            position: relative;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            cursor: pointer;
+            font-size: 24px;
+            color: #777;
+            transition: color 0.3s;
+        }
+
+        .close-btn:hover {
+            color: #333;
+        }
+
+        .popup-content h2 {
+            color: #3498db;
+            margin-bottom: 15px;
+        }
+
+        .popup-content img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 5px;
+            margin-bottom: 15px;
+        }
+        
+
+        .popup-content ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .popup-content ul li {
+            margin-bottom: 5px;
+        }
+
+        .popup-content ul li a {
+            color: #3498db;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .popup-content ul li a:hover {
+            color: #2980b9;
+        }
+        .activity-box .activity-detail p {
+            margin-bottom: 5px;
+            font-size: 14px;
+        }
+        .activity-box .activity-detail span {
+            font-weight: bold;
+        }
+        .popup-content p {
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+        .popup-content span {
+            font-weight: bold;
+        }
+        .popup-content img {
+    max-width: 100%; /* This is crucial - image will be at most the width of the popup */
+    max-height: 400px; /* or try with 70vh */
+    height: auto; /* Maintain aspect ratio */
+    border-radius: 5px;
+    margin-bottom: 15px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+.popup-content {
+    /* ... (Your existing popup-content styles) ... */
+    max-height: 90vh; /* Maximum height of the popup relative to the viewport height */
+    overflow-y: auto; /* Add vertical scroll if the content is too long */
+    overflow-x: hidden;
+}
+.delete-btn{
+            background-color: #e74c3c;
+            color: white;
+            padding: 8px 16px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .comment-section {
+            margin-top: 20px;
+        }
+
+        .comment-form {
+            margin-bottom: 10px;
+        }
+
+        .comment-form textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 5px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+
+        .comment-form button {
+            background-color: #3498db;
+            color: white;
+            padding: 8px 16px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .comment-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .comment-item {
+            background-color: #f9f9f9;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 5px;
+        }
+
+        .comment-item .comment-user {
+            font-weight: bold;
+        }
+
+        .comment-item .comment-time {
+            font-size: 0.8em;
+            color: #777;
+        }
+        .btn-add-group { /* สร้างคลาสใหม่ หรือใช้ .btn-success ก็ได้ */
+    background-color: #28a745; /* สีเขียว */
+    color: white;
+    border-radius: 20px; /* ทำให้มุมโค้งมนมากขึ้น */
+    padding: 8px 18px; /* ปรับขนาด padding */
+    font-weight: 500;
+    transition: background-color 0.2s ease; /* เพิ่ม animation ตอน hover */
+}
+
+.btn-add-group:hover {
+    background-color: #218838; /* สีเขียวเข้มขึ้นเมื่อ hover */
+}
+
+.btn-add-group i {
+    margin-right: 6px; /* ปรับระยะห่างไอคอน */
+}
+        
+    </style>
+</head>
+<body>
+  <!----  NAVIGATION BAR (navigationBar.js)---->
+  <nav></nav>
+
+  <!--GENERAL BANNER SECTION-->
+  <section class="sectionBanner">
+      <div class="container">
+          <div class="content">
+              <h2>เว็บบอร์ด</h2>
+              <p><span>หน้าแรก</span>
+                  <span>/</span>
+                  <span>เว็บบอร์ด</span>
+              </p>
+          </div>
+      </div>
+  </section>
+
+  <div class="container">
+      <br>
+      <br>
+      <h2>สร้างกระทู้ใหม่</h2>
+      <form id="activityForm" class="activity-form" enctype="multipart/form-data">
+          <label for="activityTitle">หัวข้อกระทู้:</label>
+          <input type="text" id="activityTitle" name="title" required>
+
+          <label for="activityDetail">รายละเอียด:</label>
+          <textarea id="activityDetail" name="content" required></textarea>
+
+          <label for="activityCategory">เลือกกิจกรรม:</label>
+          <select id="activityCategory" name="category">
+              <option value="">เลือกกิจกรรม</option>
+              <!-- ตัวเลือกจะถูกเพิ่มที่นี่โดย JavaScript -->
+          </select>
+
+          <button type="submit">โพสต์กระทู้</button>
+      </form>
+  </div>
+
+  <div class="container">
+      <h2>กระทู้ล่าสุด</h2>
+      <a href="web2.html" class="btn btn-add-group"> <!-- ใช้คลาสใหม่ -->
+        <i class="fas fa-users"></i> รวมกลุ่มขยะ
+    </a>
+    <br>
+    <br>
+    
+    
+      <div id="activities"></div>
+  </div>
+
+  <!-- Pop-up -->
+  <div id="popup" class="popup">
+      <div class="popup-content" id="popupContent">
+          <span class="close-btn" onclick="closePopup()">×</span>
+          <!-- ข้อมูลกิจกรรมจะถูกแสดงที่นี่ -->
+      </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script src="./js/navigationBar.js"></script>
+  <script src="./js/footer.js"></script>
+  <script src="./js/preloader.js"></script>
+  <script>
+      let currentUserId = null; // Store the current user ID
+       // Fetch current user ID from server
+      fetch('./getCurrentUserId.php')
+          .then(response => response.json())
+          .then(data => {
+              if(data.userId) {
+                  currentUserId = data.userId;
+              } else {
+                  console.error('Error: Could not retrieve current user ID.');
+              }
+          })
+          .catch(error => {
+              console.error('Error fetching current user ID:', error);
+          });
+      document.addEventListener('DOMContentLoaded', function() {
+          loadServices();
+          loadCategories(); // โหลดหมวดหมู่
+          const activityForm = document.getElementById('activityForm');
+          activityForm.addEventListener('submit', function(event) {
+              event.preventDefault();
+              createActivity();
+          });
+      });
+      function loadServices() {
+        fetch('./get_posts.php')
+          .then(response => response.json())
+          .then(data => {
+            const activitiesContainer = document.getElementById('activities');
+            activitiesContainer.innerHTML = ''; // Clear existing content
+
+            // Sort activities by timestamp (newest first)
+            data.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+
+            data.forEach(service => {
+              createActivityBox(service, activitiesContainer);
+            });
+          })
+          .catch(error => console.error('Error:', error));
+      }
+      function createActivity() {
+          const formData = new FormData(document.getElementById('activityForm'));
+          // ตรวจสอบว่ามี category หรือไม่ ถ้าไม่มีให้ตั้งเป็นค่าว่าง
+          if (!formData.get('category')) {
+              formData.set('category', '');
+          }
+          fetch('./create_post.php', {
+              method: 'POST',
+              body: formData
+          })
+          .then(response => response.json())
+          .then(data => {
+              if (data.status === 'success') {
+                fetch(`./getUserData.php?userId=${currentUserId}`)
+                  .then(response => response.json())
+                  .then(user => {
+                    const service = {
+                      post_id: data.post_id,
+                      title: formData.get('title'),
+                      content: formData.get('content'),
+                      category: formData.get('category'),
+                      user_id: currentUserId,
+                      timestamp: new Date().toLocaleString(),
+                      firstname: user.firstname
+                    };
+                    const activitiesContainer = document.getElementById('activities');
+                    createActivityBox(service, activitiesContainer, true); // Pass true to insert at the beginning
+                    Swal.fire({
+                      icon: 'success',
+                      title: 'สร้างกระทู้สำเร็จ',
+                      text: 'กระทู้ของคุณถูกสร้างเรียบร้อยแล้ว',
+                    }).then(() => {
+                      document.getElementById('activityForm').reset();
+                    });
+                  })
+                  .catch(error => {
+                    console.error('Error fetching user data:', error);
+                    Swal.fire({
+                      icon: 'error',
+                      title: 'เกิดข้อผิดพลาด',
+                      text: 'ไม่สามารถดึงข้อมูลผู้ใช้ได้',
+                    });
+                  });
+              } else {
+                  Swal.fire({
+                      icon: 'error',
+                      title: 'เกิดข้อผิดพลาด',
+                      text: data.message || 'ไม่สามารถสร้างกระทู้ได้',
+                  });
+                  console.log(data);
+              }
+          })
+          .catch(error => {
+              console.error('Error:', error);
+              Swal.fire({
+                  icon: 'error',
+                  title: 'เกิดข้อผิดพลาด',
+                  text: 'ไม่สามารถสร้างกระทู้ได้',
+              });
+          });
+      }
+      function createActivityBox(service, container, insertAtBeginning = false) {
+        const activityDiv = document.createElement('div');
+        activityDiv.className = 'activity-box';
+        activityDiv.onclick = () => showActivityPopup(service);
+        // Determine if the current user is the author of the activity
+        const isAuthor = currentUserId == service.user_id;
+        let deleteButton = '';
+        if(isAuthor) {
+            deleteButton = `<button class="delete-btn" onclick="deletePost(${service.post_id})">ลบ</button>`;
+        }
+        activityDiv.innerHTML = `
+            <h3>${service.title}</h3>
+            <div class="activity-detail">
+                <p>${service.content}</p>
+                <p>ผู้โพสต์: <span id="user-${service.post_id}">${service.firstname}</span></p>
+                <p>กิจกรรม: <span id="category-${service.post_id}">${service.category}</span></p>
+                <p>Timestamp: ${service.timestamp}</p>
+                ${deleteButton}
+            </div>
+        `;
+
+        if (insertAtBeginning) {
+          container.insertBefore(activityDiv, container.firstChild);
+        } else {
+          container.appendChild(activityDiv);
+        }
+      }
+      //แสดงรายละเอียดกิจกรรมใน popup
+      function showActivityPopup(service) {
+          const popup = document.getElementById("popup");
+          const popupContent = document.getElementById("popupContent");
+          // Determine if the current user is the author of the activity
+          const isAuthor = currentUserId == service.user_id;
+          let deleteButton = '';
+          if(isAuthor) {
+              deleteButton = `<button class="delete-btn" onclick="deletePost(${service.post_id})">ลบ</button>`;
+          }
+          popupContent.innerHTML = `
+              <span class="close-btn" onclick="closePopup()">×</span>
+              <h2>${service.title}</h2>
+              <p>${service.content}</p>
+              <p>ผู้โพสต์ : <span id="popup-user-${service.post_id}">${service.firstname}</span></p>
+              <p>กิจกรรม : <span id="popup-category-${service.post_id}">${service.category}</span></p>
+              <p>วันที่โพสต์ : ${service.timestamp}</p>
+              ${deleteButton}
+              <div class="comment-section">
+                  <h3>ความคิดเห็น</h3>
+                  <div class="comment-form">
+                      <textarea id="comment-text-${service.post_id}" placeholder="เขียนความคิดเห็น..."></textarea>
+                      <button onclick="postComment(${service.post_id})">โพสต์</button>
+                  </div>
+                  <ul id="comment-list-${service.post_id}" class="comment-list"></ul>
+              </div>
+          `;
+          loadComments(service.post_id);
+          popup.style.display = "flex";
+      }
+      //ปิด popup
+      function closePopup() {
+          document.getElementById("popup").style.display = "none";
+      }
+      function postComment(postId) {
+          const commentText = document.getElementById(`comment-text-${postId}`).value;
+          if (commentText.trim() === '') {
+              Swal.fire({
+                  icon: 'warning',
+                  title: 'กรุณาเขียนความคิดเห็น',
+              });
+              return;
+          }
+
+          fetch('./create_comment.php', {
+              method: 'POST',
+              headers: {
+                  'Content-Type': 'application/x-www-form-urlencoded',
+              },
+              body: `post_id=${postId}&comment_text=${commentText}`
+          })
+          .then(response => response.json())
+          .then(data => {
+              if (data.status === 'success') {
+                  document.getElementById(`comment-text-${postId}`).value = '';
+                  loadComments(postId);
+              } else {
+                  Swal.fire({
+                      icon: 'error',
+                      title: 'เกิดข้อผิดพลาด',
+                      text: data.message || 'ไม่สามารถโพสต์ความคิดเห็นได้',
+                  });
+              }
+          })
+          .catch(error => {
+              console.error('Error:', error);
+              Swal.fire({
+                  icon: 'error',
+                  title: 'เกิดข้อผิดพลาด',
+                  text: 'ไม่สามารถโพสต์ความคิดเห็นได้',
+              });
+          });
+      }
+      function loadComments(postId) {
+          fetch(`./get_comments.php?post_id=${postId}`)
+          .then(response => response.json())
+          .then(comments => {
+              const commentList = document.getElementById(`comment-list-${postId}`);
+              commentList.innerHTML = ''; // Clear existing comments
+
+              comments.forEach(comment => {
+                  const commentItem = document.createElement('li');
+                  commentItem.className = 'comment-item';
+                  commentItem.innerHTML = `
+                      <p class="comment-user">${comment.firstname}</p>
+                      <p class="comment-text">${comment.comment_text}</p>
+                      <p class="comment-time">${comment.timestamp}</p>
+                  `;
+                  commentList.appendChild(commentItem);
+              });
+          })
+          .catch(error => console.error('Error:', error));
+      }
+      function loadCategories() {
+          fetch('./get_posts.php')
+              .then(response => response.json())
+              .then(data => {
+                  // ดึงข้อมูลหมวดหมู่ที่ไม่ซ้ำกัน
+                  const categories = [...new Set(data.map(item => item.category))];
+                  const categorySelect = document.getElementById('activityCategory');
+
+                  categories.forEach(category => {
+                      const option = document.createElement('option');
+                      option.value = category;
+                      option.textContent = category;
+                      categorySelect.appendChild(option);
+                  });
+              })
+              .catch(error => console.error('Error:', error));
+      }
+      function deletePost(postId) {
+          Swal.fire({
+              title: 'คุณแน่ใจหรือไม่?',
+              text: "คุณต้องการลบกระทู้นี้?",
+              icon: 'warning',
+              showCancelButton: true,
+              confirmButtonColor: '#3085d6',
+              cancelButtonColor: '#d33',
+              confirmButtonText: 'ใช่, ลบ!',
+              cancelButtonText: 'ยกเลิก'
+          }).then((result) => {
+              if (result.isConfirmed) {
+                  fetch('./delete_post.php', {
+                      method: 'POST',
+                      headers: {
+                          'Content-Type': 'application/x-www-form-urlencoded',
+                      },
+                      body: `postId=${postId}`
+                  })
+                  .then(response => response.json())
+                  .then(data => {
+                      if (data.status === 'success') {
+                          Swal.fire(
+                              'ลบสำเร็จ!',
+                              'กระทู้นี้ถูกลบแล้ว.',
+                              'success'
+                          ).then(() => {
+                            closePopup();
+                            loadServices(); // Refresh activity list
+                          });
+                      } else {
+                          Swal.fire(
+                              'ลบไม่สำเร็จ!',
+                              data.message || 'เกิดข้อผิดพลาด.',
+                              'error'
+                          );
+                      }
+                  })
+                  .catch(error => {
+                      console.error('Error:', error);
+                      Swal.fire(
+                          'ลบไม่สำเร็จ!',
+                          'เกิดข้อผิดพลาด.',
+                          'error'
+                      );
+                  });
+              }
+          });
+      }
+  </script>
+</body>
+</html>

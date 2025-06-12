@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="th"> <!-- เปลี่ยน lang เป็น th -->
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TRASH HAS VALUE - รับซื้อพลาสติก (องค์กร)</title> <!-- เปลี่ยน Title -->
+    <link rel="icon" href="image/user1.png" type="image/x-icon">
+    <!-- swiper -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+    <!-- box icon import -->
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <!-- css -->
+    <link rel="stylesheet" href="css/index.css">
+    <link rel="stylesheet" href="css/preloader.css">
+    <link rel="stylesheet" href="css/navigationbar.css">
+    <link rel="stylesheet" href="css/footer.css">
+    <!-- css page -->
+    <link rel="stylesheet" href="./css/pageStyle/home.css">
+    <!-- Google Fonts (ถ้าต้องการ) -->
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+    <style>
+        /* ใช้ฟอนต์ Kanit ทั่วทั้งหน้า */
+        body {
+            font-family: 'Kanit', sans-serif;
+        }
+
+        /* Navigation Bar (ถ้าต้องการให้เหมือนหน้าอื่น) */
+        /* nav { ... } */
+
+        .headerTx, .miniTx {
+            color: black;
+        }
+
+        .serviceDetail .header {
+            color: black;
+        }
+
+        /* สไตล์สำหรับ tooltip */
+        .tooltip {
+            position: relative;
+            display: inline-block;
+        }
+
+        .tooltip .tooltiptext {
+            visibility: hidden;
+            width: 200px;
+            background-color: black;
+            color: #fff;
+            text-align: center;
+            border-radius: 5px;
+            padding: 5px 0;
+            position: absolute;
+            z-index: 1;
+            bottom: 125%; /* แสดงขึ้นด้านบน */
+            left: 50%;
+            margin-left: -100px;
+            opacity: 0;
+            transition: opacity 0.3s;
+            font-size: 16px; /* ปรับขนาดฟอนต์ tooltip */
+            font-family: 'Kanit', sans-serif; /* ใช้ฟอนต์ไทย */
+        }
+
+        .tooltip:hover .tooltiptext {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        /* ปรับขนาด Pop-up */
+        .swal2-popup {
+    font-family: 'Kanit', sans-serif !important;
+    /* เพิ่มขนาด font ตรงนี้ */
+    font-size: 1.3rem !important; /* ลองปรับค่านี้ เช่น 1.3rem, 1.4rem หรือตามต้องการ */
+    width: 90% !important;
+    max-width: 650px !important; /* อาจจะขยาย max-width เล็กน้อยถ้า font ใหญ่ขึ้น */
+    padding: 25px; /* อาจจะเพิ่ม padding เล็กน้อย */
+}
+
+/* สไตล์สำหรับ input และ label ใน popup (ปรับตามความเหมาะสม) */
+.swal2-html-container {
+    text-align: left;
+}
+.swal2-html-container label {
+    display: block;
+    margin-top: 18px; /* เพิ่มระยะห่างเล็กน้อย */
+    margin-bottom: 6px;
+    font-weight: 500;
+    color: #333;
+    /* อาจจะเพิ่มขนาด font ของ label เล็กน้อย */
+    font-size: 1.1rem;
+}
+.swal2-input, .swal2-select, .swal2-textarea {
+    width: 95% !important;
+    padding: 12px !important; /* เพิ่ม padding เล็กน้อย */
+    margin: 5px auto 12px auto !important;
+    border: 1px solid #ddd !important;
+    border-radius: 5px !important;
+    /* อาจจะเพิ่มขนาด font ของ input เล็กน้อย */
+    font-size: 1.05rem !important;
+    box-sizing: border-box;
+}
+.swal2-textarea {
+    height: 110px; /* อาจจะเพิ่มความสูง textarea */
+    resize: vertical;
+}
+
+/* ทำให้ dropdown กว้างเต็ม */
+.swal2-select {
+    display: block;
+}
+
+
+    </style>
+</head>
+<body> <!-- PRELOADER (ถ้ามี) -->
+    <!-- <section class="preloader"> ... </section> -->
+
+    <!-- NAVIGATION BAR (ควรใช้ include หรือใส่โค้ด HTML โดยตรง) -->
+    <nav>
+        <!-- ใส่โค้ด Navigation Bar ของคุณที่นี่ (ควรเป็นเวอร์ชันสำหรับองค์กรที่ล็อกอินแล้ว) -->
+        <!-- ตัวอย่างโครงสร้าง -->
+        <div class="container">
+            <a href="index1.html" class="logo"><p>TRASH HAS VALUE</p></a>
+            <div class="rightBx">
+                <!-- <ul class="navBx"> ... </ul> -->
+                <!-- <div class="burgerBar ..."> ... </div> -->
+                <div class="user_Actions" style="display: flex; align-items: center; gap: 10px; margin-left: 15px;">
+                    <a href="account.html" id="userAccountLink" class="btn userAccBtn" style="padding: 8px 12px; text-decoration: none; background-color: #007bff; color: white;">บัญชี</a>
+                    <a href="address.html" class="btn addAddressBtn" style="padding: 8px 12px; background-color: #28a745; color: white; text-decoration: none;">การรับซื้อทั้งหมด</a>
+                    <a href="#" class="btn logoutBtn" onclick="logout()" style="padding: 8px 12px; background-color: #dc3545; color: white; text-decoration: none;">ออกจากระบบ</a>
+                </div>
+                <!-- <div class="signup_And_login_BtnBx" style="display: none;"> ... </div> -->
+            </div>
+        </div>
+    </nav>
+    <br><br>
+    <section class="service">
+        <div class="container">
+            <p class="miniTx"><center>สร้างรายการรับซื้อ</center></p>
+            <h2 class="headerTx"><center>เลือกประเภทพลาสติกที่ต้องการรับซื้อ</center></h2>
+            <h1><center><br></center></h1>
+            <div class="serviceBox">
+                <!-- รายการพลาสติก -->
+                <div class="serviceDetail">
+                    <a href="javascript:void(0);" class="member_btn" onclick="startBuyRequestPopup('PET')">
+                        <div class="icon tooltip">
+                            <img src="./image/f1.png" alt="ขวด PET">
+                            <span class="tooltiptext">สร้างโพสต์รับซื้อขวด PET</span>
+                        </div>
+                    </a>
+                    <div class="header">ขวดน้ำ PET</div>
+                </div>
+                <div class="serviceDetail">
+                    <a href="javascript:void(0);" class="member_btn" onclick="startBuyRequestPopup('Stretchable')">
+                        <div class="icon tooltip">
+                            <img src="./image/f2.png" alt="พลาสติกยืด">
+                            <span class="tooltiptext">สร้างโพสต์รับซื้อพลาสติกยืด</span>
+                        </div>
+                    </a>
+                    <div class="header">พลาสติกที่ยืดได้</div>
+                </div>
+                <div class="serviceDetail">
+                    <a href="javascript:void(0);" class="member_btn" onclick="startBuyRequestPopup('HDPE')">
+                        <div class="icon tooltip">
+                            <img src="./image/f3.png" alt="พลาสติก HDPE">
+                            <span class="tooltiptext">สร้างโพสต์รับซื้อพลาสติก HDPE</span>
+                        </div>
+                    </a>
+                    <div class="header">พลาสติก HDPE</div>
+                </div>
+                <div class="serviceDetail">
+                    <a href="javascript:void(0);" class="member_btn" onclick="startBuyRequestPopup('Yakult')">
+                        <div class="icon tooltip">
+                            <img src="./image/f4.png" alt="ขวดยาคูลท์">
+                            <span class="tooltiptext">สร้างโพสต์รับซื้อขวดยาคูลท์</span>
+                        </div>
+                    </a>
+                    <div class="header">ขวดยาคูลท์</div>
+                </div>
+                <div class="serviceDetail">
+                    <a href="javascript:void(0);" class="member_btn" onclick="startBuyRequestPopup('FoodBox')">
+                        <div class="icon tooltip">
+                            <img src="./image/f5.png" alt="กล่องอาหาร">
+                            <span class="tooltiptext">สร้างโพสต์รับซื้อกล่องอาหาร</span>
+                        </div>
+                    </a>
+                    <div class="header">กล่องอาหาร</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER (ถ้ามี) -->
+    <!-- <footer> ... </footer> -->
+
+    <!-- SweetAlert2 Script -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <!-- Other JS Imports (ถ้ามี) -->
+    <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
+    <!-- <script src="./js/navigationBar.js"></script> --> <!-- ถ้าใช้ nav แบบ include -->
+    <!-- <script src="./js/footer.js"></script> --> <!-- ถ้าใช้ footer แบบ include -->
+    <!-- <script src="./js/preloader.js"></script> --> <!-- ถ้ามี preloader -->
+
+    <script>
+        let currentUserId = null; // ID ขององค์กรที่ login อยู่
+        let selectedPlasticType = ''; // ประเภทพลาสติกที่เลือก
+        let selectedBuyProvince = '';
+        let selectedBuyDistrict = '';
+        let selectedBuySubDistrict = '';
+        let selectedMinKg = 0;
+        let selectedPricePerKg = 0;
+        let recyclingDestination = '';
+
+        // ข้อมูลจังหวัด อำเภอ ตำบล (ควรดึงมาจาก Server หรือ API ในระบบจริง)
+        const addressData = {
+            "กรุงเทพมหานคร": { "เขตพระนคร": ["แขวงพระบรมมหาราชวัง", "แขวงวังบูรพาภิรมย์"], "เขตดุสิต": ["แขวงดุสิต", "แขวงวชิรพยาบาล"] },
+            "เชียงใหม่": { "อำเภอเมืองเชียงใหม่": ["ตำบลศรีภูมิ", "ตำบลช้างม่อย"], "อำเภอหางดง": ["ตำบลหางดง", "ตำบลบ้านแหวน"] },
+            "ขอนแก่น": { "อำเภอเมืองขอนแก่น": ["ตำบลในเมือง", "ตำบลพระลับ"], "อำเภอบ้านไผ่": ["ตำบลบ้านไผ่", "ตำบลหัวหนอง"] },
+            "นครราชสีมา": { "อำเภอเมืองนครราชสีมา": ["ตำบลในเมือง", "ตำบลโพธิ์กลาง"], "อำเภอปากช่อง": ["ตำบลปากช่อง", "ตำบลหนองสาหร่าย"] },
+            "ชลบุรี": { "อำเภอเมืองชลบุรี": ["ตำบลบางปลาสร้อย", "ตำบลบ้านสวน"], "อำเภอบางละมุง": ["ตำบลนาเกลือ", "ตำบลหนองปรือ"] },
+            "ภูเก็ต": { "อำเภอเมืองภูเก็ต": ["ตำบลตลาดใหญ่", "ตำบลรัษฎา"], "อำเภอกะทู้": ["ตำบลกะทู้", "ตำบลป่าตอง"] },
+            // เพิ่มจังหวัดอื่นๆ ตามต้องการ
+        };
+
+        // --- 1. ดึง User ID ขององค์กร ---
+        document.addEventListener('DOMContentLoaded', function() {
+            fetchCurrentUserAndData();
+            // Setup Navigation Bar (ถ้าใช้ JS จัดการ)
+            // setupOrgNavigationBar();
+        });
+
+        function fetchCurrentUserAndData() {
+            fetch('./getCurrentUserId.php') // Endpoint เดิม
+                .then(response => response.ok ? response.json() : Promise.reject('Failed to get user ID'))
+                .then(data => {
+                    if (data.userId) {
+                        currentUserId = data.userId;
+                        console.log("Current Organization ID:", currentUserId);
+                        // อาจจะดึงข้อมูลองค์กรเพิ่มเติมถ้าต้องการ
+                        return fetch(`./getUserData.php?userId=${currentUserId}`);
+                    } else {
+                        console.warn('Organization user ID not found. User might not be logged in.');
+                        // Redirect หรือแสดงข้อความบังคับ login
+                        Swal.fire({
+                            icon: 'warning',
+                            title: 'กรุณาเข้าสู่ระบบ',
+                            text: 'เฉพาะองค์กรที่เข้าสู่ระบบเท่านั้นที่สามารถสร้างโพสต์รับซื้อได้',
+                            confirmButtonText: 'ไปหน้าล็อกอิน'
+                        }).then(() => { window.location.href = 'login.html'; });
+                        return null;
+                    }
+                })
+                .then(response => response === null ? null : (response.ok ? response.json() : Promise.reject('Failed to get user data')))
+                .then(userData => {
+                    if (userData) {
+                        // แสดงชื่อองค์กรบน Navbar (ถ้ามี)
+                        const userAccountLink = document.getElementById('userAccountLink');
+                        if (userAccountLink && userData.firstname) {
+                            userAccountLink.textContent = userData.firstname;
+                        }
+                        // ตรวจสอบ user_type ถ้าจำเป็น
+                        if (userData.user_type !== 'organization') {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'เข้าถึงไม่ถูกต้อง',
+                                text: 'หน้านี้สำหรับผู้ใช้ประเภทองค์กรเท่านั้น',
+                                confirmButtonText: 'กลับหน้าหลัก'
+                            }).then(() => { window.location.href = 'index.html'; }); // Redirect ไปหน้าหลัก user ปกติ
+                        }
+                    }
+                })
+                .catch(error => {
+                    console.error('Error fetching data:', error);
+                    // จัดการ Error, อาจจะ redirect หรือแสดงข้อความ
+                });
+        }
+
+        // --- 2. เริ่มกระบวนการสร้างโพสต์รับซื้อ ---
+        function startBuyRequestPopup(type) {
+             if (!currentUserId) {
+                 Swal.fire('กรุณาเข้าสู่ระบบ', 'คุณต้องเข้าสู่ระบบในฐานะองค์กรก่อน', 'warning');
+                 return;
+             }
+            selectedPlasticType = type;
+            console.log("Selected Plastic Type:", selectedPlasticType);
+            showLocationPopup(); // เริ่ม Step 1
+        }
+
+        // --- 3. Pop-up Step 1: ระบุสถานที่รับซื้อ ---
+        function showLocationPopup() {
+            let provinceOptionsHtml = '<option value="">-- เลือกจังหวัด --</option>';
+            for (const province in addressData) {
+                provinceOptionsHtml += `<option value="${province}">${province}</option>`;
+            }
+
+            Swal.fire({
+                title: 'Step 1: ระบุสถานที่รับซื้อ',
+                html: `
+                    <label for="swal-province">จังหวัด:</label>
+                    <select id="swal-province" class="swal2-select" name="province" required>
+                        ${provinceOptionsHtml}
+                    </select>
+
+                    <label for="swal-district">อำเภอ:</label>
+                    <select id="swal-district" class="swal2-select" name="district" required>
+                        <option value="">-- เลือกอำเภอ --</option>
+                    </select>
+
+                    <label for="swal-subdistrict">ตำบล:</label>
+                    <select id="swal-subdistrict" class="swal2-select" name="subDistrict" required>
+                        <option value="">-- เลือกตำบล --</option>
+                    </select>
+                `,
+                confirmButtonText: 'ต่อไป',
+                focusConfirm: false,
+                didOpen: () => {
+                    const provinceSelect = document.getElementById('swal-province');
+                    const districtSelect = document.getElementById('swal-district');
+                    const subDistrictSelect = document.getElementById('swal-subdistrict');
+
+                    provinceSelect.addEventListener('change', () => {
+                        const selectedProvince = provinceSelect.value;
+                        districtSelect.innerHTML = '<option value="">-- เลือกอำเภอ --</option>'; // Reset district
+                        subDistrictSelect.innerHTML = '<option value="">-- เลือกตำบล --</option>'; // Reset sub-district
+
+                        if (selectedProvince && addressData[selectedProvince]) {
+                            for (const district in addressData[selectedProvince]) {
+                                const option = document.createElement('option');
+                                option.value = district;
+                                option.textContent = district;
+                                districtSelect.appendChild(option);
+                            }
+                        }
+                    });
+
+                    districtSelect.addEventListener('change', () => {
+                        const selectedProvince = provinceSelect.value;
+                        const selectedDistrict = districtSelect.value;
+                        subDistrictSelect.innerHTML = '<option value="">-- เลือกตำบล --</option>'; // Reset sub-district
+
+                        if (selectedProvince && selectedDistrict && addressData[selectedProvince]?.[selectedDistrict]) {
+                            addressData[selectedProvince][selectedDistrict].forEach(subDistrict => {
+                                const option = document.createElement('option');
+                                option.value = subDistrict;
+                                option.textContent = subDistrict;
+                                subDistrictSelect.appendChild(option);
+                            });
+                        }
+                    });
+                },
+                preConfirm: () => {
+                    const province = document.getElementById('swal-province').value;
+                    const district = document.getElementById('swal-district').value;
+                    const subDistrict = document.getElementById('swal-subdistrict').value;
+                    if (!province || !district || !subDistrict) {
+                        Swal.showValidationMessage('กรุณาเลือก จังหวัด อำเภอ และตำบล ให้ครบถ้วน');
+                        return false;
+                    }
+                    return { province: province, district: district, subDistrict: subDistrict };
+                }
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    selectedBuyProvince = result.value.province;
+                    selectedBuyDistrict = result.value.district;
+                    selectedBuySubDistrict = result.value.subDistrict;
+                    console.log("Location Selected:", selectedBuyProvince, selectedBuyDistrict, selectedBuySubDistrict);
+                    showQuantityPricePopup(); // ไป Step 2
+                }
+            });
+        }
+
+        // --- 4. Pop-up Step 2: กำหนดปริมาณและราคา ---
+        function showQuantityPricePopup() {
+            Swal.fire({
+                title: 'Step 2: กำหนดปริมาณและราคา',
+                html: `
+                    <label for="swal-min-kg">รับซื้อขั้นต่ำ (กิโลกรัม):</label>
+                    <input id="swal-min-kg" class="swal2-input" type="number" min="1" step="1" placeholder="เช่น 10" required>
+
+                    <label for="swal-price-per-kg">ราคาต่อกิโลกรัม (บาท):</label>
+                    <input id="swal-price-per-kg" class="swal2-input" type="number" min="0.1" step="0.01" placeholder="เช่น 5.50" required>
+                `,
+                confirmButtonText: 'ต่อไป',
+                focusConfirm: false,
+                preConfirm: () => {
+                    const minKg = document.getElementById('swal-min-kg').value;
+                    const pricePerKg = document.getElementById('swal-price-per-kg').value;
+                    if (!minKg || !pricePerKg || parseFloat(minKg) <= 0 || parseFloat(pricePerKg) <= 0) {
+                        Swal.showValidationMessage('กรุณากรอกข้อมูลขั้นต่ำและราคาให้ถูกต้อง (ต้องมากกว่า 0)');
+                        return false;
+                    }
+                    return { minKg: parseFloat(minKg), pricePerKg: parseFloat(pricePerKg) };
+                }
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    selectedMinKg = result.value.minKg;
+                    selectedPricePerKg = result.value.pricePerKg;
+                    console.log("Quantity/Price Selected:", selectedMinKg, selectedPricePerKg);
+                    showDestinationPopup(); // ไป Step 3
+                }
+            });
+        }
+
+        // --- 5. Pop-up Step 3: ระบุรายละเอียดการรีไซเคิล ---
+        function showDestinationPopup() {
+            Swal.fire({
+                title: 'Step 3: รายละเอียดการนำไปรีไซเคิล',
+                html: `
+                    <label for="swal-destination">พลาสติกที่รับซื้อจะถูกนำไปรีไซเคิลอย่างไร/ที่ไหน:</label>
+                    <textarea id="swal-destination" class="swal2-textarea" placeholder="อธิบายสั้นๆ เกี่ยวกับกระบวนการหรือปลายทาง..." required></textarea>
+                `,
+                confirmButtonText: 'โพสต์รายการรับซื้อ',
+                focusConfirm: false,
+                preConfirm: () => {
+                    const destination = document.getElementById('swal-destination').value;
+                    if (!destination.trim()) {
+                        Swal.showValidationMessage('กรุณากรอกรายละเอียดการนำไปรีไซเคิล');
+                        return false;
+                    }
+                    return destination.trim();
+                }
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    recyclingDestination = result.value;
+                    console.log("Destination Info:", recyclingDestination);
+                    saveBuyRequest(); // บันทึกข้อมูล
+                }
+            });
+        }
+
+        // --- 6. บันทึกข้อมูลโพสต์รับซื้อ ---
+        function saveBuyRequest() {
+            if (!currentUserId || !selectedPlasticType || !selectedBuyProvince || !selectedBuyDistrict || !selectedBuySubDistrict || selectedMinKg <= 0 || selectedPricePerKg <= 0 || !recyclingDestination) {
+                 Swal.fire('ข้อมูลไม่ครบถ้วน', 'เกิดข้อผิดพลาด ข้อมูลบางส่วนไม่สมบูรณ์', 'error');
+                 console.error("Incomplete data for saving:", {currentUserId, selectedPlasticType, selectedBuyProvince, selectedBuyDistrict, selectedBuySubDistrict, selectedMinKg, selectedPricePerKg, recyclingDestination});
+                 return;
+             }
+
+            Swal.showLoading(); // แสดง loading
+
+            const formData = new URLSearchParams();
+            formData.append('organization_id', currentUserId); // ใช้ ID ขององค์กร
+            formData.append('plastic_type', selectedPlasticType);
+            formData.append('province', selectedBuyProvince);
+            formData.append('district', selectedBuyDistrict);
+            formData.append('sub_district', selectedBuySubDistrict);
+            formData.append('min_kg', selectedMinKg);
+            formData.append('price_per_kg', selectedPricePerKg);
+            formData.append('destination_info', recyclingDestination);
+
+            console.log("Saving Buy Request Data:", Object.fromEntries(formData));
+
+            // *** ต้องสร้างไฟล์ save_buy_request.php บน Server ***
+            fetch('./save_buy_request.php', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: formData.toString()
+            })
+            .then(response => response.ok ? response.json() : response.text().then(text => Promise.reject(`HTTP error! status: ${response.status}, message: ${text}`)))
+            .then(data => {
+                Swal.hideLoading();
+                if (data.status === 'success') {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'โพสต์สำเร็จ!',
+                        text: 'รายการรับซื้อของคุณถูกโพสต์แล้ว',
+                    });
+                    resetBuyRequestData(); // Reset ค่าหลังจากโพสต์สำเร็จ
+                } else {
+                    throw new Error(data.message || 'ไม่สามารถบันทึกข้อมูลได้');
+                }
+            })
+            .catch(error => {
+                Swal.hideLoading();
+                console.error('Error saving buy request:', error);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'เกิดข้อผิดพลาด!',
+                    text: `ไม่สามารถโพสต์รายการรับซื้อได้: ${error.message}`,
+                });
+            });
+        }
+
+        // --- 7. ฟังก์ชัน Reset ค่า ---
+        function resetBuyRequestData() {
+            selectedPlasticType = '';
+            selectedBuyProvince = '';
+            selectedBuyDistrict = '';
+            selectedBuySubDistrict = '';
+            selectedMinKg = 0;
+            selectedPricePerKg = 0;
+            recyclingDestination = '';
+        }
+
+        // --- ฟังก์ชัน Logout (ถ้าต้องการ) ---
+        function logout() {
+            sessionStorage.removeItem('userData');
+            window.location.href = 'login.html';
+        }
+
+        // --- ฟังก์ชันจัดการ Navigation Bar (ถ้าใช้ JS) ---
+        // function setupOrgNavigationBar() { ... }
+
+    </script>
+</body>
+</html>

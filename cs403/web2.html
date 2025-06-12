@@ -1,0 +1,691 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>จัดการกลุ่มขยะ</title>
+    <link rel="icon" href="image/user1.png" type="image/x-icon">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="css/preloader.css">
+    <link rel="stylesheet" href="css/index.css">
+    <link rel="stylesheet" href="css/navigationbar.css">
+    <link rel="stylesheet" href="css/footer.css">
+    <link rel="stylesheet" href="css/pageStyle/service.css">
+    <link rel="stylesheet" href="css/pageStyle/home.css">
+    <link rel="stylesheet" href="css/pageStyle/webboard.css">
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+       /* --- เริ่ม CSS ใหม่สำหรับ web2.html --- */
+
+/* ใช้ตัวแปรสีเพื่อความสะดวกในการปรับแต่ง */
+:root {
+    --web2-primary-color: #2980b9; /* ฟ้าเข้มขึ้นเล็กน้อย */
+    --web2-secondary-color: #16a085; /* เขียวอมฟ้า */
+    --web2-accent-color: #e67e22; /* ส้ม (ถ้าต้องการจุดเด่น) */
+    --web2-form-bg: #ffffff;
+    --web2-box-bg: #ffffff;
+    --web2-popup-bg: #ffffff;
+    --web2-text-color: #34495e;
+    --web2-light-gray: #ecf0f1;
+    --web2-border-color: #bdc3c7;
+}
+
+body {
+    color: var(--web2-text-color);
+    background-color: #f4f7f6; /* พื้นหลังอ่อนลงเล็กน้อย */
+}
+
+h2 {
+    color: var(--web2-primary-color);
+    border-bottom: 2px solid var(--web2-secondary-color);
+    display: inline-block; /* ทำให้ border พอดีกับข้อความ */
+    padding-bottom: 5px;
+    margin-bottom: 30px; /* เพิ่มระยะห่าง */
+}
+.container h2 { /* ทำให้ H2 กลางหน้า */
+    display: block;
+    text-align: center;
+    border-bottom: none; /* เอาเส้นใต้ H2 หลักออก */
+}
+.container > h2 { /* จัดสไตล์ H2 หลัก */
+     border-bottom: 2px solid var(--web2-secondary-color);
+     display: inline-block;
+     padding-bottom: 5px;
+     margin-bottom: 30px;
+}
+
+
+/* --- ฟอร์มสร้างกลุ่มขยะ --- */
+/* --- ปรับปรุงสไตล์ฟอร์มสร้างกลุ่มขยะ --- */
+.activity-form {
+    background-color: var(--web2-form-bg);
+    border-radius: 15px; /* เพิ่มความโค้งมน */
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08); /* เงาชัดขึ้นเล็กน้อย */
+    border: 1px solid #e0e0e0; /* เส้นขอบบางลง */
+    padding: 40px; /* เพิ่ม padding */
+    max-width: 700px; /* กำหนดความกว้างสูงสุด */
+    margin-left: auto; /* จัดฟอร์มให้อยู่กึ่งกลาง */
+    margin-right: auto;
+    margin-bottom: 40px; /* เพิ่มระยะห่างด้านล่าง */
+}
+
+.activity-form label {
+    font-weight: 500; /* ลดความหนาลงเล็กน้อย */
+    color: var(--web2-primary-color);
+    margin-bottom: 8px; /* ลดระยะห่าง */
+    font-size: 0.95em; /* ปรับขนาดฟอนต์ */
+}
+
+.activity-form input[type="text"],
+.activity-form textarea {
+    background-color: #f9fafb; /* สีพื้นหลัง input อ่อนๆ */
+    border: 1px solid #d1d5db; /* สีขอบเทาอ่อน */
+    border-radius: 8px;
+    padding: 14px 16px; /* ปรับ padding */
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    font-size: 1em; /* ขนาดฟอนต์มาตรฐาน */
+    width: 100%; /* ทำให้เต็มความกว้าง */
+    box-sizing: border-box; /* รวม padding และ border ใน width */
+    margin-bottom: 20px; /* เพิ่มระยะห่างระหว่าง input */
+}
+
+.activity-form input[type="text"]:focus,
+.activity-form textarea:focus {
+    border-color: var(--web2-secondary-color);
+    box-shadow: 0 0 0 3px rgba(22, 160, 133, 0.2); /* เงาเมื่อ focus ชัดขึ้น */
+    outline: none;
+}
+
+.activity-form textarea {
+    min-height: 130px; /* กำหนดความสูงขั้นต่ำ */
+    resize: vertical; /* อนุญาตให้ปรับขนาดแนวตั้ง */
+}
+
+.activity-form button[type="submit"] {
+    background-image: linear-gradient(to right, var(--web2-secondary-color), #1abc9c); /* ไล่สีปุ่ม */
+    color: white;
+    padding: 14px 35px; /* ปรับ padding ปุ่ม */
+    border: none;
+    border-radius: 30px; /* ปุ่มมนมากๆ */
+    cursor: pointer;
+    transition: all 0.3s ease; /* transition ทุกอย่าง */
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    display: block;
+    width: fit-content;
+    margin: 25px auto 0 auto; /* จัดกลางและเพิ่มระยะห่างด้านบน */
+    box-shadow: 0 4px 10px rgba(22, 160, 133, 0.3); /* เพิ่มเงาให้ปุ่ม */
+}
+
+.activity-form button[type="submit"]:hover {
+    background-image: linear-gradient(to right, #117a65, var(--web2-secondary-color)); /* ไล่สีเข้มขึ้น */
+    transform: translateY(-3px); /* ขยับขึ้นเล็กน้อย */
+    box-shadow: 0 6px 15px rgba(22, 160, 133, 0.4); /* เงาเข้มขึ้น */
+}
+
+.activity-form button[type="submit"]:active {
+    transform: translateY(-1px); /* ขยับลงเล็กน้อยเมื่อกด */
+    box-shadow: 0 3px 8px rgba(22, 160, 133, 0.3);
+}
+
+
+/* --- กล่องแสดงกลุ่มขยะ --- */
+#activities {
+    display: grid; /* ใช้ Grid layout */
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Responsive grid */
+    gap: 25px; /* ระยะห่างระหว่างกล่อง */
+}
+
+.activity-box {
+    background-color: var(--web2-box-bg);
+    border-radius: 10px;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.07);
+    padding: 25px;
+    border-left: 5px solid var(--web2-primary-color); /* เพิ่มเส้นขอบซ้าย */
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
+}
+
+.activity-box:hover {
+    transform: translateY(-5px) scale(1.02); /* ขยับขึ้นและขยายเล็กน้อย */
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+}
+
+.activity-box h3 {
+    color: var(--web2-primary-color);
+    margin-bottom: 15px;
+    font-size: 1.3em;
+}
+
+.activity-box .activity-detail p {
+    font-size: 0.95em;
+    color: #555;
+    margin-bottom: 8px;
+    line-height: 1.5;
+}
+.activity-box .activity-detail p:last-child {
+    margin-bottom: 0;
+}
+
+.activity-box .activity-detail span {
+    font-weight: 500; /* น้ำหนักปกติ */
+    color: var(--web2-text-color); /* สีข้อความหลัก */
+}
+
+/* --- Pop-up --- */
+.popup-content {
+    background-color: var(--web2-popup-bg);
+    border-radius: 15px;
+    padding: 35px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+}
+
+.popup-content h2 {
+    color: var(--web2-primary-color);
+    text-align: left; /* ชิดซ้าย */
+    border-bottom: 1px solid var(--web2-light-gray);
+    padding-bottom: 15px;
+    margin-bottom: 20px;
+}
+
+.popup-content p {
+    font-size: 1.05em; /* ใหญ่ขึ้นเล็กน้อย */
+    margin-bottom: 12px;
+}
+
+.popup-content .close-btn {
+    font-size: 28px;
+    color: var(--web2-border-color);
+}
+.popup-content .close-btn:hover {
+    color: var(--web2-primary-color);
+}
+
+/* --- ส่วนเพิ่มข้อมูลขยะใน Pop-up --- */
+.trash-detail-btn {
+    background-color: var(--web2-primary-color);
+    color: white;
+    padding: 8px 18px;
+    border-radius: 20px;
+    transition: background-color 0.3s ease;
+    margin-bottom: 15px; /* เพิ่มระยะห่าง */
+}
+.trash-detail-btn:hover {
+    background-color: #1f618d; /* เข้มขึ้น */
+}
+
+.trash-entry-form {
+    background-color: var(--web2-light-gray);
+    padding: 20px;
+    border-radius: 8px;
+    margin-top: 15px;
+    border: 1px solid #dcdcdc;
+}
+
+.trash-entry-form label {
+    font-weight: 600;
+    color: var(--web2-text-color);
+}
+
+.trash-entry-form input,
+.trash-entry-form select {
+    border-radius: 6px;
+    border: 1px solid var(--web2-border-color);
+    padding: 10px;
+}
+.trash-entry-form input:focus,
+.trash-entry-form select:focus {
+     border-color: var(--web2-secondary-color);
+     box-shadow: 0 0 0 2px rgba(22, 160, 133, 0.1);
+     outline: none;
+}
+
+.trash-entry-form button {
+    background-color: var(--web2-secondary-color);
+    border-radius: 20px;
+    padding: 10px 20px;
+    font-weight: 600;
+}
+.trash-entry-form button:hover {
+    background-color: #117a65;
+}
+
+/* --- รายการขยะใน Pop-up --- */
+#trashEntries { /* ใช้ ID ที่ถูกต้อง ถ้ามี */
+    margin-top: 20px;
+    padding-left: 0; /* เอา bullet point ออก */
+}
+
+#trashEntries li {
+    background-color: #f9f9f9;
+    padding: 12px 15px;
+    border-radius: 6px;
+    margin-bottom: 8px;
+    border: 1px solid #eee;
+    font-size: 0.95em;
+    display: flex; /* จัดเรียงแนวนอน */
+    justify-content: space-between; /* เว้นระยะห่าง */
+    flex-wrap: wrap; /* ขึ้นบรรทัดใหม่ได้ */
+}
+#trashEntries li span {
+    font-weight: 500; /* น้ำหนักปกติ */
+    margin-right: 10px; /* ระยะห่างระหว่างข้อมูล */
+    color: #444;
+}
+#trashEntries li span:first-child { /* ทำให้ น้ำหนัก: เด่นขึ้น */
+    font-weight: 600;
+    color: var(--web2-secondary-color);
+}
+
+/* ส่วนแสดงผลรวมน้ำหนัก */
+.popup-content h4 { /* สไตล์หัวข้อ "สรุปข้อมูลขยะ" */
+    margin-top: 25px;
+    color: var(--web2-primary-color);
+    border-top: 1px solid var(--web2-light-gray);
+    padding-top: 20px;
+}
+.popup-content p strong { /* สไตล์ข้อความ "น้ำหนักรวมทั้งหมด" */
+    color: var(--web2-text-color);
+}
+.popup-content #totalWeight { /* สไตล์ตัวเลขผลรวม */
+    font-size: 1.2em;
+    color: var(--web2-secondary-color);
+    font-weight: 600;
+}
+
+
+
+/* --- จบ CSS ใหม่สำหรับ web2.html --- */
+        
+    </style>
+</head>
+<body>
+     <!----  NAVIGATION BAR (navigationBar.js)---->
+    <nav></nav>
+
+    <!--GENERAL BANNER SECTION-->
+    <section class="sectionBanner">
+        <div class="container">
+            <div class="content">
+                <h2>จัดการกลุ่มขยะ</h2>
+                <p><span>หน้าแรก</span>
+                    <span>/</span>
+                    <span>จัดการกลุ่มขยะ</span>
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <div class="container">
+        <br>
+        <br>
+        <h2>สร้างกลุ่มขยะ</h2>
+        <form id="activityForm" class="activity-form" enctype="multipart/form-data">
+            <label for="activityTitle">ชื่อกลุ่มขยะ:</label>
+            <input type="text" id="activityTitle" name="title" required>
+
+            <label for="activityDetail">รายละเอียด:</label>
+            <textarea id="activityDetail" name="content" required></textarea>
+            <label for="activityUserId">ID ผู้ใช้ที่มีสิทธิ์:</label>
+            <input type="text" id="activityUserId" name="userId" required>
+             <label for="targetWeight">เป้าหมายน้ำหนัก (กิโลกรัม):</label>
+            <input type="number" id="targetWeight" name="targetWeight" min="0">
+
+            <button type="submit">สร้างกลุ่ม</button>
+        </form>
+    </div>
+
+    <div class="container">
+        <h2>กลุ่มขยะล่าสุด</h2>
+        <br>
+        <br>
+        <div id="activities"></div>
+    </div>
+
+    <!-- Pop-up -->
+    <div id="popup" class="popup">
+        <div class="popup-content" id="popupContent">
+            <span class="close-btn" onclick="closePopup()">×</span>
+            <!-- ข้อมูลกิจกรรมจะถูกแสดงที่นี่ -->
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="./js/navigationBar.js"></script>
+    <script src="./js/footer.js"></script>
+    <script src="./js/preloader.js"></script>
+    <script>
+        let currentUserId = null;
+        fetch('./getCurrentUserId.php')
+            .then(response => response.json())
+            .then(data => {
+                if (data.userId) {
+                    currentUserId = data.userId;
+                } else {
+                    console.error('Error: Could not retrieve current user ID.');
+                }
+            })
+            .catch(error => {
+                console.error('Error fetching current user ID:', error);
+            });
+        document.addEventListener('DOMContentLoaded', function () {
+            loadServices();
+            const activityForm = document.getElementById('activityForm');
+            activityForm.addEventListener('submit', function (event) {
+                event.preventDefault();
+                createActivity();
+            });
+        });
+        function loadServices() {
+            fetch('./get_groups.php') // Change the file name
+                .then(response => response.json())
+                .then(data => {
+                    const activitiesContainer = document.getElementById('activities');
+                    activitiesContainer.innerHTML = ''; // Clear existing content
+
+                    // Sort activities by timestamp (newest first)
+                    data.sort((a, b) => new Date(b.created_at) - new Date(a.created_at)); // Change to created_at
+
+                    data.forEach(service => {
+                        createActivityBox({...service, target_weight: service.target_weight }, activitiesContainer);
+                    });
+                })
+                .catch(error => console.error('Error:', error));
+        }
+        function createActivity() {
+            const formData = new FormData(document.getElementById('activityForm'));
+            fetch('./create_group.php', {
+                method: 'POST',
+                body: formData
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status === 'success') {
+                        const service = {
+                            group_id: data.group_id,
+                    group_name: formData.get('title'), // แก้ไขตรงนี้
+                    group_detail: formData.get('content'), // แก้ไขตรงนี้
+                    authorized_user_ids: formData.get('userId'), // แก้ไขตรงนี้
+                     created_at: new Date().toLocaleString(), target_weight: data.target_weight,
+                        };
+                        const activitiesContainer = document.getElementById('activities');
+                        createActivityBox(service, activitiesContainer, true); // Pass true to insert at the beginning
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'สร้างกลุ่มสำเร็จ',
+                            text: 'กลุ่มของคุณถูกสร้างเรียบร้อยแล้ว',
+                        }).then(() => {
+                            document.getElementById('activityForm').reset();
+                        });
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'เกิดข้อผิดพลาด',
+                            text: data.message || 'ไม่สามารถสร้างกลุ่มได้',
+                        });
+                        console.log(data);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'เกิดข้อผิดพลาด',
+                        text: 'ไม่สามารถสร้างกลุ่มได้',
+                    });
+                });
+        }
+        function createActivityBox(service, container, insertAtBeginning = false) {
+    const activityDiv = document.createElement('div');
+    activityDiv.className = 'activity-box';
+    activityDiv.onclick = () => showActivityPopup(service);
+
+    // เพิ่มการแสดงเป้าหมายน้ำหนัก
+     let targetWeightDisplay = '';
+    if (service.target_weight !== null && service.target_weight !== undefined && service.target_weight !== '') {
+        targetWeightDisplay = `<p>เป้าหมาย: ${service.target_weight} กก.</p>`;
+    } else {
+        targetWeightDisplay = '<p>ไม่มีเป้าหมาย</p>';
+    }
+
+    activityDiv.innerHTML = `
+        <h3>${service.group_name}</h3>
+        <div class="activity-detail">
+            <p>${service.group_detail}</p>
+            <p>ผู้มีสิทธิ์: <span id="user-${service.group_id}">${service.authorized_user_ids}</span></p>
+            ${targetWeightDisplay} <p>Timestamp: ${service.created_at}</p>
+        </div>
+    `;
+
+        if (insertAtBeginning) {
+            container.insertBefore(activityDiv, container.firstChild);
+        } else {
+            container.appendChild(activityDiv);
+        }
+        }
+        function showActivityPopup(service) {
+    const popup = document.getElementById("popup");
+    const popupContent = document.getElementById("popupContent");
+    const authorizedUserIdsString = service.authorized_user_ids || ""; // Ensure it's a string
+    const authorizedUserIds = authorizedUserIdsString.split(',').map(id => parseInt(id.trim())).filter(id => !isNaN(id)); // Filter out NaN
+
+    // Check if the current user is authorized to view this popup
+    const isAuthorized = authorizedUserIds.includes(currentUserId);
+
+    let trashForm = '';
+    let trashListHtml = ''; // To hold trash entries list
+    if (isAuthorized) {
+        trashForm = `
+        <button class="trash-detail-btn" data-group-id="${service.group_id}">เพิ่มข้อมูลขยะ</button>
+        <div id="trashEntryForm-${service.group_id}" class="trash-entry-form">
+            <label for="weight-${service.group_id}">น้ำหนัก (กิโลกรัม):</label>
+            <input type="number" id="weight-${service.group_id}" name="weight" required>
+
+            <label for="trashType-${service.group_id}">ประเภทขยะ:</label>
+            <select id="trashType-${service.group_id}" name="trash_type" required>
+                <option value="plastic">พลาสติก</option>
+                <option value="paper">กระดาษ</option>
+                <option value="glass">แก้ว</option>
+                <option value="metal">โลหะ</option>
+                <option value="organic">ขยะอินทรีย์</option>
+                <option value="general">ขยะทั่วไป</option>
+                <option value="hazardous">ขยะอันตราย</option>
+            </select>
+
+            <button class="add-trash-submit-btn" data-group-id="${service.group_id}">เพิ่ม</button>
+        </div>
+        
+    `;
+    trashListHtml = `<ul id="trashEntries-${service.group_id}"></ul>`;
+    }
+
+     // Placeholder for authorized user names
+    const authorizedUsersSpanId = `popup-user-names-${service.group_id}`;
+
+
+    popupContent.innerHTML = `
+    <span class="close-btn" onclick="closePopup()">×</span>
+    <h2>${service.group_name}</h2>
+    <p>${service.group_detail}</p>
+    <p>ผู้มีสิทธิ์: <span id="${authorizedUsersSpanId}">กำลังโหลด...</span></p>
+    <p>วันที่สร้าง : ${service.created_at}</p>
+     <p>เป้าหมาย: ${service.target_weight !== null && service.target_weight !== undefined && service.target_weight !== '' ? service.target_weight + ' กก.' : 'ไม่ระบุ'}</p>
+    ${trashForm}
+    <hr> <!-- เส้นคั่น -->
+    <h4>สรุปข้อมูลขยะ</h4>
+    <p><strong>น้ำหนักรวมทั้งหมด: <span id="totalWeight-${service.group_id}">0.00</span> กิโลกรัม</strong></p> <!-- เพิ่มส่วนแสดงผลรวม -->
+      ${trashListHtml} <!-- รายการขยะ -->
+`;
+// Fetch and display authorized user names
+            if (authorizedUserIds.length > 0) {
+                Promise.all(authorizedUserIds.map(userId =>
+                    fetch(`./getUserData.php?userId=${userId}`)
+                    .then(response => response.json())
+                    .then(userData => {
+                        if (userData && userData.firstname) {
+                            return userData.firstname;
+                        }
+                        return `ID: ${userId}`; // Fallback if name not found
+                    })
+                    .catch(() => `ID: ${userId}`) // Fallback on fetch error
+                ))
+                .then(names => {
+                    const namesSpan = document.getElementById(authorizedUsersSpanId);
+                    if (namesSpan) {
+                        namesSpan.textContent = names.join(', ');
+                    }
+                });
+            } else {
+                const namesSpan = document.getElementById(authorizedUsersSpanId);
+                if (namesSpan) {
+                    namesSpan.textContent = 'ไม่มีผู้มีสิทธิ์';
+                }
+            }
+
+            if (isAuthorized) {
+                // Add event listener for showing the trash entry form
+                const trashDetailBtn = popupContent.querySelector(`.trash-detail-btn[data-group-id="${service.group_id}"]`);
+                if (trashDetailBtn) {
+                    trashDetailBtn.addEventListener('click', () => {
+                        showTrashEntryForm(service.group_id);
+                    });
+                }
+
+                // Add event listener for submitting the trash entry form
+                const addTrashSubmitBtn = popupContent.querySelector(`.add-trash-submit-btn[data-group-id="${service.group_id}"]`);
+                if (addTrashSubmitBtn) {
+                    addTrashSubmitBtn.addEventListener('click', () => {
+                        addTrash(service.group_id, service); // Pass the service object
+                    });
+                }
+                loadTrashEntries(service.group_id, service); // Pass the service object
+            }
+            popup.style.display = "flex";
+        }
+        function showTrashEntryForm(groupId) {
+            const form = document.getElementById(`trashEntryForm-${groupId}`);
+        if (form) {
+                form.style.display = form.style.display === 'none' ? 'block' : 'none';
+            }
+        }    
+         function addTrash(groupId, serviceInstance) { // Added serviceInstance
+    const weight = document.getElementById(`weight-${groupId}`).value;
+    const trashType = document.getElementById(`trashType-${groupId}`).value;
+    if (!currentUserId) {
+        Swal.fire('ข้อผิดพลาด', 'ไม่สามารถระบุผู้ใช้ปัจจุบันได้ กรุณาลองเข้าสู่ระบบใหม่', 'error');
+        return;
+    }
+
+    if (!weight || isNaN(parseFloat(weight)) || parseFloat(weight) <= 0) {
+        Swal.fire('ข้อมูลไม่ถูกต้อง', 'กรุณากรอกน้ำหนักเป็นตัวเลขที่มากกว่า 0', 'warning');
+        return;
+    }
+    if (!trashType) {
+        Swal.fire('ข้อมูลไม่ถูกต้อง', 'กรุณาเลือกประเภทขยะ', 'warning');
+        return;
+    }
+
+    fetch('./add_trash.php', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: `group_id=${groupId}&weight=${weight}&trash_type=${trashType}&user_id=${currentUserId}` // Added user_id
+    })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status === 'success') {
+                        document.getElementById(`weight-${groupId}`).value = ''; // Clear input
+                        loadTrashEntries(groupId, serviceInstance); // Reload trash entries, use serviceInstance
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'เพิ่มข้อมูลขยะสำเร็จ',
+                        });
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'เกิดข้อผิดพลาด',
+                            text: data.message || 'ไม่สามารถเพิ่มข้อมูลขยะได้',
+                        });
+                    }
+                })
+                .catch(error => {
+                    console.error('Error adding trash:', error);
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'เกิดข้อผิดพลาดในการเชื่อมต่อ',
+                        text: 'ไม่สามารถเพิ่มข้อมูลขยะได้ กรุณาตรวจสอบการเชื่อมต่อ หรือลองใหม่อีกครั้ง',
+                    });
+                });
+        }
+
+        function loadTrashEntries(groupId, service) { // Added service parameter
+    fetch(`./get_trash.php?group_id=${groupId}`)
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === 'success') {
+                const trashList = document.getElementById(`trashEntries-${groupId}`);
+                const totalWeightSpan = document.getElementById(`totalWeight-${groupId}`); // อ้างอิงถึง span ที่จะแสดงผลรวม
+                trashList.innerHTML = ''; // Clear existing entries
+
+                // แสดงรายการขยะ
+                data.trash_entries.forEach(entry => {
+                    const listItem = document.createElement('li');
+                    // จัดรูปแบบวันที่ถ้าต้องการ
+                    let addedAtFormatted = entry.added_at; // ใช้ค่าเดิมถ้าไม่ต้องการจัดรูปแบบ
+                    try {
+                        const date = new Date(entry.added_at);
+                        // ตัวอย่างการจัดรูปแบบ: วัน/เดือน/ปี ชั่วโมง:นาที
+                        addedAtFormatted = date.toLocaleString('th-TH', {
+                            day: '2-digit',
+                            month: '2-digit',
+                            year: 'numeric',
+                            hour: '2-digit',
+                            minute: '2-digit'
+                        });
+                    } catch (e) { /* ใช้ค่าเดิมถ้า format ไม่ได้ */ }
+
+                    listItem.innerHTML = `<span>น้ำหนัก: ${entry.weight} กก.</span>, <span>ประเภท: ${entry.trash_type}</span>, <span>เพิ่มเมื่อ: ${addedAtFormatted}</span>`;
+                    trashList.appendChild(listItem);
+                });
+
+                // แสดงผลรวมน้ำหนัก
+                if (totalWeightSpan) {
+                    totalWeightSpan.textContent = data.total_weight; // อัปเดตค่าใน span
+                    // ตรวจสอบว่าถึงเป้าหมายหรือไม่ และแสดงข้อความ (ensure service and target_weight are valid)
+                    if (service && service.target_weight !== null && service.target_weight !== undefined && service.target_weight !== '' && parseFloat(data.total_weight) >= parseFloat(service.target_weight)) {
+                        totalWeightSpan.textContent += ` (ถึงเป้าหมายแล้ว!)`;
+                        totalWeightSpan.style.color = 'green'; // ตัวอย่าง: เปลี่ยนสีเป็นเขียว
+                        } else if (service && service.target_weight !== null && service.target_weight !== undefined && service.target_weight !== '') {
+                        totalWeightSpan.style.color = ''; // Reset color if target exists but not met
+                    } else {
+                        totalWeightSpan.style.color = ''; // Reset color if no target
+                    }
+                }
+
+            } else {
+                // จัดการกรณีที่ PHP ส่ง status error กลับมา
+                console.error('Error loading trash entries:', data.message);
+                // อาจจะแสดงข้อความแจ้งเตือนผู้ใช้
+                const trashList = document.getElementById(`trashEntries-${groupId}`);
+                if(trashList) trashList.innerHTML = '<li>ไม่สามารถโหลดข้อมูลขยะได้</li>';
+                const totalWeightSpan = document.getElementById(`totalWeight-${groupId}`);
+                if(totalWeightSpan) totalWeightSpan.textContent = 'N/A';
+            }
+        })
+        .catch(error => {
+            console.error('Error fetching trash data:', error);
+            // แสดงข้อผิดพลาดบนหน้าเว็บ หรือใน console
+            const trashList = document.getElementById(`trashEntries-${groupId}`);
+            if(trashList) trashList.innerHTML = '<li>เกิดข้อผิดพลาดในการเชื่อมต่อ</li>';
+            const totalWeightSpan = document.getElementById(`totalWeight-${groupId}`);
+            if(totalWeightSpan) totalWeightSpan.textContent = 'N/A';
+        });
+}
+        function closePopup() {
+            document.getElementById("popup").style.display = "none";
+        }
+    </script>
+</body>
+
+</html>

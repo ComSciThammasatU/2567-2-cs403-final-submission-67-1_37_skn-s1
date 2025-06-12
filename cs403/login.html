@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ล็อกอิน</title>
+    <link rel="icon" href="image/logo.png"  type="image/x-icon">
+    <!-- swiper -->
+    <link
+            rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"
+    />
+    <!-- box icon import -->
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <!-- css -->
+    <link rel="stylesheet" href="css/preloader.css">
+    <link rel="stylesheet" href="css/index.css">
+    <link rel="stylesheet" href="css/navigationbar.css">
+    <link rel="stylesheet" href="css/footer.css">
+    <!-- login css -->
+    <link rel="stylesheet" href="css/pageStyle/login.css">
+</head>
+<body>
+
+
+<!----  NAVIGATION BAR (navigationBar.js)---->
+<nav></nav>
+
+<!--GENERAL BANNER SECTION-->
+<section class="sectionBanner">
+    <div class="container">
+        <div class="content">
+            <h2>ล็อกอิน</h2>
+            <p><span>หน้าแรก</span>
+                <span>/</span>
+                <span>ล็อกอิน</span>
+            </p>
+        </div>
+    </div>
+</section>
+
+<!-- LOGIN SECTION -->
+<section class="login">
+    <div class="container">
+        <div class="loginContent">
+            <div class="loginLeftBx">
+                <div class="image"><img src="https://www.prd.go.th/th/file/get/file/202311102a52182bf78a8cbc7d17761023abb4cc111809.png" alt=""></div>
+            </div>
+            <div class="loginRightBx">
+                <div class="header">
+                    <h2>ล็อกอิน</h2>
+                    <p>ขอบคุณที่มาเยี่ยมชมเว็บไซต์ซื้อขายวัสดุรีไซเคิลของเรา! ♻️✨ หวังว่าแพลตฟอร์มนี้จะช่วยให้การซื้อขายขยะรีไซเคิลเป็นเรื่องง่าย สร้างรายได้ และช่วยรักษาสิ่งแวดล้อมไปพร้อมกัน 🌍 อย่าลืมกลับมาเยี่ยมชมอีกนะ!</p>
+                </div>
+                <form id="loginForm">
+                <div class="inputBx">
+                    <input type="text" placeholder="ชื่อผู้ใช้" id="usernameInput" name="username">
+                    <p class="errTx"></p>
+                </div>
+                <div class="inputBx">
+                    <input type="password" placeholder="รหัสผ่าน..." id="pwdInput" name="password">
+                    <p class="errTx"></p>
+                </div>
+
+                <button class="submitLogin" type="submit">เข้าสู่ระบบ</button>
+                <a href="./signup.html" class="noHaveAccTx">ลงทะเบียน</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<!-- import box icon -->
+<script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
+<!-- import Swiper script -->
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+<!-- import SweetAlert 2 -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<!--All script -->
+<script src="./js/swiperScript/allSwiper.js"></script>
+<script src="./js/preloader.js"></script>
+<script src="./js/navigationBar.js"></script>
+<script src="./js/footer.js"></script>
+
+<script>
+    const loginForm = document.getElementById('loginForm');
+    loginForm.addEventListener('submit', function (event) {
+        event.preventDefault(); // ป้องกันการ reload หน้า
+
+        // สร้าง FormData object จาก form
+        const formData = new FormData(loginForm);
+
+        // ส่งข้อมูลไปยัง login.php
+        fetch('login.php', {
+    method: 'POST',
+    body: formData
+})
+.then(response => response.json())
+.then(data => {
+    if (data.status === 'success') {
+        // --- จุดที่ต้องแก้ไข ---
+        // เดิมอาจจะเป็นแบบนี้:
+        // const userId = data.user.id;
+        // sessionStorage.setItem('userId', userId); // หรือเก็บทั้ง object
+        // sessionStorage.setItem('userData', JSON.stringify(data.user)); // <-- ถ้าเคยเก็บแบบนี้
+
+        // *** แก้ไขเป็นแบบนี้ ***
+        const userData = data.userData; // รับ object userData ทั้งหมด
+
+        // ตรวจสอบว่ามี userData และ user_id จริงๆ
+        if (userData && userData.user_id) {
+            // เก็บข้อมูลทั้งหมดลง sessionStorage (สำคัญมาก ต้องเป็น array ตามที่ status_org.html คาดหวัง)
+            sessionStorage.setItem('userData', JSON.stringify([userData])); // <-- แก้เป็น [userData]
+
+            // ตรวจสอบ user_type เพื่อ redirect
+            if (userData.user_type === 'organization') {
+                window.location.href = 'index1.html'; // ไปหน้าองค์กร
+            } else {
+                window.location.href = 'index.html'; // ไปหน้าผู้ใช้ทั่วไป
+            }
+        } else {
+             // กรณีข้อมูล userData ไม่สมบูรณ์จาก PHP
+             console.error('Login successful but userData is missing or incomplete:', data);
+             alert('เกิดข้อผิดพลาด: ข้อมูลผู้ใช้ไม่สมบูรณ์');
+        }
+        // --- สิ้นสุดจุดที่ต้องแก้ไข ---
+
+    } else {
+        // แสดงข้อความ error จาก data.message
+        alert('Login failed: ' + data.message);
+    }
+})
+.catch(error => {
+    console.error('Error:', error);
+    alert('An error occurred during login.');
+});
+
+    });
+</script>

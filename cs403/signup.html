@@ -1,0 +1,262 @@
+<!-- signup.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign up</title>
+    <link rel="icon" href="image/logo.png"  type="image/x-icon">
+    <!-- swiper -->
+    <link
+            rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"
+    />
+    <!-- box icon import -->
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <!-- css -->
+    <link rel="stylesheet" href="css/preloader.css">
+    <link rel="stylesheet" href="css/index.css">
+    <link rel="stylesheet" href="css/navigationbar.css">
+    <link rel="stylesheet" href="css/footer.css">
+    <!-- signup css -->
+    <link rel="stylesheet" href="css/pageStyle/signup.css">
+    <style>
+        /* Styles for improved buttons */
+        .selectType {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            justify-content: center;
+            align-items: center;
+
+        }
+        .selectType p {
+            margin: 0;
+        }
+
+        .userTypeBtn {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #f0f0f0;
+            color: #333;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            text-decoration: none; /* Remove underline from link */
+            font-weight: bold;
+        }
+
+        .userTypeBtn.active {
+            background-color: #007bff;
+            color: white;
+        }
+
+        .submitSignup {
+            background-color: #28a745; /* Example color */
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            width: 100%; /* Make button full width */
+            font-weight: bold;
+        }
+
+        .submitSignup:hover {
+            background-color: #218838;
+        }
+
+        /* Hide last name field by default */
+        .inputRow.organization .lastnameBx {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+<!----  NAVIGATION BAR (navigationBar.js)---->
+<nav></nav>
+
+
+<!--GENERAL BANNER SECTION-->
+<section class="sectionBanner">
+    <div class="container">
+        <div class="content">
+            <h2>ลงทะเบียน</h2>
+            <p><span>หน้าหลัก</span>
+                <span>/</span>
+                <span>องค์กร</span>
+                <span>/</span>
+                <span>ผู้ใช้ทั่วไป</span>
+            </p>
+        </div>
+    </div>
+</section>
+
+
+<!-- SIGN UP SECTION -->
+<section class="signup">
+    <div class="container">
+        <div class="signupContent">
+            <div class="signupLeftBx">
+                <div class="image"><img src="https://www.krungsricard.com/KrungsriCreditCard/media/html/recycle-04m.jpg"
+                                        alt=""></div>
+            </div>
+            <div class="signupRightBx">
+                <div class="header">
+                    <h2>ลงทะเบียน</h2>
+                </div>
+               <!-- user type -->
+               <div class="selectType">
+                <a href="#" class="userTypeBtn active" data-type="user">บุคคลทั่วไป</a>
+                <a href="#" class="userTypeBtn" data-type="organization">องค์กร</a>
+                <input type="hidden" id="userType" value="user">
+            </div>
+            <form id="signupForm">
+                <div class="inputRow">
+                    <div class="inputBx" id="firstnameBx">
+                        <input type="text" placeholder="ชื่อจริง" id="firstnameInput" name="firstname">
+                        <p class="errTx"></p>
+                    </div>
+                    <div class="inputBx lastnameBx">
+                        <input type="text" placeholder="นามสกุล" id="lastnameInput" name="lastname">
+                        <p class="errTx"></p>
+                    </div>
+                </div>
+
+                <div class="inputBx">
+                    <input type="email" placeholder="อีเมล" id="emailInput" name="email">
+                    <p class="errTx"></p>
+                </div>
+                <div class="inputBx">
+                    <input type="text" placeholder="เบอร์(0000000000)..." id="phoneInput" name="phone">
+                    <p class="errTx"></p>
+                </div>
+
+
+                <div class="inputBx">
+                    <input type="password" placeholder="ตั้งรหัส..." id="passwordInput" name="password">
+                    <p class="errTx"></p>
+                </div>
+                <div class="confirm">
+                    <input type="checkbox" name="" id="acceptTheOffer">
+                    <span>จดจำ</span>
+                </div>
+                <button class="submitSignup" type="submit" id="signupBtn">ลงทะเบียน บุคคล</button>
+                <a href="login.html" class="haveAccTx">เข้าสู่ระบบ</a>
+            </form>
+        </div>
+    </div>
+</div>
+</section>
+
+
+
+
+<!-- import box icon -->
+<script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
+<!-- import Swiper script -->
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+<!-- import SweetAlert2 -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<!--All script -->
+<script src="./js/swiperScript/allSwiper.js"></script>
+<script src="./js/preloader.js"></script>
+<script src="./js/navigationBar.js"></script>
+<script src="./js/footer.js"></script>
+<script>
+    // user type
+    const userTypeBtns = document.querySelectorAll('.userTypeBtn');
+    const userTypeInput = document.getElementById('userType');
+    const firstnameInput = document.getElementById('firstnameInput');
+    const firstnameBx = document.getElementById('firstnameBx');
+    const inputRow = document.querySelector('.inputRow');
+
+    userTypeBtns.forEach(btn => {
+        btn.addEventListener('click', function (event) {
+            event.preventDefault(); // ป้องกันการ refresh หน้า
+            // ลบ active จากปุ่มทั้งหมด
+            userTypeBtns.forEach(innerBtn => innerBtn.classList.remove('active'));
+            // เพิ่ม active ให้กับปุ่มที่ถูกคลิก
+            this.classList.add('active');
+
+            // อัปเดตค่าใน input hidden
+            userTypeInput.value = this.dataset.type;
+
+            //อัปเดตข้อความปุ่ม
+            updateButtonText()
+            //Update Firstname input
+            updateFirstnameInput()
+        });
+    });
+
+    function updateButtonText() {
+        const userType = document.getElementById('userType').value;
+        if (userType == "user") {
+            document.getElementById('signupBtn').textContent = 'ลงทะเบียน บุคคล';
+        } else {
+            document.getElementById('signupBtn').textContent = 'ลงทะเบียน องค์กร';
+        }
+    }
+    function updateFirstnameInput() {
+        const userType = document.getElementById('userType').value;
+        if (userType == "user") {
+            firstnameInput.placeholder = "ชื่อจริง";
+            inputRow.classList.remove('organization');
+        } else {
+            firstnameInput.placeholder = "ชื่อองค์กร";
+            inputRow.classList.add('organization');
+        }
+    }
+    const signupForm = document.getElementById('signupForm');
+    signupForm.addEventListener('submit', function (event) {
+        event.preventDefault(); // ป้องกันการ reload หน้า
+
+        // สร้าง FormData object จาก form
+        const formData = new FormData(signupForm);
+        //Get username
+        formData.append('username',document.getElementById('emailInput').value)
+        //get user type
+        formData.append('user_type',document.getElementById('userType').value)
+
+        // ส่งข้อมูลไปยัง register.php
+        fetch('./register.php', { //แก้ path ของ php file
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === 'success') {
+                // ลงทะเบียนสำเร็จ
+                Swal.fire({
+                    icon: 'success',
+                    title: 'ลงทะเบียนสำเร็จ',
+                    text: data.message,
+                }).then((result) => {
+                  if (result.isConfirmed) {
+                        window.location.href = 'login.html'; //Redirect to login
+                  }
+              });
+            } else {
+                // ลงทะเบียนล้มเหลว
+                Swal.fire({
+                    icon: 'error',
+                    title: 'ลงทะเบียนไม่สำเร็จ',
+                    text: data.message,
+                });
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            Swal.fire({
+                icon: 'error',
+                title: 'เกิดข้อผิดพลาด',
+                text: 'ไม่สามารถลงทะเบียนได้ในขณะนี้',
+            });
+        });
+    });
+    updateFirstnameInput(); // เรียกใช้งานครั้งแรกเพื่อกำหนดค่าเริ่มต้น
+</script>
+</body>
+</html>

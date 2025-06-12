@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TRASH HAS VALUE</title>
+    <link rel="icon" href="image/user1.png"  type="image/x-icon">
+    <!-- swiper -->
+    <link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"
+    
+  />
+
+    <!-- box icon import -->
+     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <!-- css -->
+    <link rel="stylesheet" href="css/index.css">
+    <link rel="stylesheet" href="css/preloader.css">
+    <link rel="stylesheet" href="css/navigationbar.css">
+     <link rel="stylesheet" href="css/footer.css">
+     <!-- css page -->
+      <link rel="stylesheet" href="./css/pageStyle/home.css">
+</head>
+
+<style>
+    /* --- CSS สำหรับ Leaderboard ในหน้า Index --- */
+    .leaderboard-item {
+        display: flex;
+        align-items: center;
+        padding: 0.8rem 1rem; /* ปรับ padding เล็กน้อยสำหรับหน้า index */
+        border-bottom: 1px solid #eee;
+        transition: background-color 0.2s ease;
+        background-color: #fff; /* เพิ่มพื้นหลังสีขาว */
+        border-radius: 5px; /* เพิ่มขอบมนเล็กน้อย */
+        margin-bottom: 8px; /* เพิ่มระยะห่างระหว่างรายการ */
+    }
+    .leaderboard-item:last-child {
+        border-bottom: none;
+        margin-bottom: 0;
+    }
+    .leaderboard-item .rank {
+        font-size: 1.1em; /* ปรับขนาด */
+        font-weight: 700;
+        color: #6c757d;
+        width: 35px; /* ปรับขนาด */
+        text-align: center;
+        margin-right: 0.8rem; /* ปรับระยะห่าง */
+    }
+    .leaderboard-item .name {
+        flex-grow: 1;
+        font-weight: 500;
+        color: #212529;
+        font-size: 1em; /* ปรับขนาด */
+    }
+    .leaderboard-item .points {
+        font-weight: 600;
+        color: #198754;
+        font-size: 1em; /* ปรับขนาด */
+        min-width: 70px; /* ปรับขนาด */
+        text-align: right;
+    }
+    .leaderboard-item .points i { margin-right: 0.3rem; color: #ffc107; }
+    .leaderboard-item.rank-1 .rank { color: #ffc107; } /* Gold */
+    .leaderboard-item.rank-2 .rank { color: #adb5bd; } /* Silver */
+    .leaderboard-item.rank-3 .rank { color: #cd7f32; } /* Bronze */
+</style>
+<body>
+    
+    <!----  NAVIGATION BAR (navigationBar.js)---->
+    <nav></nav>
+
+
+    <!---- BANNER SECTION ---->
+       <section class="banner">
+            <div class="swiper bannerSwiper">
+                <div class="swiper-wrapper">
+                  <div class="swiper-slide bannerSlide slide1">
+                    <div class="container">
+                        <div class="content">
+                            <h1>🗑️🚮 ขยะไม่มีจริง!!</h1>
+                            <p class="description">“เปลี่ยนขยะให้เป็นเงิน! 💰♻️ มาขายวัสดุรีไซเคิลกับเรา ช่วยลดขยะ สร้างรายได้ และรักษาสิ่งแวดล้อมไปพร้อมกัน 🌍✨ ไม่ว่าคุณจะมีขวดพลาสติก กระดาษ โลหะ หรือวัสดุเหลือใช้ มารวมกันที่นี่เพื่อหาผู้ซื้อที่ให้ราคาดีที่สุด สมัครเลยวันนี้ แล้วมาสร้างโลกที่สะอาดขึ้นด้วยกัน! 🌱”</p>
+                            <div class="btnBx">
+                                <a href="./menu.html" class="btn1">ขาย</a>
+                            </div>
+                        </div>
+                        <div class="imageSpin"><img src="./image/pas.png" alt=""></div>
+                    </div>
+                  </div>
+
+                  <div class="swiper-slide bannerSlide slide2">
+                    <div class="container">
+                        <div class="content">
+                            <h1>⋆｡‧˚ʚ🗑️ɞ˚‧｡⋆สมัครเพื่อเป็นส่วนหนึ่งกับเรา</h1>
+                            <p class="description">ลดปริมาณขยะ การนำวัสดุที่ใช้แล้วกลับมาแปรรูปใหม่ ช่วยลดปริมาณขยะ
+                                ที่ถูกฝังกลบ ลดปัญหาขยะล้นเมืองอนุรักษ์ทรัพยากรธรรมชาติ การผลิตผลิตภัณฑ์
+                                ใหม่จากวัสดุรีไซเคิล ช่วยลดการใช้ทรัพยากรธรรมชาติ เช่น น้ำมัน ต้นไม้ 
+                                ลดมลพิษ: กระบวนการผลิตวัสดุรีไซเคิล สร้างมลพิษน้อยกว่าการผลิตวัสดุใหม่
+                                ประหยัดพลังงาน การรีไซเคิลช่วยลดการใช้พลังงานในการผลิต</p>
+                                <div class="btnBx">
+                                    <a href="./signup.html" class="btn1">ลงทะเบียน</a>
+                                    <a href="./login.html" class="btn2">เข้าสู่ระบบ</a> 
+                                </div>
+                        </div>
+                        <div class="imageSpin"><img src="./image/pas1.png" alt=""></div>
+                    </div>
+                </div>
+                  
+
+                </div>
+                <div class="swiper-button-next"></div>
+                <div class="swiper-button-prev"></div>
+                <div class="swiper-pagination"></div>
+              </div>
+
+       </section>
+
+
+    <!----- SERVICE SECTION ---->
+    <section class="service">
+        <div class="container">
+            <p class="miniTx"><center>รายการทั้งหมด</center></p>
+            <h2 class="headerTx"><center>ประเภทขยะที่สามารถ ขาย/บริจาค ได้</center></h2>
+             <!-- index.html -->
+            <section class="garbageType" id="garbageType">  <!-- เพิ่ม id="garbageType" -->
+             <div class="container">
+               <div class="title">ประเภทขยะที่สามารถ ขาย/บริจาค ได้</div>
+              <!-- ... (เนื้อหาอื่น ๆ ในส่วนนี้) ... -->
+            <h1><center><br></center></h1>
+            <div class="serviceBox">
+                <div class="serviceDetail">
+                    
+                    <a href="./pastic.html" class="member_btn"><div class="icon"><img src="./image/pas5.png" alt=""></div></a>
+                    <div class="header">พลาสติก</div>
+                    
+
+                    <div class="detail"><center>ขวดน้ำ pet | พลาสติกที่ยืดได้ | พลาสติก hdpe | ขวดยาคูล | กล่องอาหาร</center></div>
+                </div>
+                <div class="serviceDetail">
+                    
+                    <a href="./paper1.html" class="member_btn"><div class="icon"><img src="./image/pas6.png" alt=""></div></a>
+                    <div class="header">กระดาษ </div>
+
+                    <div class="detail"><center>กล่องนม น้ำ | กระดาษลัง | กระดาษฝอย,ขาว</center></div>
+                </div>
+                <div class="serviceDetail">
+                    
+                    <a href="./paper.html" class="member_btn"><div class="icon"><img src="./image/pas7.png" alt=""></div></a>
+                    <div class="header">กระป๋อง</div>
+
+                    <div class="detail"><center>อลูมิเนียม</center></div>
+                </div>
+                <div class="serviceDetail">
+                    
+                    <a href="./index.html" class="member_btn"><div class="icon"><img src="./image/pas8.png" alt=""></div></a>
+                    <div class="header">โฟม</div>
+
+                    <div class="detail"><center>ไม่มีแยกประเภท</center></div>
+                </div>
+                <div class="">
+                    
+                </div>
+                <div class="serviceDetail">
+                    
+                    <a href="./index.html" class="member_btn"><div class="icon"><img src="./image/pas9.png" alt=""></div></a>
+                    <div class="header">ขยะจากการก่อสร้าง</div>
+
+                    <div class="detail"><center>เหล็กรวม | ถังสี</center></div>
+                </div>
+                <div class="serviceDetail">
+                    
+                    <a href="./index.html" class="member_btn"><div class="icon"><img src="./image/pas10.png" alt=""></div></a>
+                    <div class="header">อื่นๆ</div>
+
+                    <div class="detail"><center>น้ำมัน  | อิเลกทรอนิค</center></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- ABOUT SECTION ---->
+     <section class="about">
+        <div class="container">
+            <div class="leftBx">
+                <div class="image">
+                    <img src="https://www.nongkhaem.go.th/wp-content/uploads/2022/09/LINE_ALBUM_ขายขยะ_๒๒๐๙๐๕_10.jpg" alt="">
+                </div>
+                <div class="image">
+                    <img src="https://www.filesabt.com/uppic/060115/gallery/060115_4_20240319-140741.jpg" alt="">
+                </div>
+                <div class="image">
+                    <img src="https://abt.in.th/_files_aorbortor/021443/uploads/images/S__30154756.jpg" alt="">
+                </div>
+                <div class="image">
+                    <img src="https://www.baanklang.go.th/wp-content/uploads/2024/04/IMG_9668-724x1024.jpeg" alt="">
+                </div>
+            </div>
+            <div class="rightBx">
+                <div class="content">
+                    <p class="miniTx">ยินดีต้อนรับ</p>
+                    <h2 class="headerTx">เว็บบอร์ดของเรา</h2>
+                    <p class="description">เว็บบอร์ดของเราคือพื้นที่สำหรับแลกเปลี่ยนความรู้ แชร์ไอเดีย และพูดคุยเรื่องการรีไซเคิล พร้อมกิจกรรมส่งเสริมการแยกขยะที่ถูกต้อง และโครงการร่วมกันลดขยะ เพื่อให้ทุกคนมีส่วนร่วมในการสร้างสังคมที่เป็นมิตรกับสิ่งแวดล้อม</p>
+                    <p class="description">
+                        ศูนย์กลางสำหรับผู้ที่สนใจการรีไซเคิลและการจัดการขยะอย่างยั่งยืน ที่นี่คุณสามารถแลกเปลี่ยนความรู้ แชร์เทคนิคการคัดแยกขยะ ตั้งกระทู้ถาม-ตอบเกี่ยวกับการรีไซเคิล รวมถึงอัปเดตข่าวสารเกี่ยวกับสิ่งแวดล้อมและนวัตกรรมด้านการจัดการขยะ นอกจากนี้ยังมีกิจกรรมส่งเสริมการแยกขยะที่ถูกต้อง และโครงการร่วมกันลดขยะ เพื่อให้ทุกคนมีส่วนร่วมในการสร้างสังคมที่เป็นมิตรกับสิ่งแวดล้อม
+                    </p>
+                    <div class="restaurantDetail">
+                        <div class="experience">
+                            <div class="num">30</div>
+                            <div class="data">
+                                <p>จำนวน</p>
+                                <p>กระทู้</p>
+                            </div>
+                        </div>
+                        <div class="chef">
+                            <div class="num">10</div>
+                            <div class="data">
+                                <p>จำนวน</p>
+                                <p>กิจกรรม</p>
+                            </div>
+                        </div>
+                    </div>
+                    <a href="web1.html" class="btn">เข้าสู่เว็บบอร์ด</a>
+
+                </div>
+            </div>
+        </div>
+     </section>
+
+
+     <!----- MENU SECTION ---->
+     <section class="menu">
+        <div class="container">
+            <div class="header">
+                 <!-- <span>มกราคม</span> อาจจะเอาออก หรือเปลี่ยนเป็น "Top Users" -->
+                 <h2><i class="fas fa-trophy me-2" style="color: #ffc107;"></i> อันดับผู้ใช้ที่รีไซเคิลสูงสุด</h2> <!-- เปลี่ยนหัวข้อเล็กน้อย -->
+                </div>
+    
+                <!-- ส่วนแสดงผล Leaderboard -->
+                <div id="index-leaderboard-list" style="max-width: 600px; margin: 20px auto;">
+                    <div class="loading-indicator" style="text-align: center; padding: 1rem; color: #6c757d;">
+                        <div class="spinner-border text-primary spinner-border-sm" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                        <span class="ms-2">กำลังโหลดอันดับ...</span>
+                    </div>
+                    <!-- รายการจะถูกใส่ที่นี่โดย JavaScript -->
+                </div>
+    
+                <!-- ข้อความแสดงเมื่อเกิดข้อผิดพลาด -->
+                <div id="index-error-display" class="error-message" style="display: none; text-align: center; padding: 1rem; color: #dc3545;">
+                    <p id="index-error-details"></p>
+                </div>
+    
+                 <!-- ข้อความแสดงเมื่อไม่มีข้อมูล -->
+                 <div id="index-no-data-display" class="no-data-message" style="display: none; text-align: center; padding: 1rem; color: #6c757d;">
+                    <p>ยังไม่มีข้อมูลคะแนน</p>
+                </div>
+    
+                <a href="point.html" class="menuBtn" style="margin-top: 20px;">ดูอันดับทั้งหมด</a> <!-- ปุ่มลิงก์ไปหน้า point.html -->
+        </div>
+     </section>
+
+    <!-- JavaScript for Smooth Scroll -->
+    <script>
+        document.getElementById("scrollToService").addEventListener("click", function(event) {
+            event.preventDefault();
+            document.getElementById("service-section").scrollIntoView({ behavior: "smooth" });
+        });
+        
+    </script>
+
+    <!----- DISCOUNT SECTION ---->
+    <section class="discountMember">
+        <div class="container">
+            <div class="content">
+                <h2>“ขอบคุณที่มาเยี่ยมชมเว็บไซต์ซื้อขายวัสดุรีไซเคิลของเรา! ♻️✨ หวังว่าแพลตฟอร์มนี้จะช่วยให้การซื้อขายขยะรีไซเคิลเป็นเรื่องง่าย สร้างรายได้ และช่วยรักษาสิ่งแวดล้อมไปพร้อมกัน 🌍 อย่าลืมกลับมาเยี่ยมชมอีกนะ!”</h2>
+                <a href="./member.html" class="member_btn">กลับสู่หน้าหลัก</a>
+            </div>
+        </div>
+    </section>
+
+  
+
+
+
+    
+   <!-- import box icon -->
+    <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
+    <!-- import Swiper script -->
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <!-- import SweetAlert 2 -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <!--All script -->
+    <script src="./js/swiperScript/allSwiper.js"></script>
+     <script src="./js/navigationBar.js"></script>
+     <script src="./js/footer.js"></script>
+    
+     <!-- <script src="./js/pageScript/home.js"></script> --> <!-- อาจจะไม่ต้องใช้ ถ้า home.js ไม่มีอะไรสำคัญ -->
+
+     <!-- เพิ่ม JavaScript สำหรับ Leaderboard โดยตรง -->
+     <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const listDiv = document.getElementById('index-leaderboard-list');
+            const loadingIndicator = listDiv ? listDiv.querySelector('.loading-indicator') : null;
+            const errorDisplayDiv = document.getElementById('index-error-display');
+            const errorDetailsP = document.getElementById('index-error-details');
+            const noDataDisplayDiv = document.getElementById('index-no-data-display');
+
+            const MAX_DISPLAY_RANK = 5; // กำหนดจำนวนอันดับสูงสุดที่จะแสดงในหน้า index (เช่น 5 หรือ 6)
+
+            function showError(message) {
+                if (loadingIndicator) loadingIndicator.style.display = 'none';
+                if (listDiv) listDiv.style.display = 'none';
+                if (noDataDisplayDiv) noDataDisplayDiv.style.display = 'none';
+                if (errorDetailsP) errorDetailsP.textContent = message;
+                if (errorDisplayDiv) errorDisplayDiv.style.display = 'block';
+            }
+
+            function showNoData() {
+                if (loadingIndicator) loadingIndicator.style.display = 'none';
+                if (listDiv) listDiv.style.display = 'none';
+                if (errorDisplayDiv) errorDisplayDiv.style.display = 'none';
+                if (noDataDisplayDiv) noDataDisplayDiv.style.display = 'block';
+            }
+
+            function escapeHtml(unsafe) {
+                if (typeof unsafe !== 'string') return unsafe;
+                return unsafe.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
+            }
+
+            function createLeaderboardItem(user, rank) {
+                const li = document.createElement('div');
+                li.className = 'leaderboard-item';
+                if (rank <= 3) li.classList.add(`rank-${rank}`);
+
+                const fullName = `${escapeHtml(user.firstname || '')} ${escapeHtml(user.lastname || '')}`.trim();
+
+                li.innerHTML = `
+                    <span class="rank">${rank}</span>
+                    <span class="name">${fullName || '<i>ไม่ระบุชื่อ</i>'}</span>
+                    <span class="points"><i class="fas fa-star" style="color: #ffc107;"></i> ${escapeHtml(user.total_points || 0)}</span>
+                `;
+                return li;
+            }
+
+            function loadIndexLeaderboard() {
+                if (!listDiv || !loadingIndicator || !errorDisplayDiv || !noDataDisplayDiv) {
+                    console.error("Leaderboard elements not found in index.html");
+                    return;
+                }
+
+                loadingIndicator.style.display = 'block';
+                listDiv.style.display = 'block';
+                errorDisplayDiv.style.display = 'none';
+                noDataDisplayDiv.style.display = 'none';
+
+                fetch('./get_leaderboard.php') // เรียก PHP เดิม
+                    .then(response => {
+                        if (!response.ok) {
+                            return response.json().then(errData => { throw new Error(errData.message || `HTTP error! status: ${response.status}`); })
+                                .catch(() => { throw new Error(`HTTP error! status: ${response.status}`); });
+                        }
+                        return response.json();
+                    })
+                    .then(result => {
+                        loadingIndicator.style.display = 'none';
+                        if (result.status === 'success' && result.data) {
+                            if (result.data.length > 0) {
+                                listDiv.innerHTML = ''; // Clear loading
+                                const topUsers = result.data.slice(0, MAX_DISPLAY_RANK); // เอาแค่ Top N
+                                topUsers.forEach((user, index) => {
+                                    const rank = index + 1;
+                                    const itemElement = createLeaderboardItem(user, rank);
+                                    listDiv.appendChild(itemElement);
+                                });
+                            } else { showNoData(); }
+                        } else { showError(result.message || 'ไม่สามารถโหลดข้อมูลอันดับได้'); }
+                    })
+                    .catch(error => {
+                        console.error('Fetch Error:', error);
+                        showError(`เกิดข้อผิดพลาดในการเชื่อมต่อ: ${error.message}`);
+                    });
+            }
+
+            loadIndexLeaderboard();
+        });
+     </script>
+
+</body>
+</html>

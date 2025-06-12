@@ -1,0 +1,763 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TRASH HAS VALUE</title>
+    <link rel="icon" href="image/user1.png" type="image/x-icon">
+    <!-- swiper -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+    <!-- box icon import -->
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <!-- css -->
+    <link rel="stylesheet" href="css/index.css">
+    <link rel="stylesheet" href="css/preloader.css">
+    <link rel="stylesheet" href="css/navigationbar.css">
+    <link rel="stylesheet" href="css/footer.css">
+    <!-- css page -->
+    <link rel="stylesheet" href="./css/pageStyle/home.css">
+
+    <style>
+        /* ทำให้ Navigation Bar เป็นพื้นหลังสีดำ และตัวอักษรเป็นสีขาว */
+
+        .headerTx, .miniTx {
+            color: black;
+        }
+
+        .serviceDetail .header {
+            color: black;
+        }
+
+        /* สไตล์สำหรับ tooltip */
+        .tooltip {
+            position: relative;
+            display: inline-block;
+        }
+
+        .tooltip .tooltiptext {
+            visibility: hidden;
+            width: 200px;
+            background-color: black;
+            color: #fff;
+            text-align: center;
+            border-radius: 5px;
+            padding: 5px 0;
+            position: absolute;
+            z-index: 1;
+            bottom: 125%; /* แสดงขึ้นด้านบน */
+            left: 50%;
+            margin-left: -100px;
+            opacity: 0;
+            transition: opacity 0.3s;
+            font-size: 18px; /* ลดขนาดฟอนต์ */
+        }
+
+        .tooltip:hover .tooltiptext {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        /* ปรับขนาด Pop-up ให้ใหญ่ขึ้น */
+        .swal2-popup {
+            font-size: 18px !important;
+            width: 500px !important;
+            padding: 20px;
+        }
+
+        /* สไตล์สำหรับข้อความที่อธิบายการรีไซเคิล */
+        .recycling-info {
+            margin-top: 20px;
+            font-size: 16px;
+            color: #333;
+        }
+
+        /* สไตล์สำหรับแผนที่ */
+        #map {
+            width: 100%;
+            height: 400px;
+        }
+        .swal2-popup {
+            font-size: 18px !important;
+            width: 800px !important; /* ปรับขนาด Pop-up ให้ใหญ่ขึ้น */
+            padding: 20px;
+        }
+        #map {
+            width: 100%;
+            height: 400px;
+        }
+        .buyer-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* ปรับให้ responsive */
+            gap: 20px;
+            margin-top: 20px;
+        }
+        .buyer-item {
+            border: 1px solid #ccc;
+            padding: 15px;
+            border-radius: 10px;
+            cursor: pointer;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.3s ease;
+        }
+        .buyer-item:hover {
+            background-color: #f0f0f0;
+        }
+        .buyer-item.selected {
+    background-color: #e0f0ff;
+    border-color: #007bff;
+}
+
+        .buyer-name {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        .buyer-address, .buyer-price {
+            font-size: 14px;
+            color: #555;
+        }
+                /* --- เพิ่ม CSS จาก Allbuy.html สำหรับ Card --- */
+                .buy-request-card {
+            border: 1px solid #dee2e6; margin-bottom: 1rem; padding: 1.25rem;
+            border-radius: 0.375rem; background-color: #ffffff;
+            box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+            transition: transform 0.2s ease-in-out, background-color 0.2s ease-in-out, border-color 0.2s ease-in-out; /* เพิ่ม transition */
+            cursor: pointer; /* ทำให้รู้ว่าคลิกได้ */
+        }
+        .buy-request-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+        }
+        .buy-request-card h5 {
+            color: #0d6efd; /* Bootstrap primary color */
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            display: flex; /* จัดไอคอนกับชื่อให้อยู่บรรทัดเดียวกัน */
+            align-items: center;
+        }
+        .buy-request-card h5 i { /* จัดระยะห่างไอคอน */
+            margin-right: 0.5rem;
+        }
+        .meta-info {
+            font-size: 0.875em;
+            color: #6c757d; /* Bootstrap secondary color */
+            margin-bottom: 0.75rem;
+        }
+        .meta-info i {
+            margin-right: 0.3rem;
+        }
+        .details p {
+            margin-bottom: 0.5rem;
+            line-height: 1.5;
+        }
+        /* --- สิ้นสุด CSS จาก Allbuy.html --- */
+
+        /* --- CSS เพิ่มเติมสำหรับ Popup ใน plastic.html --- */
+        /* ทำให้ list ใน popup แสดงผลแนวตั้งและมี scroll */
+        .buyer-list-cards {
+            max-height: 60vh; /* จำกัดความสูงของ list */
+            overflow-y: auto; /* เพิ่ม scrollbar แนวตั้ง */
+            padding-right: 10px; /* เพิ่มช่องว่างสำหรับ scrollbar */
+            margin-top: 15px; /* เพิ่มระยะห่างด้านบนเล็กน้อย */
+        }
+
+        /* สไตล์สำหรับ card ที่ถูกเลือก */
+        .buyer-selectable-card.selected {
+            background-color: #cfe2ff; /* สีพื้นหลังเมื่อเลือก (Bootstrap info background) */
+            border-color: #9ec5fe; /* สีขอบเมื่อเลือก (Bootstrap info border) */
+            transform: translateY(-1px); /* ลดการยกตัวเล็กน้อย */
+            box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.1);
+        }
+
+        /* ปรับแต่ง popup ให้กว้างขึ้น (ถ้าต้องการ) */
+        .buyer-selection-popup {
+             /* อาจจะไม่ต้องใช้ถ้า width: '80%' ใน Swal.fire พอแล้ว */
+        }
+
+        /* เพิ่ม Font Awesome ถ้ายังไม่มี */
+        /* @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css'); */
+
+
+    </style>
+    <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_GOOGLE_MAPS_API_KEY&callback=initMap&v=weekly" async></script>
+</head>
+<body>
+    <nav>
+        <div class="nav-links">
+            <a href="#">หน้าหลัก</a>
+            <a href="#">บริการ</a>
+            <a href="#">ติดต่อ</a>
+        </div>
+    </nav>
+    <br><br>
+    <section class="service">
+        <div class="container">
+            <p class="miniTx"><center>รายการทั้งหมด</center></p>
+            <h2 class="headerTx"><center>ประเภทขยะพลาสติกที่สามารถ ขาย/บริจาค ได้</center></h2>
+            <h1><center><br></center></h1>
+            <div class="serviceBox">
+                <div class="serviceDetail">
+                    <a href="javascript:void(0);" class="member_btn" onclick="showRecyclingPopup('PET')">
+                        <div class="icon tooltip">
+                            <img src="./image/f1.png" alt="">
+                            <span class="tooltiptext">ขวดน้ำ PET ต้องล้างให้สะอาดและตัดปากขวดออก เพื่อไม่ให้ปนเปื้อน</span>
+                        </div>
+                    </a>
+                    <div class="header">ขวดน้ำ PET</div>
+                </div>
+                <div class="serviceDetail">
+                    <a href="javascript:void(0);" class="member_btn" onclick="showRecyclingPopup('Stretchable')">
+                        <div class="icon tooltip">
+                            <img src="./image/f2.png" alt="">
+                            <span class="tooltiptext">พลาสติกที่ยืดได้ ควรแยกจากพลาสติกประเภทอื่นๆ</span>
+                        </div>
+                    </a>
+                    <div class="header">พลาสติกที่ยืดได้</div>
+                </div>
+                <div class="serviceDetail">
+                    <a href="javascript:void(0);" class="member_btn" onclick="showRecyclingPopup('HDPE')">
+                        <div class="icon tooltip">
+                            <img src="./image/f3.png" alt="">
+                            <span class="tooltiptext">พลาสติก HDPE สามารถรีไซเคิลได้หากล้างให้สะอาด</span>
+                        </div>
+                    </a>
+                    <div class="header">พลาสติก HDPE</div>
+                </div>
+                <div class="serviceDetail">
+                    <a href="javascript:void(0);" class="member_btn" onclick="showRecyclingPopup('Yakult')">
+                        <div class="icon tooltip">
+                            <img src="./image/f4.png" alt="">
+                            <span class="tooltiptext">ขววยาคูลท์ ควรล้างให้สะอาดและตัดปากขวดออก</span>
+                        </div>
+                    </a>
+                    <div class="header">ขวดยาคูลท์</div>
+                </div>
+                <div class="serviceDetail">
+                    <a href="javascript:void(0);" class="member_btn" onclick="showRecyclingPopup('FoodBox')">
+                        <div class="icon tooltip">
+                            <img src="./image/f5.png" alt="">
+                            <span class="tooltiptext">กล่องอาหารควรล้างก่อนนำไปรีไซเคิล</span>
+                        </div>
+                    </a>
+                    <div class="header">กล่องอาหาร</div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        let currentUserId = null;
+        fetch('./getCurrentUserId.php')
+            .then(response => response.json())
+            .then(data => {
+                if(data.userId) {
+                    currentUserId = data.userId;
+                } else {
+                    console.error('Error: Could not retrieve current user ID.');
+                }
+            })
+            .catch(error => {
+                console.error('Error fetching current user ID:', error);
+            });
+        let selectedWasteType = '';
+        let selectedWeight = 0;
+        let userAddress = '';
+        let userLatitude = 0;
+        let userLongitude = 0;
+        let selectedBuyer = '';
+        let buyers = []; // เปลี่ยนเป็น array เปล่า
+        function showRecyclingPopup(type) {
+            selectedWasteType = type;
+            let title, text, infoText;
+            switch (type) {
+                case 'PET':
+                    title = 'วิธีการรีไซเคิลขวดน้ำ PET';
+                    text = 'ขวดน้ำ PET ควรล้างให้สะอาดและตัดปากขวดออก เพื่อไม่ให้ปนเปื้อน ก่อนที่จะนำไปรีไซเคิล.';
+                    infoText = `1. ขวดน้ำ PET ควรแยกจากพลาสติกประเภทอื่นๆ.<br>2. ทำความสะอาดให้ไม่มีคราบสกปรก.<br>3. ปิดฝาขวดและล้างให้สะอาด.<br>4. ไม่ควรทิ้งขยะ PET ในที่ที่มีความร้อน.<br>5. ควรตัดปากขวดออกเพื่อไม่ให้ปนเปื้อน.`;
+                    break;
+                case 'Stretchable':
+                    title = 'วิธีการรีไซเคิลพลาสติกที่ยืดได้';
+                    text = 'พลาสติกที่ยืดได้ ควรแยกจากพลาสติกประเภทอื่นๆ และล้างให้สะอาดก่อนทิ้ง.';
+                    infoText = `1. พลาสติกยืดได้สามารถรีไซเคิลได้ถ้าล้างให้สะอาด.<br>2. ควรเก็บในถุงพลาสติกเพื่อสะดวกในการจัดการ.<br>3. ไม่ควรผสมกับพลาสติกประเภทอื่น.<br>4. หากมีคราบมันควรทิ้งไปในขยะทั่วไป.<br>5. ตรวจสอบสถานที่รีไซเคิลที่รับพลาสติกยืดได้.`;
+                    break;
+                case 'HDPE':
+                    title = 'วิธีการรีไซเคิลพลาสติก HDPE';
+                    text = 'พลาสติก HDPE ควรล้างให้สะอาดและแห้งก่อนนำไปรีไซเคิล.';
+                    infoText = `1. ล้างพลาสติกให้สะอาดและแห้ง.<br>2. แยกพลาสติก HDPE ออกจากพลาสติกอื่น.<br>3. ไม่ควรทิ้งพลาสติกที่มีคราบน้ำมัน.<br>4. ควรนำไปรีไซเคิลในที่ที่รับพลาสติกชนิดนี้.<br>5. ตรวจสอบสัญลักษณ์การรีไซเคิลบนบรรจุภัณฑ์.`;
+                    break;
+                case 'Yakult':
+                    title = 'วิธีการรีไซเคิลขววยาคูลท์';
+                    text = 'ขววยาคูลท์ควรล้างให้สะอาดและตัดปากขวดออกก่อนนำไปรีไซเคิล.';
+                    infoText = `1. ล้างขววยาคูลท์ให้สะอาด.<br>2. ตัดปากขวดออกเพื่อไม่ให้ปนเปื้อน.<br>3. นำขวดไปทิ้งในถังรีไซเคิลที่เหมาะสม.<br>4. หลีกเลี่ยงการใช้ขวดที่มีคราบนม.<br>5. ตรวจสอบกับศูนย์รีไซเคิลใกล้บ้าน.`;
+                    break;
+                case 'FoodBox':
+                    title = 'วิธีการรีไซเคิลกล่องอาหาร';
+                    text = 'กล่องอาหารควรล้างให้สะอาดก่อนนำไปรีไซเคิล.';
+                    infoText = `1. ควรล้างกล่องอาหารให้สะอาดก่อนทิ้ง.<br>2. ถ้าเป็นกล่องที่ใช้บรรจุของเหลวควรแยกออก.<br>3. ไม่ควรทิ้งกล่องอาหารที่มีคราบน้ำมัน.<br>4. ตรวจสอบสัญลักษณ์รีไซเคิลที่กล่อง.<br>5. นำไปทิ้งในถังรีไซเคิลที่รองรับ.`;
+                    break;
+            }
+            Swal.fire({
+                title: title,
+                html: `<div class="recycling-info">${infoText}</div>`,
+                icon: 'info',
+                showConfirmButton: true,
+                confirmButtonText: 'ต่อไป'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    showWeightPopup();
+                }
+            });
+        }
+        function showWeightPopup() {
+            Swal.fire({
+                title: 'เลือกจำนวนกิโลกรัมที่จะรีไซเคิล',
+                input: 'number',
+                inputAttributes: {
+                    min: 1,
+                    max: 1000,
+                    step: 1
+                },
+                showCancelButton: true,
+                confirmButtonText: 'ยืนยัน',
+                cancelButtonText: 'ยกเลิก',
+                inputPlaceholder: 'กรอกจำนวนกิโลกรัม',
+                inputValidator: (value) => {
+                    if (!value) {
+                        return 'กรุณากรอกจำนวนกิโลกรัม!';
+                    }
+                }
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    selectedWeight = parseInt(result.value);
+                    showAddressPopup();
+                }
+            });
+        }
+        function showAddressPopup() {
+    if (!currentUserId) {
+        Swal.fire('ข้อผิดพลาด', 'ไม่พบข้อมูลผู้ใช้ กรุณาล็อกอินก่อน', 'error');
+        return;
+    }
+
+    // แสดงสถานะกำลังโหลด
+    Swal.fire({
+        title: 'กำลังโหลดข้อมูลที่อยู่...',
+        text: 'กรุณารอสักครู่',
+        allowOutsideClick: false,
+        didOpen: () => {
+            Swal.showLoading();
+        }
+    });
+
+    // เรียก get_address.php เพื่อดึงข้อมูลที่อยู่
+    fetch(`./get_address.php?userId=${currentUserId}`) // ส่ง userId ไปด้วย (ต้องมี get_address.php)
+        .then(response => {
+            if (!response.ok) {
+                 // ลองอ่าน text เพื่อดู error message จาก PHP ถ้ามี
+                 return response.text().then(text => { throw new Error(`HTTP error! status: ${response.status}, message: ${text}`) });
+            }
+            return response.json();
+        })
+        .then(data => {
+            Swal.close(); // ปิด loading
+
+            if (data.error) {
+                // กรณี PHP แจ้ง error กลับมา (เช่น ไม่พบข้อมูล)
+                console.warn("Address not found or error:", data.error);
+                Swal.fire({
+                    title: 'ไม่พบข้อมูลที่อยู่',
+                    html: `ไม่พบข้อมูลที่อยู่ที่บันทึกไว้สำหรับบัญชีนี้<br><br>กรุณาไปเพิ่มหรือแก้ไขที่หน้าจัดการที่อยู่<br><br><a href="address.html" class="swal2-confirm swal2-styled" style="text-decoration:none; background-color: #17a2b8;">ไปหน้าจัดการที่อยู่</a>`,
+                    icon: 'warning',
+                    showConfirmButton: false, // ซ่อนปุ่ม OK เริ่มต้น
+                    showCancelButton: true,
+                    cancelButtonText: 'ยกเลิก'
+                });
+            } else if (data && data.province) {
+                // พบข้อมูลที่อยู่
+                userAddressDetails = data; // เก็บข้อมูลทั้งหมดไว้เผื่อใช้
+                // สร้าง String ที่อยู่สำหรับแสดงผลและส่งต่อ
+                userAddressString = `${data.house_number || ''} ต.${data.sub_district || ''} อ.${data.district || ''} จ.${data.province || ''} ${data.postal_code || ''}`.trim();
+                userAddress = userAddressString; // อัปเดตตัวแปรหลักที่จะใช้ส่ง
+                userLatitude = data.latitude || 0; // ใช้ lat ที่ดึงมา (ถ้ามี)
+                userLongitude = data.longitude || 0; // ใช้ lng ที่ดึงมา (ถ้ามี)
+
+                console.log("Fetched Address:", userAddressString, "Lat:", userLatitude, "Lng:", userLongitude);
+
+                // แสดง pop-up ยืนยันที่อยู่
+                Swal.fire({
+                    title: 'ยืนยันที่อยู่สำหรับรีไซเคิล',
+                    html: `
+                        <p><strong>ที่อยู่ที่บันทึกไว้:</strong></p>
+                        <div style="text-align: left; margin-left: 15px; background-color: #f8f9fa; padding: 10px; border-radius: 5px; border: 1px solid #dee2e6;">
+                            ${escapeHtml(userAddressString)}
+                        </div>
+                        ${(userLatitude && userLongitude) ? `<p style="margin-top: 5px;"><small>(ตำแหน่งโดยประมาณ: ${userLatitude.toFixed(5)}, ${userLongitude.toFixed(5)})</small></p>` : '<p style="margin-top: 5px;"><small>(ไม่มีข้อมูลตำแหน่ง)</small></p>'}
+                        <hr style="margin: 15px 0;">
+                        <p><small>หากต้องการเปลี่ยนที่อยู่ กรุณาไปที่หน้า <a href="address.html" target="_blank">จัดการที่อยู่</a> ก่อนทำรายการใหม่</small></p>
+                    `,
+                    icon: 'info',
+                    showCancelButton: true,
+                    confirmButtonText: 'ใช้ที่อยู่นี้',
+                    cancelButtonText: 'ยกเลิก',
+                    confirmButtonColor: '#28a745', // สีเขียว
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        // ผู้ใช้ยืนยันใช้ที่อยู่นี้ -> ไปขั้นตอนเลือกผู้รับซื้อ
+                        fetchBuyers();
+                    }
+                });
+
+            } else {
+                 // กรณีได้รับ JSON กลับมา แต่รูปแบบไม่ถูกต้อง หรือไม่มีข้อมูลสำคัญ
+                 console.error("Invalid address data format received:", data);
+                 throw new Error('รูปแบบข้อมูลที่อยู่ไม่ถูกต้อง');
+            }
+        })
+        .catch(error => {
+            Swal.close(); // ปิด loading
+            console.error('Error fetching or processing address:', error);
+            Swal.fire({
+                title: 'เกิดข้อผิดพลาด',
+                text: `ไม่สามารถดึงข้อมูลที่อยู่ได้ (${error.message})`,
+                icon: 'error'
+            });
+        });
+}
+
+        function fetchBuyers() {
+    // เปลี่ยน URL เป็น get_buy_requests.php
+    fetch('./get_buy_requests.php')
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            return response.json();
+        })
+        .then(result => {
+            if (result.status === 'success' && Array.isArray(result.data)) {
+                buyers = result.data; // เก็บข้อมูลที่ได้
+                console.log("Fetched Buy Requests:", buyers); // Log ดูข้อมูล
+                showBuyerPopup(); // เรียก popup แสดงผล
+            } else {
+                throw new Error(result.message || 'Failed to fetch buy requests data');
+            }
+        })
+        .catch(error => {
+            console.error('Error fetching buy requests:', error);
+            Swal.fire({
+                title: 'เกิดข้อผิดพลาด!',
+                text: 'ไม่สามารถดึงข้อมูลผู้รับซื้อได้',
+                icon: 'error'
+            });
+        });
+}
+
+        // --- ฟังก์ชันสำหรับ Escape HTML ป้องกัน XSS ---
+function escapeHtml(unsafe) {
+    if (!unsafe) return '';
+    return unsafe
+         .replace(/&/g, "&amp;")
+         .replace(/</g, "&lt;")
+         .replace(/>/g, "&gt;")
+         .replace(/"/g, "&quot;")
+         .replace(/'/g, "&#039;");
+}
+
+// 2. แก้ไข showBuyerPopup
+function showBuyerPopup() {
+    // 1. ดึงจังหวัดของผู้ใช้ (จากข้อมูลที่ดึงมาก่อนหน้าใน showAddressPopup)
+    const userProvince = userAddressDetails?.province || null; // ใช้ Optional Chaining เผื่อยังไม่มีข้อมูล
+    console.log("User Province for filtering:", userProvince);
+
+    let popupHtml = ''; // ตัวแปรเก็บ HTML ทั้งหมดของ popup
+
+    if (buyers && buyers.length > 0) {
+        // 2. กรองตามประเภทพลาสติก
+        const filteredBuyers = buyers.filter(buyer => buyer.plastic_type === selectedWasteType);
+
+        if (filteredBuyers.length > 0) {
+            const nearbyBuyers = [];
+            const otherBuyers = [];
+
+             // *** เพิ่ม: ฟังก์ชันช่วยเรียงลำดับตามราคาต่อ กก. (มากไปน้อย) ***
+            const sortByPrice = (a, b) => {
+                const priceA = parseFloat(a.price_per_kg || 0);
+                const priceB = parseFloat(b.price_per_kg || 0);
+                return priceB - priceA; // เรียงจากมากไปน้อย
+            };
+
+            // 3. แบ่งกลุ่มผู้รับซื้อ
+            if (userProvince) {
+                filteredBuyers.forEach(buyer => {
+                    // ตรวจสอบว่า province ไม่ใช่ null/undefined และตรงกัน (ใช้ trim เพื่อความปลอดภัย)
+                    if (buyer.province && buyer.province.trim() === userProvince.trim()) {
+                        nearbyBuyers.push(buyer);
+                    } else {
+                        otherBuyers.push(buyer);
+                    }
+                });
+            } else {
+                // ถ้าไม่รู้จังหวัดผู้ใช้ ให้ถือว่าทั้งหมดเป็น "อื่นๆ"
+                otherBuyers.push(...filteredBuyers);
+            }
+             // *** เพิ่ม: เรียงลำดับผู้รับซื้อในแต่ละกลุ่มตามราคา ***
+            nearbyBuyers.sort(sortByPrice);
+            otherBuyers.sort(sortByPrice);
+
+            // --- สร้าง HTML ส่วนที่ 1: ผู้รับซื้อในพื้นที่ ---
+            popupHtml += '<h4><i class="fas fa-map-marker-alt me-2 text-success"></i>ผู้รับซื้อในพื้นที่ของคุณ</h4>'; // เพิ่ม icon และสี
+            popupHtml += '<div class="buyer-list-cards" id="nearby-buyers-list">'; // ใช้ class เดิมเพื่อให้ scroll ได้
+            if (nearbyBuyers.length > 0) {
+                nearbyBuyers.forEach(buyer => {
+                    popupHtml += generateBuyerCardHtml(buyer); // เรียกใช้ฟังก์ชันช่วยสร้าง card
+                });
+            } else {
+                popupHtml += '<p class="text-center text-muted">ไม่พบผู้รับซื้อในพื้นที่จังหวัดของคุณ</p>';
+            }
+            popupHtml += '</div><hr style="margin: 20px 0;">'; // เพิ่มเส้นคั่น
+
+            // --- สร้าง HTML ส่วนที่ 2: ผู้รับซื้ออื่นๆ ---
+            popupHtml += '<h4><i class="fas fa-globe me-2 text-secondary"></i>ผู้รับซื้ออื่นๆ</h4>'; // เพิ่ม icon และสี
+            popupHtml += '<div class="buyer-list-cards" id="other-buyers-list">'; // ใช้ class เดิมเพื่อให้ scroll ได้
+            if (otherBuyers.length > 0) {
+                otherBuyers.forEach(buyer => {
+                    popupHtml += generateBuyerCardHtml(buyer); // เรียกใช้ฟังก์ชันช่วยสร้าง card
+                });
+            } else {
+                // แสดงข้อความนี้เฉพาะเมื่อไม่มีผู้รับซื้อในพื้นที่ด้วย
+                if (nearbyBuyers.length === 0) {
+                     popupHtml += `<p class="text-center text-muted">ไม่พบผู้รับซื้อสำหรับประเภทพลาสติก '${escapeHtml(selectedWasteType)}' ในขณะนี้</p>`;
+                } else {
+                     popupHtml += '<p class="text-center text-muted">ไม่พบผู้รับซื้ออื่นๆ</p>';
+                }
+            }
+            popupHtml += '</div>';
+
+        } else {
+            // กรณีไม่พบผู้รับซื้อที่ตรงกับประเภทพลาสติกเลย
+            popupHtml += `<p class="text-center">ไม่พบผู้รับซื้อสำหรับประเภทพลาสติก '${escapeHtml(selectedWasteType)}' ในขณะนี้</p>`;
+        }
+
+    } else {
+        // กรณี fetch ข้อมูล buyers มาไม่ได้ หรือ array ว่างเปล่า
+        popupHtml += '<p class="text-center">ไม่พบข้อมูลผู้รับซื้อ</p>';
+    }
+
+    // --- แสดง Swal Popup ---
+    Swal.fire({
+        title: `เลือกผู้รับซื้อสำหรับ ${escapeHtml(selectedWasteType)}`,
+        html: popupHtml, // ใช้ HTML ที่สร้างขึ้น
+        width: '85%', // อาจจะปรับความกว้างตามต้องการ
+        showCancelButton: true,
+        confirmButtonText: 'ตกลง',
+        cancelButtonText: 'ยกเลิก',
+        customClass: {
+            popup: 'buyer-selection-popup',
+            htmlContainer: 'swal2-html-container-custom' // เพิ่ม class เผื่อต้องการสไตล์เฉพาะ
+        },
+        didOpen: () => {
+            // Highlight card ที่เลือกไว้ (ถ้ามี)
+            if (selectedRequestId) {
+                const selectedCard = document.querySelector(`.buyer-selectable-card[onclick*="selectBuyer(${selectedRequestId},"]`);
+                if (selectedCard) {
+                    selectedCard.classList.add('selected');
+                }
+            }
+            // ทำให้ scrollbar ทำงานได้ดีขึ้น (อาจจะไม่จำเป็นเสมอไป)
+            const nearbyList = document.getElementById('nearby-buyers-list');
+            const otherList = document.getElementById('other-buyers-list');
+            if(nearbyList) nearbyList.style.maxHeight = '40vh'; // จำกัดความสูงแต่ละส่วน
+            if(otherList) otherList.style.maxHeight = '40vh';
+        },
+        preConfirm: () => {
+            // ตรวจสอบว่าเลือกหรือยัง (เหมือนเดิม)
+            if (selectedRequestId === null) { // ใช้ === null เพื่อให้ชัดเจน
+                Swal.showValidationMessage('กรุณาเลือกผู้รับซื้อ');
+                return false;
+            }
+               // *** เพิ่ม: ตรวจสอบน้ำหนักขั้นต่ำ ***
+            const selectedBuyerObj = buyers.find(buyer => buyer.id === selectedRequestId);
+            if (selectedBuyerObj && selectedWeight < parseFloat(selectedBuyerObj.min_kg)) {
+                Swal.showValidationMessage(`น้ำหนักที่ระบุ (${selectedWeight} กก.) น้อยกว่าน้ำหนักขั้นต่ำของผู้รับซื้อที่เลือก (${selectedBuyerObj.min_kg} กก.)`);
+                selectedRequestId = null; // Reset selected buyer if validation fails
+                return false;
+            }
+        }
+    }).then((result) => {
+        if (result.isConfirmed) {
+            saveRecyclingData(); // บันทึกข้อมูล
+        }
+    });
+}
+
+// --- ฟังก์ชันช่วยสร้าง HTML Card (แยกออกมาเพื่อความสะอาด) ---
+function generateBuyerCardHtml(buyer) {
+    const requestId = buyer.id;
+    const organizationId = buyer.organization_id;
+    const buyerName = escapeHtml(buyer.organization_name || 'ไม่ระบุชื่อ');
+    const buyerAddress = escapeHtml(`${buyer.sub_district || ''}${buyer.district ? ', ' + buyer.district : ''}${buyer.province ? ', ' + buyer.province : ''}` || 'ไม่ระบุพื้นที่');
+    const plasticType = escapeHtml(buyer.plastic_type || 'ไม่ระบุ');
+    const minKg = escapeHtml(buyer.min_kg !== null && buyer.min_kg !== undefined ? buyer.min_kg : '-');
+    const pricePerKg = escapeHtml(buyer.price_per_kg !== null && buyer.price_per_kg !== undefined ? buyer.price_per_kg : '-');
+    const createdAt = escapeHtml(buyer.created_at_formatted || 'N/A');
+    // *** เพิ่ม: ดึงและ escape destination_info ***
+    const destinationInfo = escapeHtml(buyer.destination_info || 'ไม่มีข้อมูล');
+
+    // *** แก้ไข: เพิ่มปุ่ม "ดูรายละเอียดรีไซเคิล" และ onclick ***
+    return `
+        <div class="buy-request-card buyer-selectable-card" onclick="selectBuyer(${requestId}, '${buyerName.replace(/'/g, "\\'")}', ${organizationId}, this)">
+            <h5><i class="fas fa-store me-2"></i>${buyerName}</h5>
+            <div class="meta-info">
+                <div><i class="fas fa-recycle me-1"></i>ประเภท: ${plasticType}</div>
+                <div><i class="fas fa-map-marker-alt"></i>พื้นที่: ${buyerAddress}</div>
+                <div><i class="fas fa-calendar-alt"></i>โพสต์เมื่อ: ${createdAt}</div>
+            </div>
+            <div class="details">
+                <p><strong>รับขั้นต่ำ:</strong> ${minKg} กก.</p>
+                <p><strong>ราคาต่อ กก.:</strong> ${pricePerKg} บาท</p>
+            </div>
+
+            <button
+                type="button"
+                class="btn btn-sm btn-outline-info mt-2 btn-show-destination"
+                onclick="event.stopPropagation(); showDestinationDetails('${destinationInfo.replace(/'/g, "\\'").replace(/\n/g, '<br>')}')">
+                <i class="fas fa-info-circle me-1"></i> ดูรายละเอียดรีไซเคิล
+            </button>
+        </div>
+    `;
+}
+
+// --- สร้างฟังก์ชัน showDestinationDetails ---
+function showDestinationDetails(destinationInfo) {
+    Swal.fire({
+        title: 'รายละเอียดการนำไปรีไซเคิล',
+        html: `<div style="text-align: left; padding: 10px;">${destinationInfo || 'ไม่มีข้อมูล'}</div>`, // แสดงข้อมูลที่ได้รับ
+        icon: 'info',
+        confirmButtonText: 'ปิด'
+    });
+}
+
+// 3. แก้ไข selectBuyer
+function selectBuyer(requestId, buyerName, organizationId, element) {
+    selectedRequestId = requestId;
+    selectedBuyerName = buyerName;
+    selectedOrganizationId = organizationId;
+
+    console.log("Selected Request ID:", selectedRequestId, "Org ID:", selectedOrganizationId, "Name:", selectedBuyerName);
+
+    // Highlight a card (เหมือนเดิม)
+    const popupContainer = element.closest('.swal2-html-container');
+    if (popupContainer) {
+        const allCards = popupContainer.querySelectorAll('.buyer-selectable-card');
+        allCards.forEach(card => card.classList.remove('selected'));
+    } else {
+        const allCards = document.querySelectorAll('.buyer-selectable-card');
+        allCards.forEach(card => card.classList.remove('selected'));
+    }
+    if (element) {
+        element.classList.add('selected');
+    }
+}
+
+// 4. แก้ไข saveRecyclingData
+function saveRecyclingData() {
+    if (!selectedRequestId) {
+        Swal.fire('เกิดข้อผิดพลาด', 'ยังไม่ได้เลือกผู้รับซื้อ', 'error');
+        return;
+    }
+    // ตรวจสอบว่ามีข้อมูลที่อยู่และ User ID หรือไม่
+    if (!userAddress || !currentUserId) {
+         Swal.fire('เกิดข้อผิดพลาด', 'ไม่พบข้อมูลที่อยู่ หรือ ข้อมูลผู้ใช้', 'error');
+         return;
+    }
+
+    // สร้าง body string สำหรับส่งข้อมูล
+    const bodyData = new URLSearchParams({
+        user_id: currentUserId,
+        waste_type: selectedWasteType,
+        weight: selectedWeight,
+        address: userAddress, // ใช้ที่อยู่ที่ดึงมาและยืนยันแล้ว
+        latitude: userLatitude, // ใช้ lat ที่ดึงมา (อาจจะเป็น 0 ถ้าไม่มี)
+        longitude: userLongitude, // ใช้ lng ที่ดึงมา (อาจจะเป็น 0 ถ้าไม่มี)
+        buyer_id: selectedRequestId,
+        buyer_name: selectedBuyerName,
+        organization_id: selectedOrganizationId
+    });
+
+    console.log("Saving Data:", Object.fromEntries(bodyData)); // Log ข้อมูลก่อนส่ง
+
+    fetch('./save_recycling.php', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: bodyData.toString()
+    })
+    .then(response => response.ok ? response.json() : response.text().then(text => Promise.reject(text)))
+    .then(data => {
+        if (data.status === 'success') {
+            Swal.fire({
+                title: 'บันทึกข้อมูลสำเร็จ!',
+                text: 'ขอบคุณที่ร่วมรีไซเคิลกับเรา',
+                icon: 'success'
+            });
+            // Reset ค่า
+            selectedRequestId = null;
+            selectedBuyerName = '';
+            selectedOrganizationId = null;
+            // อาจจะ reset ค่าอื่นๆ ด้วยถ้าต้องการเริ่มใหม่หมด
+            // selectedWasteType = '';
+            // selectedWeight = 0;
+            // userAddress = '';
+            // userLatitude = 0;
+            // userLongitude = 0;
+        } else {
+            Swal.fire({
+                title: 'เกิดข้อผิดพลาด!',
+                text: data.message || 'ไม่สามารถบันทึกข้อมูลได้',
+                icon: 'error'
+            });
+        }
+    })
+     
+    .catch(error => {
+        console.error('Error saving recycling data:', error);
+        Swal.fire({
+            title: 'เกิดข้อผิดพลาด!',
+            text: `ไม่สามารถบันทึกข้อมูลได้ (${error})`,
+            icon: 'error'
+        });
+    });
+}
+        document.getElementById('addGroupButton').addEventListener('click', function() {
+            Swal.fire({
+                title: 'เพิ่มผู้ใช้',
+                html: '<input type="text" id="userIdInput" class="swal2-input" placeholder="กรอก ID ผู้ใช้">',
+                showCancelButton: true,
+                confirmButtonText: 'เพิ่ม',
+                cancelButtonText: 'ยกเลิก',
+                preConfirm: () => {
+                    const userId = document.getElementById('userIdInput').value;
+                    if (!userId) {
+                        Swal.showValidationMessage('กรุณากรอก ID ผู้ใช้');
+                        return false;
+                    }
+                    return userId;
+                }
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    const userId = result.value;
+                    Swal.fire(`เพิ่มผู้ใช้ ID: ${userId} สำเร็จ!`);
+                }
+            });
+        });
+    </script>
+    <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="./js/swiperScript/allSwiper.js"></script>
+    <script src="./js/navigationBar.js"></script>
+    <script src="./js/footer.js"></script>
+    <script src="./js/pageScript/home.js"></script>
+</body>
+</html>

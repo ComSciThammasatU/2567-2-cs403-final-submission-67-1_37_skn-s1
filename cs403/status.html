@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>สถานะการขายขยะ</title>
+    <!-- เพิ่ม CSS ของคุณ -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- *** เพิ่ม CSS ที่จำเป็นสำหรับ Navbar *** -->
+    <link rel="stylesheet" href="css/index.css">
+    <link rel="stylesheet" href="css/navigationbar.css">
+    <!-- *** สิ้นสุดส่วนที่เพิ่ม *** -->
+    <link rel="stylesheet" href="css/style.css"> <!-- ไฟล์ CSS เดิมของคุณ (ถ้ามี) -->
+    <style>
+        /* เพิ่ม CSS เฉพาะสำหรับหน้านี้ */
+        body {
+            background-color: #f8f9fa;
+        }
+        .status-card {
+            background-color: #fff;
+            border: 1px solid #dee2e6;
+            border-radius: 0.5rem;
+            margin-bottom: 1rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            overflow: hidden;
+        }
+        .status-card .card-content {
+             padding: 1.5rem;
+             padding-top: 0.5rem; /* ลด padding บนเล็กน้อย เพราะมี status bar */
+        }
+        .status-card .card-content p {
+            margin-bottom: 0.5rem;
+        }
+        .status-card .timestamp {
+            font-size: 0.9em;
+            color: #6c757d;
+            margin-top: 1rem;
+            border-top: 1px solid #eee;
+            padding-top: 0.5rem;
+        }
+        .loading-indicator, .error-message, .no-data-message {
+            text-align: center;
+            padding: 2rem;
+            color: #6c757d;
+        }
+        .status-bar {
+            color: white;
+            padding: 8px 1.5rem;
+            /* border-radius: 0.5rem 0.5rem 0 0; */ /* เอาออก ให้ติดขอบบน */
+            /* margin-bottom: 1rem; */ /* เอาออก */
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .status-bar span {
+            font-weight: 500;
+        }
+        /* *** เพิ่ม CSS สำหรับหัวข้อกลุ่ม *** */
+        .buyer-group-header {
+            margin-top: 2.5rem; /* เพิ่มระยะห่างด้านบนสำหรับกลุ่มใหม่ */
+            margin-bottom: 1rem;
+            padding-bottom: 0.6rem;
+            border-bottom: 2px solid #6c757d; /* สีเทา */
+            color: #495057; /* สีเทาเข้ม */
+            font-size: 1.3rem;
+            font-weight: 500;
+        }
+        .buyer-group-header:first-of-type {
+             margin-top: 0; /* กลุ่มแรกไม่ต้องมีระยะห่างด้านบน */
+        }
+        .buyer-group-header i {
+            color: #6c757d; /* สีไอคอน */
+        }
+    </style>
+    
+</head>
+<body>
+
+
+    
+  
+    
+
+    <div class="container mt-4 mb-5">
+        <h2 class="mb-4"><i class="fas fa-history me-2"></i>ประวัติการขายขยะของคุณ</h2>
+
+        <!-- ส่วนแสดงผลข้อมูล -->
+        <div id="status-list">
+            <div class="loading-indicator">
+                <div class="spinner-border text-primary" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+                <p class="mt-2">กำลังโหลดข้อมูล...</p>
+            </div>
+        </div>
+
+        <!-- ข้อความแสดงเมื่อเกิดข้อผิดพลาด -->
+        <div id="error-display" class="error-message" style="display: none;">
+            <i class="fas fa-exclamation-triangle fa-2x text-danger mb-3"></i>
+            <p>เกิดข้อผิดพลาดในการโหลดข้อมูล</p>
+            <p id="error-details" class="small"></p>
+        </div>
+
+         <!-- ข้อความแสดงเมื่อไม่มีข้อมูล -->
+         <div id="no-data-display" class="no-data-message" style="display: none;">
+            <i class="fas fa-box-open fa-2x text-muted mb-3"></i>
+            <p>ยังไม่มีประวัติการขายขยะ</p>
+        </div>
+
+    </div>
+
+    <!-- Footer (ถ้ามี) -->
+    <!-- <footer class="footer mt-auto py-3 bg-light"> ... </footer> -->
+
+    <!-- SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- โหลด Navigation Bar JS (ถ้าแยกไฟล์) -->
+    <!-- <script src="js/navigationBar.js"></script> -->
+    <!-- *** ถ้า Navbar อยู่ในไฟล์นี้โดยตรง อาจจะต้องโหลด JS ที่เกี่ยวข้องกับ Navbar ที่นี่ *** -->
+
+
+    <!-- JavaScript สำหรับโหลดข้อมูลสถานะ -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const statusListDiv = document.getElementById('status-list');
+            const loadingIndicator = statusListDiv.querySelector('.loading-indicator');
+            const errorDisplayDiv = document.getElementById('error-display');
+            const errorDetailsP = document.getElementById('error-details');
+            const noDataDisplayDiv = document.getElementById('no-data-display');
+            let currentUserId = null;
+
+            // --- ดึง User ID ปัจจุบัน ---
+            const userDataString = sessionStorage.getItem('userData');
+            if (userDataString) {
+                try {
+                    // *** แก้ไข: ตรวจสอบให้แน่ใจว่า userData เป็น Array และมีข้อมูล ***
+                    const userDataArray = JSON.parse(userDataString);
+                    if (Array.isArray(userDataArray) && userDataArray.length > 0 && userDataArray[0].user_id) {
+                        currentUserId = userDataArray[0].user_id;
+                        console.log("User ID found:", currentUserId);
+                    } else {
+                         console.error("User data structure is not as expected (should be an array with user object):", userDataArray);
+                         showError('ข้อมูลผู้ใช้ไม่ถูกต้อง');
+                         return; // หยุดถ้าข้อมูลผู้ใช้ไม่ถูกต้อง
+                    }
+                } catch (e) {
+                    console.error("Error parsing user data:", e);
+                    showError('เกิดข้อผิดพลาดในการอ่านข้อมูลผู้ใช้');
+                    return; // หยุดถ้า parse ไม่ได้
+                }
+            } else {
+                console.warn("User data not found in sessionStorage.");
+                showError('กรุณาเข้าสู่ระบบเพื่อดูข้อมูล');
+                // อาจจะ redirect ไปหน้า login
+                // window.location.href = 'login.html';
+                return; // หยุดการทำงานถ้าไม่พบ user id
+            }
+            // --- สิ้นสุดการดึง User ID ---
+
+            // ฟังก์ชันสำหรับแสดงข้อผิดพลาด
+            function showError(message) {
+                loadingIndicator.style.display = 'none';
+                statusListDiv.style.display = 'none';
+                noDataDisplayDiv.style.display = 'none';
+                errorDetailsP.textContent = message;
+                errorDisplayDiv.style.display = 'block';
+            }
+
+            // ฟังก์ชันสำหรับแสดงเมื่อไม่มีข้อมูล
+            function showNoData() {
+                loadingIndicator.style.display = 'none';
+                statusListDiv.style.display = 'none';
+                errorDisplayDiv.style.display = 'none';
+                noDataDisplayDiv.style.display = 'block';
+            }
+
+            // ฟังก์ชันสำหรับสร้างการ์ดแสดงสถานะ (ใช้ item.status)
+            function createStatusCard(item) {
+                const card = document.createElement('div');
+                card.className = 'status-card mb-3';
+                card.dataset.recyclingId = item.id;
+
+                // อ่านสถานะจาก item.status
+                const currentStatus = item.status || 'รอการตอบกลับ';
+                let statusColor = '#6c757d'; // สีเทาเริ่มต้น
+                let statusIcon = 'fa-hourglass-start'; // ไอคอนเริ่มต้น
+
+                // กำหนดสีและไอคอนตามสถานะ
+                switch (currentStatus) {
+                    case 'รับ':
+                        statusColor = '#0d6efd'; // Blue
+                        statusIcon = 'fa-thumbs-up';
+                        break;
+                    case 'กำลังไป':
+                        statusColor = '#0dcaf0'; // Cyan
+                        statusIcon = 'fa-truck-fast';
+                        break;
+                    case 'เสร็จสิ้น':
+                    case 'สำเร็จแล้ว':
+                        statusColor = '#198754'; // Green
+                        statusIcon = 'fa-check-double';
+                        break;
+                    case 'ยกเลิกโดยองค์กร':
+                    case 'ไม่รับ':
+                    case 'ยกเลิกโดยผู้ใช้':
+                        statusColor = '#dc3545'; // Red
+                        statusIcon = 'fa-ban';
+                        break;
+                    // default: ใช้ค่าเริ่มต้น
+                }
+
+                // ปุ่มยกเลิก
+                const isFinalStatus = ['เสร็จสิ้น', 'สำเร็จแล้ว', 'ยกเลิกโดยองค์กร', 'ไม่รับ', 'ยกเลิกโดยผู้ใช้'].includes(currentStatus);
+                const showCancelButton = !isFinalStatus;
+
+                const timestampFormatted = item.timestamp_formatted || item.timestamp || 'N/A';
+
+                // สร้าง HTML ของ Card
+                card.innerHTML = `
+                    <div class="status-bar" style="background-color: ${statusColor};">
+                        <span><i class="fas ${statusIcon} me-2"></i>สถานะ: ${escapeHtml(currentStatus)}</span>
+                        ${showCancelButton ? `
+                        <button class="btn btn-sm btn-danger cancel-btn" data-id="${item.id}" title="ยกเลิกรายการนี้">
+                            <i class="fas fa-times"></i><span class="d-none d-sm-inline ms-1"> ยกเลิก</span>
+                        </button>
+                        ` : ''}
+                    </div>
+                    <div class="card-content p-3">
+                        <p class="mb-1"><strong><i class="fas fa-store me-2 text-primary"></i>ผู้รับซื้อ:</strong> ${escapeHtml(item.buyer_name || 'ไม่ระบุ')}</p>
+                        <p class="mb-1"><strong><i class="fas fa-recycle me-2 text-success"></i>ประเภท:</strong> ${escapeHtml(item.waste_type || 'N/A')}</p>
+                        <p class="mb-1"><strong><i class="fas fa-weight-hanging me-2 text-info"></i>น้ำหนัก:</strong> ${escapeHtml(item.weight || 'N/A')} กก.</p>
+                        <p class="mb-1"><strong><i class="fas fa-map-marker-alt me-2 text-danger"></i>ที่อยู่(ขณะนั้น):</strong> ${escapeHtml(item.address || 'N/A')}</p>
+                        <p class="timestamp small text-muted mb-0"><i class="far fa-calendar-alt me-1"></i>ส่งคำขอเมื่อ: ${escapeHtml(timestampFormatted)}</p>
+                    </div>
+                `;
+                return card;
+            }
+
+            // ฟังก์ชัน escapeHtml
+            function escapeHtml(unsafe) {
+                if (typeof unsafe !== 'string') return unsafe;
+                return unsafe
+                     .replace(/&/g, "&amp;")
+                     .replace(/</g, "&lt;")
+                     .replace(/>/g, "&gt;")
+                     .replace(/"/g, "&quot;")
+                     .replace(/'/g, "&#039;");
+            }
+
+            // --- ส่วน Fetch ข้อมูล ---
+            function loadUserRecyclings() {
+                statusListDiv.innerHTML = ''; // ล้างข้อมูลเก่าก่อน
+                statusListDiv.appendChild(loadingIndicator); // แสดง loading
+                loadingIndicator.style.display = 'block';
+                errorDisplayDiv.style.display = 'none';
+                noDataDisplayDiv.style.display = 'none';
+
+                // *** ตรวจสอบว่า Endpoint ถูกต้อง และ PHP ส่ง status มาด้วย ***
+                fetch('./get_user_recyclings.php')
+                    .then(response => {
+                        if (!response.ok) {
+                            return response.text().then(text => { throw new Error(`Server error (${response.status}): ${text || 'Unknown server error'}`) });
+                        }
+                        return response.json();
+                    })
+                    .then(result => {
+                        loadingIndicator.style.display = 'none'; // ซ่อน loading
+                        console.log("Data received for status.html:", result);
+
+                        if (result.status === 'success' && result.data) {
+                            if (result.data.length > 0) {
+                                // จัดกลุ่มตามผู้รับซื้อ
+                                const groupedData = {};
+                                result.data.forEach(item => {
+                                    const buyerName = item.buyer_name || 'ไม่ระบุผู้รับซื้อ';
+                                    if (!groupedData[buyerName]) {
+                                        groupedData[buyerName] = [];
+                                    }
+                                    groupedData[buyerName].push(item);
+                                });
+
+                                // เรียงกลุ่มตามชื่อ
+                                const sortedBuyerNames = Object.keys(groupedData).sort((a, b) => {
+                                    if (a === 'ไม่ระบุผู้รับซื้อ') return 1;
+                                    if (b === 'ไม่ระบุผู้รับซื้อ') return -1;
+                                    return a.localeCompare(b, 'th');
+                                });
+
+                                sortedBuyerNames.forEach(buyerName => {
+                                    const header = document.createElement('h4');
+                                    header.className = 'buyer-group-header'; // ใช้ class ที่ style ไว้
+                                    header.innerHTML = `<i class="fas fa-store me-2"></i> ${escapeHtml(buyerName)}`;
+                                    statusListDiv.appendChild(header);
+
+                                    // เรียงรายการในกลุ่มตามเวลาล่าสุดก่อน
+                                    groupedData[buyerName].sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+
+                                    groupedData[buyerName].forEach(item => {
+                                        const card = createStatusCard(item); // เรียกใช้ฟังก์ชันที่แก้แล้ว
+                                        statusListDiv.appendChild(card);
+                                    });
+                                });
+                            } else {
+                                showNoData(); // ไม่มีข้อมูล
+                            }
+                        } else {
+                            showError(result.message || 'ไม่สามารถโหลดข้อมูลได้');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Fetch Error:', error);
+                        showError('เกิดข้อผิดพลาดในการเชื่อมต่อ: ' + error.message);
+                    });
+            }
+
+            // --- Event Listener สำหรับปุ่มยกเลิก ---
+            statusListDiv.addEventListener('click', function(event) {
+                const cancelButton = event.target.closest('.cancel-btn');
+                if (cancelButton) {
+                    const recyclingId = cancelButton.dataset.id;
+
+                    if (!currentUserId) { // ตรวจสอบ User ID อีกครั้ง
+                        Swal.fire('ข้อผิดพลาด', 'ไม่สามารถระบุผู้ใช้ปัจจุบันได้ โปรดลองเข้าสู่ระบบใหม่', 'error');
+                        return;
+                    }
+
+                    Swal.fire({
+                        title: 'ต้องการยกเลิกรายการนี้?',
+                        text: "รายการขายขยะนี้จะถูกเปลี่ยนสถานะเป็น 'ยกเลิกโดยผู้ใช้'",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#d33',
+                        cancelButtonColor: '#6c757d',
+                        confirmButtonText: 'ใช่, ยกเลิกเลย!',
+                        cancelButtonText: 'ไม่'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            Swal.fire({
+                                title: 'กำลังยกเลิก...',
+                                allowOutsideClick: false,
+                                didOpen: () => { Swal.showLoading(); }
+                            });
+
+                            // *** ส่งคำขอไปที่ PHP เพื่ออัปเดตสถานะ ***
+                            fetch('./update_recycling_status.php', { // ใช้ Endpoint เดียวกับองค์กรได้ ถ้า PHP รองรับ
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/x-www-form-urlencoded',
+                                },
+                                // *** ส่ง id และ status ใหม่ ***
+                                body: `id=${recyclingId}&status=ยกเลิกโดยผู้ใช้`
+                            })
+                            .then(response => response.ok ? response.json() : response.text().then(text => Promise.reject(text)))
+                            .then(data => {
+                                Swal.close();
+                                if (data.status === 'success') {
+                                    Swal.fire('ยกเลิกสำเร็จ!', 'สถานะรายการของคุณถูกเปลี่ยนเป็น "ยกเลิกโดยผู้ใช้"', 'success');
+
+                                    // อัปเดต UI ของ Card นั้นๆ ทันที
+                                    const cardToUpdate = statusListDiv.querySelector(`.status-card[data-recycling-id="${recyclingId}"]`);
+                                    if (cardToUpdate) {
+                                        const statusBar = cardToUpdate.querySelector('.status-bar');
+                                        const statusTextSpan = statusBar.querySelector('span');
+                                        const cancelButtonInCard = cardToUpdate.querySelector('.cancel-btn');
+
+                                        statusBar.style.backgroundColor = '#dc3545'; // สีแดง
+                                        statusTextSpan.innerHTML = `<i class="fas fa-ban me-2"></i>สถานะ: ยกเลิกโดยผู้ใช้`;
+                                        if (cancelButtonInCard) {
+                                            cancelButtonInCard.remove(); // ลบปุ่มยกเลิกออก
+                                        }
+                                    }
+                                    // หรือจะโหลดข้อมูลใหม่ทั้งหมดก็ได้: loadUserRecyclings();
+                                } else {
+                                    // แสดงข้อความ error จาก PHP
+                                    throw new Error(data.message || 'ไม่สามารถยกเลิกรายการได้');
+                                }
+                            })
+                            .catch(error => {
+                                Swal.close();
+                                console.error('Error canceling recycling item:', error);
+                                Swal.fire('เกิดข้อผิดพลาด!', `ไม่สามารถยกเลิกรายการได้ (${error.message || error})`, 'error');
+                            });
+                        }
+                    });
+                }
+            });
+
+            // --- เริ่มโหลดข้อมูลครั้งแรก ---
+            if (currentUserId) { // ตรวจสอบว่ามี ID ก่อนโหลด
+                 loadUserRecyclings();
+            }
+
+        });
+
+        // --- ฟังก์ชัน Logout (ถ้า Navbar อยู่ในไฟล์นี้) ---
+        function logout() {
+            sessionStorage.removeItem('userData');
+            window.location.href = 'login.html';
+        }
+
+        // --- ฟังก์ชัน controlAllBtnNavigation (ถ้า Navbar อยู่ในไฟล์นี้) ---
+        function controlAllBtnNavigation(type) {
+            console.log("Control button clicked:", type);
+            // ใส่โค้ดการทำงานของ Navbar ที่นี่
+        }
+    </script>
+   
+
+</body>
+</html>

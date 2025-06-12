@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ที่อยู่</title>
+    <link rel="icon" href="image/logo.png" type="image/x-icon">
+    <!-- Boxicons CSS -->
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <!-- CSS -->
+    <link rel="stylesheet" href="css/preloader.css">
+    <link rel="stylesheet" href="css/index.css">
+    <link rel="stylesheet" href="css/navigationbar.css">
+    <link rel="stylesheet" href="css/footer.css">
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <!-- Custom CSS -->
+    <style>
+        body {
+            font-family: 'Kanit', sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 20px;
+        }
+
+        .address-form {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        input[type="text"],
+        input[type="number"],
+        select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-sizing: border-box;
+            transition: border-color 0.3s;
+        }
+
+        input[type="text"]:focus,
+        input[type="number"]:focus,
+        select:focus {
+            border-color: #007bff;
+            outline: none;
+        }
+
+        button {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            font-weight: 600;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        h2 {
+            color: #333;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .back-to-home-btn {
+            display: block;
+            background-color: #28a745;
+            color: #fff;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            font-weight: 600;
+            text-align: center;
+            text-decoration: none;
+            margin-top: 20px;
+            width: 100%;
+        }
+
+        .back-to-home-btn:hover {
+            background-color: #218838;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="address-form">
+        <h2>ที่อยู่</h2>
+        <form id="addressForm">
+            <div class="form-group">
+                <label for="province">จังหวัด:</label>
+                <select id="province" name="province" required>
+                    <option value="">เลือกจังหวัด</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="district">อำเภอ:</label>
+                <select id="district" name="district" required>
+                    <option value="">เลือกอำเภอ</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="subDistrict">ตำบล:</label>
+                <select id="subDistrict" name="subDistrict" required>
+                    <option value="">เลือกตำบล</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="houseNumber">บ้านเลขที่:</label>
+                <input type="text" id="houseNumber" name="houseNumber" required>
+            </div>
+            <div class="form-group">
+                <label for="postalCode">รหัสไปรษณีย์:</label>
+                <input type="text" id="postalCode" name="postalCode" required>
+            </div>
+
+           
+
+            <button type="submit">บันทึกที่อยู่</button>
+        </form>
+        <a href="#" id="backToHomeBtn" class="back-to-home-btn">กลับสู่หน้าแรก</a>
+    </div>
+</div>
+
+<!-- Boxicons JS -->
+<script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
+<!-- All Scripts -->
+<script src="./js/preloader.js"></script>
+<script src="./js/navigationBar.js"></script>
+<script src="./js/footer.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+    // Data for provinces, districts, and sub-districts (ควรใช้ข้อมูลจริง หรือ API)
+    const addressData = {
+  "กรุงเทพมหานคร": {
+    "เขตพระนคร": ["แขวงพระบรมมหาราชวัง", "แขวงวังบูรพาภิรมย์"],
+    "เขตดุสิต": ["แขวงดุสิต", "แขวงวชิรพยาบาล"]
+
+  },
+  "เชียงใหม่": {
+    "อำเภอเมืองเชียงใหม่": ["ตำบลศรีภูมิ", "ตำบลช้างม่อย"],
+    "อำเภอหางดง": ["ตำบลหางดง", "ตำบลบ้านแหวน"]
+  },
+  "ขอนแก่น": {
+    "อำเภอเมืองขอนแก่น": ["ตำบลในเมือง", "ตำบลพระลับ"],
+    "อำเภอบ้านไผ่": ["ตำบลบ้านไผ่", "ตำบลหัวหนอง"]
+  },
+  "นครราชสีมา": {
+    "อำเภอเมืองนครราชสีมา": ["ตำบลในเมือง", "ตำบลโพธิ์กลาง"],
+    "อำเภอปากช่อง": ["ตำบลปากช่อง", "ตำบลหนองสาหร่าย"]
+  },
+  "ชลบุรี": {
+    "อำเภอเมืองชลบุรี": ["ตำบลบางปลาสร้อย", "ตำบลบ้านสวน"],
+    "อำเภอบางละมุง": ["ตำบลนาเกลือ", "ตำบลหนองปรือ"]
+  },
+  "ภูเก็ต": {
+    "อำเภอเมืองภูเก็ต": ["ตำบลตลาดใหญ่", "ตำบลรัษฎา"],
+    "อำเภอกะทู้": ["ตำบลกะทู้", "ตำบลป่าตอง"]
+  },
+  "สุราษฎร์ธานี": {
+    "อำเภอเมืองสุราษฎร์ธานี": ["ตำบลตลาด", "ตำบลบางชนะ"],
+    "อำเภอเกาะสมุย": ["ตำบลบ่อผุด", "ตำบลแม่น้ำ"]
+  },
+  "สงขลา": {
+    "อำเภอเมืองสงขลา": ["ตำบลบ่อยาง", "ตำบลเก้าเส้ง"],
+    "อำเภอหาดใหญ่": ["ตำบลหาดใหญ่", "ตำบลควนลัง"]
+  },
+  "อุบลราชธานี": {
+    "อำเภอเมืองอุบลราชธานี": ["ตำบลในเมือง", "ตำบลหนองบ่อ"],
+    "อำเภอวารินชำราบ": ["ตำบลวารินชำราบ", "ตำบลคำน้ำแซบ"]
+  },
+  "ระยอง": {
+    "อำเภอเมืองระยอง": ["ตำบลท่าประดู่", "ตำบลเชิงเนิน"],
+    "อำเภอบ้านฉาง": ["ตำบลบ้านฉาง", "ตำบลพลา"]
+  },
+  "พิษณุโลก": {
+    "อำเภอเมืองพิษณุโลก": ["ตำบลในเมือง", "ตำบลวัดจันทร์"],
+    "อำเภอบางกระทุ่ม": ["ตำบลบางกระทุ่ม", "ตำบลสนามคลี"]
+  },
+  "ลำปาง": {
+    "อำเภอเมืองลำปาง": ["ตำบลหัวเวียง", "ตำบลสบตุ๋ย"],
+    "อำเภอเกาะคา": ["ตำบลเกาะคา", "ตำบลท่าผา"]
+  },
+  "แพร่": {
+    "อำเภอเมืองแพร่": ["ตำบลในเวียง", "ตำบลนาจักร"],
+    "อำเภอร้องกวาง": ["ตำบลร้องกวาง", "ตำบลน้ำเลา"]
+  },
+  "เพชรบุรี": {
+    "อำเภอเมืองเพชรบุรี": ["ตำบลคลองกระแชง", "ตำบลบางจาน"],
+    "อำเภอชะอำ": ["ตำบลชะอำ", "ตำบลบางเก่า"]
+  },
+  "ราชบุรี": {
+    "อำเภอเมืองราชบุรี": ["ตำบลหน้าเมือง", "ตำบลเจดีย์หัก"],
+    "อำเภอบ้านโป่ง": ["ตำบลบ้านโป่ง", "ตำบลท่าผา"]
+  },
+  "สุพรรณบุรี": {
+    "อำเภอเมืองสุพรรณบุรี": ["ตำบลท่าพี่เลี้ยง", "ตำบลรั้วใหญ่"],
+    "อำเภอบางปลาม้า": ["ตำบลบางปลาม้า", "ตำบลวังน้ำเย็น"]
+  },
+  "กาญจนบุรี": {
+    "อำเภอเมืองกาญจนบุรี": ["ตำบลบ้านเหนือ", "ตำบลปากแพรก"],
+    "อำเภอไทรโยค": ["ตำบลไทรโยค", "ตำบลลุ่มสุ่ม"]
+  },
+  "อยุธยา": {
+    "อำเภอพระนครศรีอยุธยา": ["ตำบลหอรัตนไชย", "ตำบลประตูชัย"],
+    "อำเภอบางปะอิน": ["ตำบลบางปะอิน", "ตำบลบ้านกรด"]
+  },
+  "สมุทรปราการ": {
+    "อำเภอเมืองสมุทรปราการ": ["ตำบลปากน้ำ", "ตำบลบางเมือง"],
+    "อำเภอบางพลี": ["ตำบลบางพลีใหญ่", "ตำบลบางปลา"]
+  },
+  "ปทุมธานี": {
+    "อำเภอเมืองปทุมธานี": ["ตำบลบางปรอก", "ตำบลบางขะแยง"],
+    "อำเภอคลองหลวง": ["ตำบลคลองหนึ่ง", "ตำบลคลองสอง"]
+  }
+};
+
+    // ลบตัวแปร map, marker, latitudeInput, longitudeInput ออก
+    // let map;
+    // let marker;
+    let currentUserId = null;
+    // const latitudeInput = document.getElementById('latitude');
+    // const longitudeInput = document.getElementById('longitude');
+
+    // Fetch current user ID from server (ส่วนนี้ยังคงไว้)
+    fetch('./getCurrentUserId.php')
+        .then(response => response.json())
+        .then(data => {
+            if(data.userId) {
+                currentUserId = data.userId;
+            } else {
+                console.error('Error: Could not retrieve current user ID.');
+                // อาจจะแจ้งเตือนผู้ใช้ว่าต้องล็อกอินก่อนบันทึก
+            }
+        })
+        .catch(error => {
+            console.error('Error fetching current user ID:', error);
+        });
+
+    // --- ลบฟังก์ชันเกี่ยวกับแผนที่และตำแหน่งออก ---
+    // function initMap() { ... }
+    // function getCurrentLocationAndUpdateMap() { ... }
+    // function handleLocationError(...) { ... }
+
+    // --- ส่วนจัดการ Dropdown (เหมือนเดิม) ---
+    const provinceSelect = document.getElementById('province');
+    for (const province in addressData) {
+        const option = document.createElement('option');
+        option.value = province;
+        option.textContent = province;
+        provinceSelect.appendChild(option);
+    }
+
+    provinceSelect.addEventListener('change', () => {
+        const selectedProvince = provinceSelect.value;
+        const districtSelect = document.getElementById('district');
+        districtSelect.innerHTML = '<option value="">เลือกอำเภอ</option>';
+        const subDistrictSelect = document.getElementById('subDistrict');
+        subDistrictSelect.innerHTML = '<option value="">เลือกตำบล</option>';
+
+        if (selectedProvince && addressData[selectedProvince]) {
+            for (const district in addressData[selectedProvince]) {
+                const option = document.createElement('option');
+                option.value = district;
+                option.textContent = district;
+                districtSelect.appendChild(option);
+            }
+        }
+    });
+
+    const districtSelect = document.getElementById('district');
+    districtSelect.addEventListener('change', () => {
+        const selectedProvince = provinceSelect.value;
+        const selectedDistrict = districtSelect.value;
+        const subDistrictSelect = document.getElementById('subDistrict');
+        subDistrictSelect.innerHTML = '<option value="">เลือกตำบล</option>';
+
+        if (selectedProvince && selectedDistrict && addressData[selectedProvince]?.[selectedDistrict]) {
+            addressData[selectedProvince][selectedDistrict].forEach(subDistrict => {
+                const option = document.createElement('option');
+                option.value = subDistrict;
+                option.textContent = subDistrict;
+                subDistrictSelect.appendChild(option);
+            });
+        }
+    });
+
+    // --- Event Listeners ---
+    // ลบ Event Listener ของปุ่ม getLocationBtn ออก
+    // document.getElementById('getLocationBtn').addEventListener('click', getCurrentLocationAndUpdateMap);
+
+    document.getElementById('addressForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+        if (!currentUserId) {
+             Swal.fire({
+                icon: 'error',
+                title: 'เกิดข้อผิดพลาด',
+                text: 'ไม่พบข้อมูลผู้ใช้ กรุณาล็อกอินก่อนบันทึกที่อยู่'
+            });
+            return; // หยุดการทำงานถ้าไม่มี user ID
+        }
+        const formData = new FormData(this);
+        formData.append('user_id', currentUserId);
+
+        // ลบการตรวจสอบค่า lat/lng ออก
+        // if (!latitudeInput.value || !longitudeInput.value) { ... }
+
+        // ตรวจสอบให้แน่ใจว่า save_address.php ไม่ต้องการ latitude/longitude หรือสามารถรับค่า null ได้
+        fetch('./save_address.php', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === 'success') {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'บันทึกที่อยู่สำเร็จ',
+                    text: 'ข้อมูลที่อยู่ของคุณถูกบันทึกแล้ว'
+                });
+            } else {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'เกิดข้อผิดพลาด',
+                    text: data.message || 'ไม่สามารถบันทึกที่อยู่ได้'
+                });
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            Swal.fire({
+                icon: 'error',
+                title: 'เกิดข้อผิดพลาด',
+                text: 'ไม่สามารถเชื่อมต่อกับเซิร์ฟเวอร์ได้'
+            });
+        });
+    });
+
+    // ปุ่มกลับหน้าแรก (เหมือนเดิม)
+    const backToHomeBtn = document.getElementById('backToHomeBtn');
+    backToHomeBtn.addEventListener('click', function(event) {
+        event.preventDefault();
+        const userDataString = sessionStorage.getItem('userData');
+        if (userDataString) {
+            try {
+                const userData = JSON.parse(userDataString)[0];
+                if (userData.user_type === 'organization') {
+                    window.location.href = 'index1.html';
+                } else {
+                    window.location.href = 'index.html';
+                }
+            } catch (e) {
+                 console.error("Error parsing user data from sessionStorage", e);
+                 window.location.href = 'index.html'; // Fallback
+            }
+        } else {
+            window.location.href = 'index.html';
+        }
+    });
+
+</script>
+<!-- ลบการเรียก Google Maps API ออก -->
+<!-- <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_GOOGLE_MAPS_API_KEY&callback=initMap&v=weekly" async defer></script> -->
+
+</body>
+</html>

@@ -1,0 +1,229 @@
+
+    <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menu</title>
+    <link rel="icon" href="image/logo.png"  type="image/x-icon">
+     <!-- swiper -->
+     <link
+     rel="stylesheet"
+     href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"
+   />
+     <!-- box icon import -->
+      <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <!-- css -->
+    <link rel="stylesheet" href="css/preloader.css">
+    <link rel="stylesheet" href="css/index.css">
+    <link rel="stylesheet" href="css/navigationbar.css">
+     <link rel="stylesheet" href="css/footer.css">
+     <!-- menu css -->
+      <link rel="stylesheet" href="css/pageStyle/menu.css">
+</head>
+<body>
+    
+
+
+     <!----  NAVIGATION BAR (navigationBar.js)---->
+ <nav></nav>
+
+ <!--GENERAL BANNER SECTION-->
+<section class="sectionBanner">
+    <div class="container">
+     <div class="content">
+         <h2>ขาย</h2>
+          <p><span>หน้าหลัก</span>
+             <span>/</span>
+             
+             <span>ขาย</span>
+         </p>
+     </div>
+    </div>
+   </section>
+   
+
+   <style>
+    body {
+        font-family: Arial, sans-serif;
+        margin: 20px;
+        background-color: #f9f9f9;
+    }
+    .container {
+        width: 80%;
+        margin: 0 auto;
+        padding: 20px;
+        background-color: #fff;
+        border-radius: 8px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+    h2 {
+        text-align: center;
+        color: #333;
+    }
+    .category, .sub-category {
+        margin: 20px 0;
+    }
+    .category select, .sub-category select, .category button {
+        width: 100%;
+        padding: 10px;
+        font-size: 16px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        margin-top: 10px;
+    }
+    .category button {
+        background-color: #4CAF50;
+        color: white;
+        cursor: pointer;
+    }
+    .category button:hover {
+        background-color: #45a049;
+    }
+    .sub-category {
+        display: none;
+    }
+    #result {
+        text-align: center;
+        margin-top: 20px;
+        font-size: 18px;
+        font-weight: bold;
+    }
+</style>
+</head>
+<body>
+
+<div class="container">
+    <h2>เลือกประเภทขยะที่ต้องการขาย</h2>
+
+    <!-- หมวดหมู่หลัก -->
+    <div class="category">
+        <label for="main-category">เลือกหมวดหมู่ขยะ:</label>
+        <select id="main-category" onchange="showSubCategory()">
+            <option value="">เลือกหมวดหมู่</option>
+            <option value="plastic">พลาสติก</option>
+            <option value="paper">กระดาษ</option>
+            <option value="can">กระป๋อง</option>
+            <option value="foam">โฟม</option>
+            <option value="construction">ขยะจากการก่อสร้าง</option>
+            <option value="others">อื่นๆ</option>
+        </select>
+        <button onclick="showSelected()">เลือกหมวดหมู่</button>
+    </div>
+
+    <!-- แสดงตัวเลือกย่อยของพลาสติก -->
+    <div id="plastic" class="sub-category">
+        <label for="plastic-type">เลือกประเภทพลาสติก:</label>
+        <select id="plastic-type">
+            <option value="pet">ขวดน้ำ PET</option>
+            <option value="stretchable">พลาสติกที่ยืดได้</option>
+            <option value="hdpe">พลาสติก HDPE</option>
+            <option value="yakult">ขวดยาคูลท์</option>
+            <option value="food-box">กล่องอาหาร</option>
+        </select>
+    </div>
+
+    <!-- แสดงตัวเลือกย่อยของกระดาษ -->
+    <div id="paper" class="sub-category">
+        <label for="paper-type">เลือกประเภทกระดาษ:</label>
+        <select id="paper-type">
+            <option value="milk-box">กล่องนม/น้ำ</option>
+            <option value="cardboard">กระดาษลัง</option>
+            <option value="scrap">กระดาษฝอย/ขาว</option>
+        </select>
+    </div>
+
+    <!-- แสดงตัวเลือกย่อยของกระป๋อง -->
+    <div id="can" class="sub-category">
+        <label for="can-type">เลือกประเภทกระป๋อง:</label>
+        <select id="can-type">
+            <option value="aluminum">อลูมิเนียม</option>
+        </select>
+    </div>
+
+    <!-- แสดงตัวเลือกย่อยของโฟม -->
+    <div id="foam" class="sub-category">
+        <label for="foam-type">เลือกประเภทโฟม:</label>
+        <select id="foam-type">
+            <option value="foam">โฟม</option>
+        </select>
+    </div>
+
+    <!-- แสดงตัวเลือกย่อยของขยะจากการก่อสร้าง -->
+    <div id="construction" class="sub-category">
+        <label for="construction-type">เลือกประเภทขยะจากการก่อสร้าง:</label>
+        <select id="construction-type">
+            <option value="metal">เหล็กรวม</option>
+            <option value="paint-bucket">ถังสี</option>
+        </select>
+    </div>
+
+    <!-- แสดงตัวเลือกย่อยของอื่นๆ -->
+    <div id="others" class="sub-category">
+        <label for="others-type">เลือกประเภทอื่นๆ:</label>
+        <select id="others-type">
+            <option value="oil">น้ำมัน</option>
+            <option value="electronics">อุปกรณ์อิเล็กทรอนิก</option>
+        </select>
+    </div>
+
+    <!-- แสดงผลการเลือก -->
+    <div id="result"></div>
+</div>
+
+<script>
+    // ฟังก์ชันแสดงตัวเลือกย่อยเมื่อเลือกหมวดหมู่หลัก
+    function showSubCategory() {
+        // ซ่อนตัวเลือกย่อยทั้งหมด
+        const subCategories = document.querySelectorAll('.sub-category');
+        subCategories.forEach(subCategory => {
+            subCategory.style.display = 'none';
+        });
+
+        // รับค่าเลือกหมวดหมู่หลัก
+        const category = document.getElementById('main-category').value;
+        
+        if (category) {
+            document.getElementById(category).style.display = 'block';
+        }
+    }
+
+    // ฟังก์ชันแสดงผลการเลือก
+    function showSelected() {
+        const category = document.getElementById('main-category').value;
+        let selectedOption = '';
+
+        switch(category) {
+            case 'plastic':
+                selectedOption = document.getElementById('plastic-type').value;
+                break;
+            case 'paper':
+                selectedOption = document.getElementById('paper-type').value;
+                break;
+            case 'can':
+                selectedOption = document.getElementById('can-type').value;
+                break;
+            case 'foam':
+                selectedOption = document.getElementById('foam-type').value;
+                break;
+            case 'construction':
+                selectedOption = document.getElementById('construction-type').value;
+                break;
+            case 'others':
+                selectedOption = document.getElementById('others-type').value;
+                break;
+            default:
+                selectedOption = 'กรุณาเลือกหมวดหมู่ก่อน';
+        }
+
+        // แสดงผลการเลือก
+        document.getElementById('result').innerText = 'คุณเลือก: ' + selectedOption;
+    }
+</script>
+
+</body>
+</html>
+
+   
+
+    

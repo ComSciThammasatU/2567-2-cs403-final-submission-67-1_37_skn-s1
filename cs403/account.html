@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ข้อมูลบัญชี</title>
+    <link rel="icon" href="image/logo.png" type="image/x-icon">
+    <!-- Boxicons CSS -->
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <!-- CSS -->
+    <link rel="stylesheet" href="css/preloader.css">
+    <link rel="stylesheet" href="css/index.css">
+    <link rel="stylesheet" href="css/navigationbar.css">
+    <link rel="stylesheet" href="css/footer.css">
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <!-- Custom CSS -->
+    <style>
+        body {
+            font-family: 'Kanit', sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .container1 { /* เปลี่ยนจาก container1 เป็น container */
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 20px;
+        }
+
+        .account-info, .address-display-section { /* เพิ่ม .address-display-section */
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px; /* เพิ่มระยะห่างด้านล่าง */
+        }
+
+        .info-item, .address-item { /* เพิ่ม .address-item */
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eee;
+        }
+        .info-item:last-child, .address-item:last-child { /* เพิ่ม .address-item */
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        .info-item label, .address-item label { /* เพิ่ม .address-item */
+            display: block;
+            font-weight: 500;
+            color: #555;
+            margin-bottom: 5px;
+        }
+
+        .info-item span, .address-item span { /* เพิ่ม .address-item */
+            font-size: 1.1em;
+            color: #333;
+        }
+
+        h2, h3 { /* เพิ่ม h3 */
+            color: #333;
+            margin-bottom: 30px;
+            text-align: center;
+            border-bottom: 2px solid #007bff;
+            padding-bottom: 10px;
+            display: inline-block;
+        }
+        .center-heading {
+             text-align: center;
+        }
+
+        .edit-btn, .back-btn, .address-btn { /* เพิ่ม .address-btn */
+            display: inline-block;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            font-weight: 600;
+            text-decoration: none;
+            margin-top: 20px;
+            margin-right: 10px;
+            text-align: center;
+        }
+        .back-btn {
+             background-color: #6c757d;
+        }
+        .address-btn { /* สไตล์ปุ่มดูที่อยู่ */
+            background-color: #17a2b8; /* สีฟ้าอมเขียว */
+        }
+
+        .edit-btn:hover {
+            background-color: #0056b3;
+        }
+        .back-btn:hover {
+             background-color: #5a6268;
+        }
+        .address-btn:hover {
+            background-color: #138496;
+        }
+        .button-container {
+             text-align: center;
+             margin-top: 30px;
+        }
+
+        /* ซ่อนส่วนแสดงที่อยู่เริ่มต้น */
+        .address-display-section {
+            display: none;
+        }
+
+    </style>
+</head>
+<body>
+    <!-- NAVIGATION BAR (ควรโหลดจาก navigationBar.js) -->
+    <nav>
+        <!-- เนื้อหา Navigation Bar -->
+    </nav>
+    <!-- END NAVIGATION BAR -->
+
+    <div class="container1"> <!-- ใช้ class="container" -->
+        <!-- ส่วนข้อมูลบัญชี -->
+        <div class="account-info">
+            <div class="center-heading">
+                 <h2>ข้อมูลบัญชีผู้ใช้</h2>
+            </div>
+            <div class="info-item">
+                <label>ชื่อ:</label>
+                <span id="firstname">กำลังโหลด...</span>
+            </div>
+            <div class="info-item">
+                <label>นามสกุล:</label>
+                <span id="lastname">กำลังโหลด...</span>
+            </div>
+            <div class="info-item">
+                <label>อีเมล:</label>
+                <span id="email">กำลังโหลด...</span>
+            </div>
+            <div class="info-item">
+                <label>เบอร์โทรศัพท์:</label>
+                <span id="phone">กำลังโหลด...</span>
+            </div>
+            <div class="info-item">
+                <label>ประเภทผู้ใช้:</label>
+                <span id="userType">กำลังโหลด...</span>
+            </div>
+            <div class="info-item">
+                <label>วันที่สมัครสมาชิก:</label>
+                <span id="registerDate">กำลังโหลด...</span>
+            </div>
+            <div class="button-container">
+                <!-- ปุ่มแก้ไขข้อมูล (ถ้ามีหน้าแก้ไข) -->
+                <!-- <a href="edit_account.html" class="edit-btn">แก้ไขข้อมูล</a> -->
+                <button type="button" id="viewAddressBtn" class="address-btn">ดูที่อยู่</button> <!-- ปุ่มดูที่อยู่ -->
+                <a href="#" id="backBtn" class="back-btn">กลับหน้าหลัก</a>
+            </div>
+        </div>
+
+        <!-- ส่วนแสดงข้อมูลที่อยู่ (ซ่อนไว้ตอนแรก) -->
+        <div id="addressDisplay" class="address-display-section">
+             <div class="center-heading">
+                 <h3>ข้อมูลที่อยู่</h3>
+             </div>
+             <div id="addressDetailsContent">
+                 <!-- ข้อมูลที่อยู่จะถูกใส่ที่นี่โดย JavaScript -->
+                 <p>กำลังโหลดข้อมูลที่อยู่...</p>
+             </div>
+             <div class="button-container">
+                 <a href="address.html" class="edit-btn">เพิ่ม/แก้ไขที่อยู่</a> <!-- ปุ่มไปหน้าเพิ่ม/แก้ไข -->
+             </div>
+        </div>
+    </div>
+
+   
+    <!-- PRELOADER (ถ้ามี) -->
+    <section class="preloader">
+        <!-- เนื้อหา Preloader -->
+    </section>
+    <!-- END PRELOADER -->
+
+    <!-- Boxicons JS -->
+    <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
+    <!-- All Scripts -->
+    <script src="./js/preloader.js"></script>
+    <script src="./js/navigationBar.js"></script> <!-- โหลด Navigation Bar -->
+    <script src="./js/footer.js"></script> <!-- โหลด Footer -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const userDataString = sessionStorage.getItem('userData');
+            const viewAddressBtn = document.getElementById('viewAddressBtn');
+            const addressDisplaySection = document.getElementById('addressDisplay');
+            const addressDetailsContent = document.getElementById('addressDetailsContent');
+
+            // --- โหลดข้อมูลบัญชี (เหมือนเดิม) ---
+            if (userDataString) {
+                try {
+                    const userData = JSON.parse(userDataString)[0];
+                    console.log("User data from sessionStorage:", userData);
+                    document.getElementById('firstname').textContent = userData.firstname || 'ไม่ระบุ';
+                    document.getElementById('lastname').textContent = userData.lastname || 'ไม่ระบุ';
+                    document.getElementById('email').textContent = userData.email || 'ไม่ระบุ';
+                    document.getElementById('phone').textContent = userData.phone || 'ไม่ระบุ';
+                    document.getElementById('userType').textContent = userData.user_type || 'ไม่ระบุ';
+                    document.getElementById('registerDate').textContent = userData.register_date_formatted || userData.register_date || 'ไม่ระบุ';
+                } catch (error) {
+                    console.error("Error parsing user data from sessionStorage:", error);
+                    // จัดการ Error (เหมือนเดิม)
+                    Swal.fire({ icon: 'error', title: 'เกิดข้อผิดพลาด', text: 'ไม่สามารถโหลดข้อมูลผู้ใช้ได้' });
+                    // ตั้งค่าข้อความเริ่มต้น
+                    document.getElementById('firstname').textContent = 'ข้อผิดพลาด';
+                    // ... (ตั้งค่า field อื่นๆ เป็น 'ข้อผิดพลาด') ...
+                }
+            } else {
+                console.error("User data not found in sessionStorage.");
+                // จัดการกรณีไม่ได้ล็อกอิน (เหมือนเดิม)
+                Swal.fire({ icon: 'warning', title: 'ไม่ได้เข้าสู่ระบบ', text: 'กรุณาเข้าสู่ระบบเพื่อดูข้อมูลบัญชี', confirmButtonText: 'ไปหน้าล็อกอิน' })
+                    .then(() => { window.location.href = 'login.html'; });
+                // ตั้งค่าข้อความเริ่มต้น
+                document.getElementById('firstname').textContent = 'กรุณาล็อกอิน';
+                 // ... (ตั้งค่า field อื่นๆ เป็น 'กรุณาล็อกอิน') ...
+            }
+
+            // --- จัดการการกดปุ่ม "ดูที่อยู่" ---
+            if (viewAddressBtn) {
+                viewAddressBtn.addEventListener('click', function() {
+                    // แสดงส่วนแสดงที่อยู่ และข้อความ "กำลังโหลด..."
+                    addressDisplaySection.style.display = 'block';
+                    addressDetailsContent.innerHTML = '<p>กำลังโหลดข้อมูลที่อยู่...</p>';
+
+                    // เรียก get_address.php เพื่อดึงข้อมูล
+                    fetch('./get_address.php')
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.error) {
+                                // กรณีไม่พบข้อมูล หรือเกิดข้อผิดพลาดจาก PHP
+                                addressDetailsContent.innerHTML = `<p style="color: red;">${data.error}</p>`;
+                                console.error("Error fetching address:", data.error);
+                            } else if (Object.keys(data).length === 0) {
+                                // กรณี PHP ส่ง JSON ว่างกลับมา (อาจจะไม่มีข้อมูล)
+                                addressDetailsContent.innerHTML = '<p>ยังไม่มีข้อมูลที่อยู่ กรุณาเพิ่มที่อยู่</p>';
+                            }
+                             else {
+                                // แสดงข้อมูลที่อยู่
+                                addressDetailsContent.innerHTML = `
+                                    <div class="address-item">
+                                        <label>จังหวัด:</label>
+                                        <span>${data.province || 'ไม่ระบุ'}</span>
+                                    </div>
+                                    <div class="address-item">
+                                        <label>อำเภอ:</label>
+                                        <span>${data.district || 'ไม่ระบุ'}</span>
+                                    </div>
+                                    <div class="address-item">
+                                        <label>ตำบล:</label>
+                                        <span>${data.sub_district || 'ไม่ระบุ'}</span>
+                                    </div>
+                                    <div class="address-item">
+                                        <label>บ้านเลขที่:</label>
+                                        <span>${data.house_number || 'ไม่ระบุ'}</span>
+                                    </div>
+                                    <div class="address-item">
+                                        <label>รหัสไปรษณีย์:</label>
+                                        <span>${data.postal_code || 'ไม่ระบุ'}</span>
+                                    </div>
+                                `;
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Fetch error:', error);
+                            addressDetailsContent.innerHTML = '<p style="color: red;">เกิดข้อผิดพลาดในการเชื่อมต่อเพื่อดึงข้อมูลที่อยู่</p>';
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'เกิดข้อผิดพลาด',
+                                text: 'ไม่สามารถดึงข้อมูลที่อยู่ได้'
+                            });
+                        });
+                });
+            }
+
+            // --- ปุ่มกลับหน้าหลัก (เหมือนเดิม) ---
+            const backBtn = document.getElementById('backBtn');
+            if (backBtn) {
+                backBtn.addEventListener('click', function(event) {
+                    event.preventDefault();
+                    const currentDataString = sessionStorage.getItem('userData'); // ดึงข้อมูลล่าสุด
+                    if (currentDataString) {
+                        try {
+                            const currentUserData = JSON.parse(currentDataString)[0];
+                            if (currentUserData.user_type === 'organization') {
+                                window.location.href = 'index1.html';
+                            } else {
+                                window.location.href = 'index.html';
+                            }
+                        } catch (e) {
+                            console.error("Error parsing user data for back button:", e);
+                            window.location.href = 'index.html'; // Fallback
+                        }
+                    } else {
+                        window.location.href = 'index.html'; // Fallback
+                    }
+                });
+            }
+        });
+    </script>
+
+</body>
+</html>
