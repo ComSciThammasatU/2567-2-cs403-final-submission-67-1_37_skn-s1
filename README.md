@@ -22,8 +22,7 @@ Project Title (Eng): TRASH HAS VALUE
 
 # Directory Tree
   ```
-project-root/
-├── 📁 HTML Files/                         # ไฟล์ HTML สำหรับหน้าเว็บต่างๆ
+├── HTML Files/                           # ไฟล์ HTML สำหรับหน้าเว็บต่างๆ
 │   ├── about.html                        # หน้าเกี่ยวกับเรา
 │   ├── address.html                      # หน้าจัดการที่อยู่
 │   ├── Allbuy.html                       # หน้าแสดงรายการซื้อทั้งหมด
@@ -34,49 +33,49 @@ project-root/
 │   ├── index1.html                       # หน้าหลักของผู้ซื้อ
 │   ├── navigationBar.html                # ส่วนแถบนำทาง
 │   ├── paper1.html                       # หน้าแสดงขายกระดาษ
-│   ├── pastic.html                       # หน้าแสดงขายพลาสติก (อาจพิมพ์ผิดว่า pastic → plastic?)
+│   ├── pastic.html                       # หน้าแสดงขายพลาสติก
 │   ├── point.html                        # หน้าแสดงคะแนนสะสม
-│   ├── service.html                      # หน้าเพิ่มกิจกรรม
+│   ├── service.html                      # หน้าเพิ่มกิจกกรม
 │   ├── signup.html                       # หน้าลงทะเบียน
 │   ├── status_org.html                   # หน้าแสดงสถานะสำหรับองค์กร
 │   ├── status.html                       # หน้าแสดงสถานะทั่วไป
 │   ├── web1.html                         # หน้าเว็บบอร์ด
 │   └── web2.html                         # หน้าจัดการกลุ่มขยะ
-
-├── 📁 PHP Files/                          # ไฟล์ PHP สำหรับประมวลผลฝั่งเซิร์ฟเวอร์
-│   ├── add_trash.php                     # เพิ่มข้อมูลขยะ
-│   ├── config.php                        # การตั้งค่าระบบ เช่น การเชื่อมต่อฐานข้อมูล
-│   ├── create_activity.php               # สร้างกิจกรรมใหม่
-│   ├── create_comment.php                # สร้างความคิดเห็น
-│   ├── create_group.php                  # สร้างกลุ่มใหม่
-│   ├── create_post.php                   # สร้างโพสต์ใหม่
-│   ├── delete_activity.php               # ลบกิจกรรม
-│   ├── delete_post.php                   # ลบโพสต์
-│   ├── delete_recycling.php              # ลบข้อมูลการรีไซเคิล
-│   ├── get_activity_titles.php           # ดึงชื่อกิจกรรม
-│   ├── get_address.php                   # ดึงข้อมูลที่อยู่
-│   ├── get_buy_requests.php              # ดึงคำขอซื้อ
-│   ├── get_buyers.php                    # ดึงข้อมูลผู้ซื้อ
-│   ├── get_comments.php                  # ดึงความคิดเห็น
-│   ├── get_groups.php                    # ดึงข้อมูลกลุ่ม
-│   ├── get_leaderboard.php              # ดึงกระดานผู้นำ
-│   ├── get_messages.php                  # ดึงข้อความ
-│   ├── get_org_recyclings.php            # ดึงการรีไซเคิลขององค์กร
-│   ├── get_posts.php                     # ดึงโพสต์
-│   ├── get_services.php                  # ดึงข้อมูลบริการ
-│   ├── get_trash.php                     # ดึงข้อมูลขยะ
-│   ├── get_user_recyclings.php           # ดึงการรีไซเคิลของผู้ใช้
-│   ├── getCurrentUserId.php              # ดึง ID ผู้ใช้ปัจจุบัน
-│   ├── getUserData.php                   # ดึงข้อมูลผู้ใช้
-│   ├── login.php                         # จัดการเข้าสู่ระบบ
-│   ├── register.php                      # จัดการการลงทะเบียน
-│   ├── save_address.php                  # บันทึกที่อยู่
-│   ├── save_buy_request.php              # บันทึกคำขอซื้อ
-│   ├── save_recycling.php                # บันทึกข้อมูลรีไซเคิล
-│   ├── send_message.php                  # ส่งข้อความ
-│   ├── update_gamification.php           # อัปเดตคะแนน/เกมิฟิเคชัน
-│   ├── update_recycling_status.php       # อัปเดตสถานะการรีไซเคิล
-│   └── update_topic.php                  # อัปเดตหัวข้อในเว็บบอร์ด
+│
+├── PHP Files/                            # ไฟล์ PHP สำหรับการประมวลผลฝั่งเซิร์ฟเวอร์และเชื่อมต่อฐานข้อมูล
+│   ├── add_trash.php                     # สคริปต์สำหรับเพิ่มข้อมูลขยะ
+│   ├── config.php                        # ไฟล์ตั้งค่าระบบ เช่น การเชื่อมต่อฐานข้อมูล
+│   ├── create_activity.php               # สคริปต์สำหรับสร้างกิจกรรมใหม่
+│   ├── create_comment.php                # สคริปต์สำหรับสร้างความคิดเห็นใหม่
+│   ├── create_group.php                  # สคริปต์สำหรับสร้างกลุ่มใหม่
+│   ├── create_post.php                   # สคริปต์สำหรับสร้างโพสต์ใหม่
+│   ├── delete_activity.php               # สคริปต์สำหรับลบกิจกรรม
+│   ├── delete_post.php                   # สคริปต์สำหรับลบโพสต์
+│   ├── delete_recycling.php              # สคริปต์สำหรับลบข้อมูลการรีไซเคิล
+│   ├── get_activity_titles.php           # สคริปต์สำหรับดึงชื่อกิจกรรม
+│   ├── get_address.php                   # สคริปต์สำหรับดึงข้อมูลที่อยู่
+│   ├── get_buy_requests.php              # สคริปต์สำหรับดึงคำขอซื้อ
+│   ├── get_buyers.php                    # สคริปต์สำหรับดึงข้อมูลผู้ซื้อ
+│   ├── get_comments.php                  # สคริปต์สำหรับดึงความคิดเห็น
+│   ├── get_groups.php                    # สคริปต์สำหรับดึงข้อมูลกลุ่ม
+│   ├── get_leaderboard.php               # สคริปต์สำหรับดึงข้อมูลกระดานผู้นำ
+│   ├── get_messages.php                  # สคริปต์สำหรับดึงข้อความ
+│   ├── get_org_recyclings.php            # สคริปต์สำหรับดึงข้อมูลการรีไซเคิลขององค์กร
+│   ├── get_posts.php                     # สคริปต์สำหรับดึงโพสต์
+│   ├── get_services.php                  # สคริปต์สำหรับดึงข้อมูลบริการ
+│   ├── get_trash.php                     # สคริปต์สำหรับดึงข้อมูลขยะ
+│   ├── get_user_recyclings.php           # สคริปต์สำหรับดึงข้อมูลการรีไซเคิลของผู้ใช้
+│   ├── getCurrentUserId.php              # สคริปต์สำหรับดึง ID ผู้ใช้ปัจจุบัน
+│   ├── getUserData.php                   # สคริปต์สำหรับดึงข้อมูลผู้ใช้
+│   ├── login.php                         # สคริปต์สำหรับจัดการการเข้าสู่ระบบ
+│   ├── register.php                      # สคริปต์สำหรับจัดการการลงทะเบียน
+│   ├── save_address.php                  # สคริปต์สำหรับบันทึกที่อยู่
+│   ├── save_buy_request.php              # สคริปต์สำหรับบันทึกคำขอซื้อ
+│   ├── save_recycling.php                # สคริปต์สำหรับบันทึกข้อมูลการรีไซเคิล
+│   ├── send_message.php                  # สคริปต์สำหรับส่งข้อความ
+│   ├── update_gamification.php           # สคริปต์สำหรับอัปเดตระบบคะแนน
+│   ├── update_recycling_status.php       # สคริปต์สำหรับอัปเดตสถานะการรีไซเคิล
+│   └── update_topic.php                  # สคริปต์สำหรับอัปเดตหัวข้อในเว็บบอร์ด
 ``` 
 
 # ขั้นตอนการโหลดไฟล์มี2วิธี
