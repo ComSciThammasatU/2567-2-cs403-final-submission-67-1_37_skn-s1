@@ -14,11 +14,11 @@ Project Title (Eng): TRASH HAS VALUE
 
    
 # Table of Contents
-   Directory Tree
+   Directory Tree(#Directory Tree)
    ขั้นตอนการโหลดไฟล์มี 2 วิธี
    ชุดโปรแกรมที่จำเป็นต้องติดตั้ง
    วิธีการติดตั้งระบบ
-   วิธีการใช้งานเว็บแอปพลิเคชัน
+   วิธีการใช้งานเว็บแอปพลิเคชัน(# วิธีการใช้งานเว็บแอปพลิเคชัน)
 # Directory Tree
    ├── HTML Files/             # ไฟล์ HTML สำหรับหน้าเว็บต่างๆ
 │   ├── about.html          # หน้าเกี่ยวกับเรา
