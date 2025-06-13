@@ -77,7 +77,7 @@ Project Title (Eng): TRASH HAS VALUE
 │   └── update_topic.php    # สคริปต์สำหรับอัปเดตหัวข้อ
    
 
-# ขั้นตอนการโหลดไฟล์มี 2 วิธี
+# ขั้นตอนการโหลดไฟล์มี2วิธี
       วิธีที่ 1: Download ZIP
       1.ไปที่หน้า GitHub Repository
       2.คลิกปุ่ม "สีเขียว" ที่เขียนว่า Code
